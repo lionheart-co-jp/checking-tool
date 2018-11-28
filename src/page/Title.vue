@@ -4,8 +4,8 @@ div
     div.hero.is-primary
         div.hero-body
             div.container
-                h1.title Check Alt
-                h2.subtitle Check Alt attribute function
+                h1.title Check Title/Meta
+                h2.subtitle Check Title and Meta information function
 
     section.section
         div.container
@@ -46,57 +46,62 @@ div
                                 v-model="pass"
                             )
 
-            div.notification
-                ul
-                    li
-                        span.icon.has-text-danger
-                            font-awesome-icon(
-                                icon="ban"
-                            )
-                        | is alt attribute is missing. <span class="has-text-danger">you must add alt attribute</span> even if it's empty
-                    li
-                        span.icon.has-text-warning
-                            font-awesome-icon(
-                                icon="exclamation-triangle"
-                            )
-                        | is alt attribute is empty. If this image is included text, please insert to alt attribute.
-                    li
-                        span.icon.has-text-success
-                            font-awesome-icon(
-                                icon="check-square"
-                            )
-                        | is alt attribute is filled. But, please check the alt attribute value is correct or not.
-
-            table.table.is-bordered.is-fullwidth.is-narrow(
-                v-if="images.length"
+            template(
+                v-if="response"
             )
-                thead
-                    tr
-                        th
-                        th view
-                        th src
-                        td alt
-                tbody
-                    tr(
-                        v-for="img in images"
-                        :class="{'is-danger': img.flag < 0, 'is-warning': img.flag === 0, 'is-success': img.flag > 0}"
-                    )
-                        td.has-text-centered
-                            span.icon(
-                                :class="{'has-text-danger': img.flag < 0, 'has-text-warning': img.flag === 0, 'has-text-success': img.flag > 0}"
-                            )
-                                font-awesome-icon(
-                                    :icon="img.flag < 0 ? 'ban' : img.flag === 0 ? 'exclamation-triangle' : 'check-square'"
-                                )
-                        th.has-text-centered
-                            base-image(
-                                :src="img.url"
-                                @click="modal_image = $event"
-                                :max-width=200
-                                :max-height=200
-                            )
-                        td {{ img.src }}
-                        td {{ img.alt }}
+                h3.title.is-4 Basic
+
+                table.table.is-bordered.is-fullwidth
+                    tbody
+                        tr
+                            th Title
+                            td {{ response.title }}
+                        tr
+                            th Description
+                            td {{ response.description }}
+                        tr
+                            th Keyword
+                            td {{ response.keywords }}
+                        tr
+                            th Vieport
+                            td {{ response.viewport }}
+
+                h3.title.is-4 OGP
+
+                table.table.is-bordered.is-fullwidth
+                    tbody
+                        tr
+                            th og:title
+                            td {{ response["og:title"] }}
+                        tr
+                            th og:type
+                            td {{ response["og:type"] }}
+                        tr
+                            th og:url
+                            td {{ response["og:url"] }}
+                        tr
+                            th og:description
+                            td {{ response["og:description"] }}
+                        tr
+                            th og:site_name
+                            td {{ response["og:site_name"] }}
+                        tr
+                            th og:image
+                            td {{ response["og:image"] }}
+
+                h3.title.is-4 SNS
+
+                table.table.is-bordered.is-fullwidth
+                    tbody
+                        tr
+                            th fb:app_id
+                            td {{ response["fb:app_id"] }}
+                        tr
+                            th twitter:card
+                            td {{ response["twitter:card"] }}
+                        tr
+                            th twitter:site
+                            td {{ response["twitter:site"] }}
 
     div.modal(
         :class="{'is-active': modal_image !== ''}"
@@ -130,14 +135,14 @@ export default Vue.extend({
     },
 
     data(): {
-        images: any[],
         modal_image: string,
         loading: boolean,
+        response: any | null,
     } {
         return {
-            images: [],
             modal_image: '',
             loading: false,
+            response: null,
         }
     },
 
@@ -175,15 +180,15 @@ export default Vue.extend({
                 return
             }
 
-            // Initialize image list
-            this.images = []
+            // Initialize
+            this.response = null
 
             // Start loading
             this.loading = true
 
             let res
             try {
-                res = await (window as any).alt_request({url: this.url, user: this.user, pass: this.pass})
+                res = await (window as any).title_request({url: this.url, user: this.user, pass: this.pass})
             } catch(e) {
                 window.alert('Failed to access target url')
                 console.error(e)
@@ -191,24 +196,7 @@ export default Vue.extend({
                 return
             }
             console.log(res)
-
-            res.forEach((v: any, i: number) => {
-                let flag: number = 0
-                if (v.flag === 'false') {
-                    flag = -1
-                } else {
-                    if (v.alt !== '') {
-                        flag = 1
-                    }
-                }
-
-                this.images.push({
-                    url: v.url,
-                    src: v.src,
-                    alt: v.alt,
-                    flag,
-                })
-            })
+            this.response = res
 
             this.loading = false
         },
@@ -220,18 +208,6 @@ export default Vue.extend({
 
 .notification.is-warning {
     padding: .5rem 2.5rem .5rem 1.5rem;
-}
-
-table.table {
-    .is-danger {
-        background: lighten(hsl(348, 100%, 61%), 30%);
-    }
-    .is-warning {
-        background: lighten(hsl(48, 100%, 67%), 30%);
-    }
-    .is-success {
-        background: lighten(hsl(141, 71%, 48%), 50%);
-    }
 }
 
 .modal {

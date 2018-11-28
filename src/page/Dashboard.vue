@@ -19,6 +19,15 @@ div
                                 p.card-header-title Check Alt
                             div.card-content
                                 div.content Checking Alt attribute is empty or not
+                div.column
+                    router-link(
+                        :to="{name: 'title'}"
+                    )
+                        div.card
+                            header.card-header
+                                p.card-header-title Check Title/Meta
+                            div.card-content
+                                div.content Checking Title and Meta informations
 
 
 

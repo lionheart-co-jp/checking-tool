@@ -25,13 +25,13 @@
         )
             .navbar-start
                 router-link.navbar-item(
-                    :to="{name: 'dashboard'}"
-                    @click="isOpen = false"
-                ) Home
-                router-link.navbar-item(
                     :to="{name: 'alt'}"
                     @click="isOpen = false"
                 ) Alt
+                router-link.navbar-item(
+                    :to="{name: 'title'}"
+                    @click="isOpen = false"
+                ) Title/Meta
 
 </template>
 
