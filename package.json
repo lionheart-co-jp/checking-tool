@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "carlo": "node index.js",
-    "package": "pkg package.json --targets node8-macos-x64 -o CheckTool && ./build-macos.sh"
+    "package": "./build-macos.sh"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.8",
