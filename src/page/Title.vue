@@ -88,6 +88,15 @@ div
                         tr
                             th og:image
                             td {{ response["og:image"] }}
+                                template(
+                                    v-if="response['og:image_preview']"
+                                )
+                                    base-image(
+                                        :src="response['og:image_preview']"
+                                        @click="modal_image = $event"
+                                        :max-width=600
+                                        :max-height=400
+                                    )
 
                 h3.title.is-4 SNS
 
@@ -195,9 +204,18 @@ export default Vue.extend({
                 this.loading = false
                 return
             }
-            console.log(res)
-            this.response = res
 
+            if (res.statusCode >= 300) {
+                window.alert('Failed to access target url')
+                console.error(res)
+                this.loading = false
+                return
+            }
+
+            console.log(res)
+            console.log(res.response)
+
+            this.response = res.response
             this.loading = false
         },
     },

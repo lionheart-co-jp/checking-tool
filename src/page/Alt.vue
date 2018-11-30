@@ -190,11 +190,17 @@ export default Vue.extend({
                 this.loading = false
                 return
             }
-            console.log(res)
 
-            res.forEach((v: any, i: number) => {
+            if (res.statusCode >= 300) {
+                window.alert('Failed to access target url')
+                console.error(res)
+                this.loading = false
+                return
+            }
+
+            res.images.forEach((v: any, i: number) => {
                 let flag: number = 0
-                if (v.flag === 'false') {
+                if (! v.flag) {
                     flag = -1
                 } else {
                     if (v.alt !== '') {

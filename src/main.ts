@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(faCheckSquare, faBan, faExclamationTriangle)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
-import 'bulma/css/bulma.min.css'
+import './assets/bulma/bulma.min.css'
 
 Vue.config.productionTip = false
 

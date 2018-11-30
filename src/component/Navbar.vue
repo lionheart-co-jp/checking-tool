@@ -1,5 +1,5 @@
 <template lang="pug">
-    nav.navbar(
+    nav.navbar.is-primary.is-fixed-top(
         role="navigation"
         aria-label="main navigation"
     )
@@ -7,7 +7,9 @@
             router-link.navbar-item(
                 :to="{name: 'dashboard'}"
                 @click="isOpen = false"
-            ) Checker Support Tool
+                active-class=""
+            )
+                strong Checker Support Tool
             a.navbar-burger.burger(
                 role="button"
                 aria-label="menu"
