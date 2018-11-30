@@ -9,3 +9,6 @@ deploy_job:
     - npm install
     - npm run build
     - npm run package
+  artifacts:
+    paths:
+      - CheckTool.app
