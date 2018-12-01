@@ -49,6 +49,8 @@ div
             template(
                 v-if="response"
             )
+                div.notification.is-primary {{ target_url }}
+
                 h3.title.is-4 Basic
 
                 table.table.is-bordered.is-fullwidth
@@ -146,12 +148,10 @@ export default Vue.extend({
     data(): {
         modal_image: string,
         loading: boolean,
-        response: any | null,
     } {
         return {
             modal_image: '',
             loading: false,
-            response: null,
         }
     },
 
@@ -180,6 +180,22 @@ export default Vue.extend({
                 this.$store.commit(types.mutations.APP_PASS, pass)
             }
         },
+        target_url: {
+            get(): string {
+                return this.$store.state.Title.url
+            },
+            set(url: string) {
+                this.$store.commit(types.mutations.TITLE_URL, url)
+            },
+        },
+        response: {
+            get(): any {
+                return this.$store.state.Title.response
+            },
+            set(response: any | null) {
+                this.$store.commit(types.mutations.TITLE_RESPONSE, response)
+            },
+        },
     },
 
     methods: {
@@ -190,6 +206,7 @@ export default Vue.extend({
             }
 
             // Initialize
+            this.target_url = ''
             this.response = null
 
             // Start loading
@@ -212,8 +229,9 @@ export default Vue.extend({
                 return
             }
 
+            this.target_url = this.url
+
             console.log(res)
-            console.log(res.response)
 
             this.response = res.response
             this.loading = false

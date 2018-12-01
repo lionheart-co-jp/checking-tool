@@ -4,8 +4,8 @@ div
     div.hero.is-primary
         div.hero-body
             div.container
-                h1.title Check Alt
-                h2.subtitle Check Alt attribute function
+                h1.title Check Headline
+                h2.subtitle Check Headline structure function
 
     section.section
         div.container
@@ -46,60 +46,24 @@ div
                                 v-model="pass"
                             )
 
-            div.notification
+            div.notification.is-info
                 ul
-                    li
-                        span.icon.has-text-danger
-                            font-awesome-icon(
-                                icon="ban"
-                            )
-                        | Alt attribute is missing. <span class="has-text-danger">you must add alt attribute</span> even if it's empty
-                    li
-                        span.icon.has-text-warning
-                            font-awesome-icon(
-                                icon="exclamation-triangle"
-                            )
-                        | Alt attribute is empty. If this image is included text, please insert to alt attribute.
-                    li
-                        span.icon.has-text-success
-                            font-awesome-icon(
-                                icon="check-square"
-                            )
-                        | Alt attribute is filled. But, please check the alt attribute value is correct or not.
+                    li Don't skip headline level (e.g. &lt;h1&gt; -> &lt;h3&gt; is No Good)
+                    li &lt;h1&gt; tag must be only one in the page
 
             template(
-                v-if="images.length"
+                v-if="headlines.length"
             )
                 div.notification.is-primary {{ target_url }}
 
-                table.table.is-bordered.is-fullwidth.is-narrow
-                    thead
-                        tr
-                            th
-                            th view
-                            th src
-                            td alt
-                    tbody
-                        tr(
-                            v-for="img in images"
-                            :class="{'is-danger': img.flag < 0, 'is-warning': img.flag === 0, 'is-success': img.flag > 0}"
-                        )
-                            td.has-text-centered
-                                span.icon(
-                                    :class="{'has-text-danger': img.flag < 0, 'has-text-warning': img.flag === 0, 'has-text-success': img.flag > 0}"
-                                )
-                                    font-awesome-icon(
-                                        :icon="img.flag < 0 ? 'ban' : img.flag === 0 ? 'exclamation-triangle' : 'check-square'"
-                                    )
-                            th.has-text-centered
-                                base-image(
-                                    :src="img.url"
-                                    @click="modal_image = $event"
-                                    :max-width=200
-                                    :max-height=200
-                                )
-                            td {{ img.src }}
-                            td {{ img.alt }}
+                ul.headline-list
+                    li(
+                        :class="'level-' + head.level"
+                        v-for="head in headlines"
+                    )
+                        div
+                            span.list-level {{ head.level + '.' }}
+                            span.list-label {{ head.label }}
 
     div.modal(
         :class="{'is-active': modal_image !== ''}"
@@ -149,7 +113,7 @@ export default Vue.extend({
             },
             set(url: string) {
                 this.$store.commit(types.mutations.APP_URL, url)
-            },
+            }
         },
         user: {
             get(): string {
@@ -157,7 +121,7 @@ export default Vue.extend({
             },
             set(user: string) {
                 this.$store.commit(types.mutations.APP_USER, user)
-            },
+            }
         },
         pass: {
             get(): string {
@@ -165,22 +129,22 @@ export default Vue.extend({
             },
             set(pass: string) {
                 this.$store.commit(types.mutations.APP_PASS, pass)
-            },
+            }
         },
         target_url: {
             get(): string {
-                return this.$store.state.Alt.url
+                return this.$store.state.Title.url
             },
             set(url: string) {
-                this.$store.commit(types.mutations.ALT_URL, url)
+                this.$store.commit(types.mutations.TITLE_URL, url)
             },
         },
-        images: {
-            get(): any[] {
-                return this.$store.state.Alt.images
+        headlines: {
+            get(): any {
+                return this.$store.state.Headline.list
             },
-            set(images: any[]) {
-                this.$store.commit(types.mutations.ALT_IMAGES, images)
+            set(headlines: any[]) {
+                this.$store.commit(types.mutations.HEADLINE_LIST, headlines)
             },
         },
     },
@@ -192,16 +156,16 @@ export default Vue.extend({
                 return
             }
 
-            // Initialize image list
+            // Initialize
             this.target_url = ''
-            this.images = []
+            this.headlines = []
 
             // Start loading
             this.loading = true
 
             let res
             try {
-                res = await (window as any).alt_request({url: this.url, user: this.user, pass: this.pass})
+                res = await (window as any).headline_request({url: this.url, user: this.user, pass: this.pass})
             } catch(e) {
                 window.alert('Failed to access target url')
                 console.error(e)
@@ -217,24 +181,10 @@ export default Vue.extend({
             }
 
             this.target_url = this.url
-            res.images.forEach((v: any, i: number) => {
-                let flag: number = 0
-                if (! v.flag) {
-                    flag = -1
-                } else {
-                    if (v.alt !== '') {
-                        flag = 1
-                    }
-                }
 
-                this.images.push({
-                    url: v.url,
-                    src: v.src,
-                    alt: v.alt,
-                    flag,
-                })
-            })
+            console.log(res)
 
+            this.headlines = res.headlines
             this.loading = false
         },
     },
@@ -247,15 +197,53 @@ export default Vue.extend({
     padding: .5rem 2.5rem .5rem 1.5rem;
 }
 
-table.table {
-    .is-danger {
-        background: lighten(hsl(348, 100%, 61%), 30%);
+.notification.is-info {
+    ul {
+        li {
+            list-style: disc;
+            margin-left: 1.6em;
+        }
     }
-    .is-warning {
-        background: lighten(hsl(48, 100%, 67%), 30%);
-    }
-    .is-success {
-        background: lighten(hsl(141, 71%, 48%), 50%);
+}
+
+.headline-list {
+    li {
+        & ~ li {
+            margin-top: .5rem;
+        }
+
+        &.level-1 {
+        }
+        &.level-2 {
+            margin-left: 2em;
+        }
+        &.level-3 {
+            margin-left: 4em;
+        }
+        &.level-4 {
+            margin-left: 6em;
+        }
+        &.level-5 {
+            margin-left: 8em;
+        }
+        &.level-6 {
+            margin-left: 10em;
+        }
+
+        div {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        .list-level {
+            text-align: center;
+            width: 1.5em;
+            flex-shrink: 0;
+        }
+        .list-label {
+            font-weight: bold;
+        }
     }
 }
 

@@ -4,6 +4,7 @@ const path = require('path');
 
 const AltLib = require('./lib/Alt');
 const TitleLib = require('./lib/Title');
+const HeadlineLib = require('./lib/Headline');
 const UtilLib = require('./lib/Util');
 
 (async () => {
@@ -18,6 +19,7 @@ const UtilLib = require('./lib/Util');
 
   await app.exposeFunction('alt_request', AltLib.request)
   await app.exposeFunction('title_request', TitleLib.request)
+  await app.exposeFunction('headline_request', HeadlineLib.request)
   await app.exposeFunction('util_url_to_base64', UtilLib.urlToBase64)
 
   // Terminate Node.js process on app window closing.
