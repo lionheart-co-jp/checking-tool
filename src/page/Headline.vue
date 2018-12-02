@@ -61,7 +61,17 @@ div
                         :class="'level-' + head.level"
                         v-for="head in headlines"
                     )
+                        template(
+                            v-if="! head.flag"
+                        )
+                            span.tag.is-danger {{ head.message }}
                         div
+                            span.icon(
+                                :class="{'has-text-danger': ! head.flag, 'has-text-success': head.flag}"
+                            )
+                                font-awesome-icon(
+                                    :icon="head.flag ? 'check-square' : 'ban'"
+                                )
                             span.list-level {{ head.level + '.' }}
                             span.list-label {{ head.label }}
 
