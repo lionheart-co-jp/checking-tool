@@ -198,6 +198,10 @@ export default Vue.extend({
         },
     },
 
+    beforeCreate() {
+        this.$store.commit(types.mutations.APP_MODE, 'Title')
+    },
+
     methods: {
         async startCrawling() {
             if (! isUrl(this.url)) {

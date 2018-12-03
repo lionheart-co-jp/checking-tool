@@ -159,6 +159,10 @@ export default Vue.extend({
         },
     },
 
+    beforeCreate() {
+        this.$store.commit(types.mutations.APP_MODE, 'Headline')
+    },
+
     methods: {
         async startCrawling() {
             if (! isUrl(this.url)) {

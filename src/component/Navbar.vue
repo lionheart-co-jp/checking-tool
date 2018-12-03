@@ -38,6 +38,12 @@
                     :to="{name: 'headline'}"
                     @click="isOpen = false"
                 ) Headline
+            .navbar-end
+                div.navbar-item
+                    div.buttons
+                        button.button.is-info(
+                            @click="capturePage"
+                        ) Capture
 
 </template>
 
@@ -49,6 +55,19 @@ export default Vue.extend({
     } {
         return {
             isOpen: false
+        }
+    },
+
+    methods: {
+        async capturePage() {
+            const captured = await (window as any).util_screen_shot()
+            const mode = this.$store.state.App.mode
+
+            const a = document.createElement('a')
+            a.href = 'data:image/jpeg;base64,' + captured
+            a.download = mode + '-captured'
+
+            a.click()
         }
     }
 })

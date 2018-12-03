@@ -17,10 +17,12 @@ const UtilLib = require('./lib/Util');
     localDataDir: path.join(os.homedir(), '.carlo-checktool'),
   });
 
+  // Set Carlo expose function
   await app.exposeFunction('alt_request', AltLib.request)
   await app.exposeFunction('title_request', TitleLib.request)
   await app.exposeFunction('headline_request', HeadlineLib.request)
   await app.exposeFunction('util_url_to_base64', UtilLib.urlToBase64)
+  await app.exposeFunction('util_screen_shot', UtilLib.screenShot(app))
 
   // Terminate Node.js process on app window closing.
   app.on("exit", () => process.exit());

@@ -46,7 +46,13 @@ div
 
 <script lang="ts">
 import Vue from 'vue'
+
+import types from '../store/types'
+
 export default Vue.extend({
+    beforeCreate() {
+        this.$store.commit(types.mutations.APP_MODE, 'Dashboard')
+    },
 })
 </script>
 
