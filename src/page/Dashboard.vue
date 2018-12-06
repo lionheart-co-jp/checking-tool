@@ -40,6 +40,15 @@ div
                                 div.content Checking Headline structure
 
                 div.column
+                    router-link(
+                        :to="{name: 'link'}"
+                    )
+                        div.card
+                            header.card-header
+                                p.card-header-title Check Link
+                            div.card-content
+                                div.content Checking Link target
+
 
 
 </template>

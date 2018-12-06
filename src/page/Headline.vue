@@ -9,42 +9,10 @@ div
 
     section.section
         div.container
-            div.field.has-addons
-                p.control
-                    a.button.is-static.is-large URL
-                p.control.is-expanded
-                    input.input.is-large(
-                        type="text"
-                        v-model="url"
-                        placeholder="http://example.com"
-                    )
-                p.control
-                    button.button.is-info.is-large(
-                        @click="startCrawling"
-                        :class="{'is-loading': loading}"
-                    ) Check
-
-            div.columns
-                div.column
-                    div.notification.is-warning If you access to Authorised page
-                div.column
-                    div.field.has-addons
-                        p.control
-                            a.button.is-static USER
-                        p.control.is-expanded
-                            input.input(
-                                type="text"
-                                v-model="user"
-                            )
-                div.column
-                    div.field.has-addons
-                        p.control
-                            a.button.is-static PASS
-                        p.control.is-expanded
-                            input.input(
-                                type="text"
-                                v-model="pass"
-                            )
+            base-form(
+                :loading="loading"
+                @submit="startCrawling"
+            )
 
             div.notification.is-info
                 ul
@@ -74,24 +42,6 @@ div
                                 )
                             span.list-level {{ head.level + '.' }}
                             span.list-label {{ head.label }}
-
-    div.modal(
-        :class="{'is-active': modal_image !== ''}"
-    )
-        div.modal-background(
-            @click="modal_image = ''"
-        )
-        div.modal-content(
-            @click="modal_image = ''"
-        )
-            p.image
-                img(
-                    :src="modal_image"
-                )
-        button.modal-close.is-large(
-            aria-label="close"
-            @click="modal_image = ''"
-        )
 </template>
 
 <script lang="ts">
@@ -99,54 +49,30 @@ import Vue from 'vue'
 import isUrl from 'is-url'
 
 import types from '../store/types'
-import BaseImage from '../component/Image.vue'
+import BaseForm from '../component/Form.vue'
+import BaseModal from '../component/Modal.vue'
 
 export default Vue.extend({
     components: {
-        BaseImage,
+        BaseForm,
+        BaseModal,
     },
 
     data(): {
-        modal_image: string,
         loading: boolean,
     } {
         return {
-            modal_image: '',
             loading: false,
         }
     },
 
     computed: {
-        url: {
-            get(): string {
-                return this.$store.state.App.url
-            },
-            set(url: string) {
-                this.$store.commit(types.mutations.APP_URL, url)
-            }
-        },
-        user: {
-            get(): string {
-                return this.$store.state.App.user
-            },
-            set(user: string) {
-                this.$store.commit(types.mutations.APP_USER, user)
-            }
-        },
-        pass: {
-            get(): string {
-                return this.$store.state.App.pass
-            },
-            set(pass: string) {
-                this.$store.commit(types.mutations.APP_PASS, pass)
-            }
-        },
         target_url: {
             get(): string {
-                return this.$store.state.Title.url
+                return this.$store.state.Headline.url
             },
             set(url: string) {
-                this.$store.commit(types.mutations.TITLE_URL, url)
+                this.$store.commit(types.mutations.HEADLINE_URL, url)
             },
         },
         headlines: {
@@ -165,7 +91,11 @@ export default Vue.extend({
 
     methods: {
         async startCrawling() {
-            if (! isUrl(this.url)) {
+            const url = this.$store.state.App.url
+            const user = this.$store.state.App.user
+            const pass = this.$store.state.App.pass
+
+            if (! isUrl(url)) {
                 window.alert('Not valid url')
                 return
             }
@@ -179,7 +109,7 @@ export default Vue.extend({
 
             let res
             try {
-                res = await (window as any).headline_request({url: this.url, user: this.user, pass: this.pass})
+                res = await (window as any).headline_request({url, user, pass})
             } catch(e) {
                 window.alert('Failed to access target url')
                 console.error(e)
@@ -194,7 +124,7 @@ export default Vue.extend({
                 return
             }
 
-            this.target_url = this.url
+            this.target_url = url
 
             console.log(res)
 
@@ -206,10 +136,6 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-
-.notification.is-warning {
-    padding: .5rem 2.5rem .5rem 1.5rem;
-}
 
 .notification.is-info {
     ul {
@@ -261,25 +187,4 @@ export default Vue.extend({
     }
 }
 
-.modal {
-
-    .modal-content {
-        height: calc(100vh - 40px);
-    }
-
-    .image {
-        width: 100%;
-        height: 100%;
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        img {
-            width: auto;
-            height: auto;
-            max-width: 100%;
-            max-height: 100%;
-        }
-    }
-}
 </style>

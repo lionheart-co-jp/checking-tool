@@ -38,6 +38,10 @@
                     :to="{name: 'headline'}"
                     @click="isOpen = false"
                 ) Headline
+                router-link.navbar-item(
+                    :to="{name: 'link'}"
+                    @click="isOpen = false"
+                ) Link
             .navbar-end
                 div.navbar-item
                     div.buttons

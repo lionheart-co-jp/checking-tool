@@ -11,3 +11,6 @@ export const TITLE_RESPONSE = 'TITLE_RESPONSE'
 
 export const HEADLINE_URL = 'HEADLINE_URL'
 export const HEADLINE_LIST = 'HEADLINE_LIST'
+
+export const LINK_URL = 'LINK_URL'
+export const LINK_ANCHORS = 'LINK_ANCHORS'
