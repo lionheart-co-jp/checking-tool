@@ -20,6 +20,12 @@ div
                 div.notification.is-primary {{ target_url }}
 
                 table.table.is-bordered.is-fullwidth.is-narrow
+                    colgroup
+                        col(width="auto")
+                        col(width="25%")
+                        col(width="25%")
+                        col(width="25%")
+                        col(width="25%")
                     thead
                         tr
                             th

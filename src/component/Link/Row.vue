@@ -19,7 +19,11 @@
         th {{ anchor.label }}
         td.break-all {{ anchor.href }}
         td {{ anchor.target }}
-        td.break-all {{ anchor.url }}
+        td.break-all
+            a(
+                :href="anchor.url"
+                target="_blank"
+            ) {{ anchor.url }}
 </template>
 
 <script lang="ts">
@@ -65,6 +69,15 @@ export default Vue.extend({
     methods: {
         async checkUrl(url: string, user: string, pass: string) {
             let res
+
+            if (
+                url.match('^javascript:') ||
+                url.match('^tel:')
+            ) {
+                this.isError = -1
+                return
+            }
+
             try {
                 res = await (window as any).link_exists({url, user, pass})
             } catch(e) {

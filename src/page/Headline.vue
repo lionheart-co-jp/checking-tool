@@ -176,6 +176,9 @@ export default Vue.extend({
             align-items: flex-start;
         }
 
+        .icon {
+            flex-shrink: 0;
+        }
         .list-level {
             text-align: center;
             width: 1.5em;
