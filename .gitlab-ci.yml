@@ -19,8 +19,8 @@ prepare_job:
     - if: $CI_COMMIT_TAG
   artifacts:
     paths:
-      - 'build/checktool-${CI_COMMIT_TAG}-mac.zip'
-      - 'build/checktool ${CI_COMMIT_TAG}.exe'
+      - "build/checktool-${CI_COMMIT_TAG}-mac.zip"
+      - "build/checktool ${CI_COMMIT_TAG}.exe"
     reports:
       dotenv: variables.env
 
@@ -33,14 +33,14 @@ release_job:
   rules:
     - if: $CI_COMMIT_TAG
   script:
-    - echo 'running release_job for $CI_COMMIT_TAG'
+    - echo "running release_job for $CI_COMMIT_TAG"
     - >
-      release-cli create --name 'Release $CI_COMMIT_TAG' --description 'Created using the release-cli'
+      release-cli create --name "Release $CI_COMMIT_TAG" --description "Created using the release-cli"
       --tag-name $CI_COMMIT_TAG --ref $CI_COMMIT_SHA
-      --assets-links-name 'macOS'
-      --assets-links-url 'https://gitlab.com/lionheart-group/tools/checking-tool/-/jobs/${PREPARE_JOB_ID}/artifacts/raw/build/checktool-${$CI_COMMIT_TAG}-mac.zip'
-      --assets-links-name 'Windows'
-      --assets-links-url 'https://gitlab.com/lionheart-group/tools/checking-tool/-/jobs/${PREPARE_JOB_ID}/artifacts/raw/build/checktool%20${$CI_COMMIT_TAG}.exe'
+      --assets-links-name "macOS"
+      --assets-links-url "https://gitlab.com/lionheart-group/tools/checking-tool/-/jobs/${PREPARE_JOB_ID}/artifacts/raw/build/checktool-${$CI_COMMIT_TAG}-mac.zip"
+      --assets-links-name "Windows"
+      --assets-links-url "https://gitlab.com/lionheart-group/tools/checking-tool/-/jobs/${PREPARE_JOB_ID}/artifacts/raw/build/checktool%20${$CI_COMMIT_TAG}.exe"
 #   release:
 #       name: 'Release $CI_COMMIT_TAG'
 #       description: 'Created using the release-cli'
