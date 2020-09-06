@@ -1,9 +1,11 @@
-image: node:8.12
+image: node:12.18.3
+
+variables:
+  PACKAGE_VERSION: $(cat package.json | grep version | head -1 | awk -F= "{ print $2 }" | sed 's/[version:,\",]//g' | tr -d '[[:space:]]')
 
 cache:
   paths:
   - node_modules/
-  - .yarn
 
 stages:
   - deploy
@@ -11,10 +13,14 @@ stages:
 deploy_job:
   stage: deploy
   script:
-    - yarn config set cache-folder .yarn
-    - yarn install
-    - yarn build
-    - yarn package
+    - npm install
+    - npm run build
+    - npm run pack
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+      when: always
   artifacts:
+    name: "v${PACKAGE_VERSION}"
     paths:
-      - CheckTool.app
+      - "build/checktool-${PACKAGE_VERSION}.dmg"
+      - "build/checktool Setup ${PACKAGE_VERSION}.exe"

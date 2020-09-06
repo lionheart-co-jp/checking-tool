@@ -1,50 +1,77 @@
 {
-  "name": "checktool",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "carlo": "node index.js",
-    "package": "./build-macos.sh"
-  },
-  "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.8",
-    "@fortawesome/free-solid-svg-icons": "^5.5.0",
-    "@fortawesome/vue-fontawesome": "^0.1.2",
-    "carlo": "^0.9.34",
-    "is-url": "^1.2.4",
-    "jsdom": "^13.0.0",
-    "then-request": "^6.0.0",
-    "vue": "^2.5.17",
-    "vue-class-component": "^6.0.0",
-    "vue-property-decorator": "^7.0.0",
-    "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
-  },
-  "devDependencies": {
-    "@types/is-url": "^1.2.28",
-    "@vue/cli-plugin-typescript": "^3.1.1",
-    "@vue/cli-service": "^3.1.4",
-    "node-sass": "^4.9.0",
-    "pkg": "^4.3.4",
-    "pug": "^2.0.3",
-    "pug-loader": "^2.4.0",
-    "pug-plain-loader": "^1.0.0",
-    "sass-loader": "^7.0.1",
-    "typescript": "^3.0.0",
-    "vue-template-compiler": "^2.5.17"
-  },
-  "bin": {
-    "systeminfo-app": "index.js"
-  },
-  "pkg": {
-    "scripts": [
-      "*.js",
-      "dist/js/*.js"
-    ],
-    "assets": [
-      "dist/**/*"
-    ]
-  }
+    "name": "checktool-electron-vite",
+    "version": "2.0.0",
+    "main": "./dist/main.js",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build && tsc",
+        "pack": "electron-builder",
+        "pack:mac": "electron-builder --mac --x64",
+        "pack:win": "electron-builder --win --x64"
+    },
+    "dependencies": {
+        "encoding": "^0.1.13",
+        "jsdom": "^16.4.0",
+        "node-fetch": "^2.6.1",
+        "tslib": "^2.0.1",
+        "vue": "^3.0.0-rc.10",
+        "vue-router": "^4.0.0-beta.9"
+    },
+    "devDependencies": {
+        "@types/jsdom": "^16.2.4",
+        "@types/node": "^14.6.4",
+        "@types/node-fetch": "^2.5.7",
+        "@typescript-eslint/eslint-plugin": "^4.0.1",
+        "@typescript-eslint/parser": "^4.0.1",
+        "@typescript-eslint/typescript-estree": "^4.0.1",
+        "@vue/compiler-sfc": "^3.0.0-rc.10",
+        "@vue/eslint-config-prettier": "^6.0.0",
+        "@vue/eslint-config-typescript": "^5.1.0",
+        "electron": "^10.1.1",
+        "electron-builder": "^22.8.0",
+        "electron-reload": "^1.5.0",
+        "eslint": "^7.8.1",
+        "eslint-config-prettier": "^6.11.0",
+        "eslint-plugin-prettier": "^3.1.4",
+        "eslint-plugin-vue": "^6.2.2",
+        "prettier": "^2.1.1",
+        "ts-node": "^9.0.0",
+        "tsconfig-paths": "^3.9.0",
+        "typescript": "^4.0.2",
+        "vite": "^1.0.0-rc.4"
+    },
+    "build": {
+        "productName": "checktool",
+        "appId": "jp.co.lionheart.checktool",
+        "directories": {
+            "output": "build"
+        },
+        "files": [
+            "dist/**/*"
+        ],
+        "dmg": {
+            "contents": [
+                {
+                    "x": 410,
+                    "y": 150,
+                    "type": "link",
+                    "path": "/Applications"
+                },
+                {
+                    "x": 130,
+                    "y": 150,
+                    "type": "file"
+                }
+            ]
+        },
+        "mac": {
+            "icon": "build/icons/icon.icns"
+        },
+        "win": {
+            "icon": "build/icons/icon.ico"
+        },
+        "linux": {
+            "icon": "build/icons"
+        }
+    }
 }
