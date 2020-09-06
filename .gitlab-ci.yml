@@ -17,9 +17,8 @@ job:
     - npm install
     - npm run build
     - npm run pack
-  rules:
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
-      when: always
+  only:
+    - master
   artifacts:
     name: "v${PACKAGE_VERSION}"
     paths:
