@@ -32,5 +32,6 @@ release_job:
     - echo 'running release_job for $TAG'
   release:
       name: 'Release $TAG'
+      description: 'Created using the release-cli'
       tag_name: '$TAG'
       ref: '$CI_COMMIT_SHA'
