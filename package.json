@@ -1,6 +1,6 @@
 {
     "name": "checktool-electron-vite",
-    "version": "2.0.5",
+    "version": "2.0.6",
     "main": "./dist/main.js",
     "scripts": {
         "dev": "vite",
@@ -65,10 +65,12 @@
             ]
         },
         "mac": {
-            "icon": "build/icons/icon.icns"
+            "icon": "build/icons/icon.icns",
+            "target": "zip"
         },
         "win": {
-            "icon": "build/icons/icon.ico"
+            "icon": "build/icons/icon.ico",
+            "target": "portable"
         },
         "linux": {
             "icon": "build/icons"
