@@ -37,8 +37,10 @@ release_job:
     - >
       release-cli create --name 'Release $CI_COMMIT_TAG' --description 'Created using the release-cli'
       --tag-name $CI_COMMIT_TAG --ref $CI_COMMIT_SHA
-      --assets-link '{"name":"macOS","url":"https://gitlab.com/lionheart-group/tools/checking-tool/-/jobs/${PREPARE_JOB_ID}/artifacts/raw/build/checktool-${$CI_COMMIT_TAG}-mac.zip"}'
-      --assets-link '{"name":"Windows","url":"https://gitlab.com/lionheart-group/tools/checking-tool/-/jobs/${PREPARE_JOB_ID}/artifacts/raw/build/checktool%20${$CI_COMMIT_TAG}.exe"}'
+      --assets-links-name 'macOS'
+      --assets-links-url 'https://gitlab.com/lionheart-group/tools/checking-tool/-/jobs/${PREPARE_JOB_ID}/artifacts/raw/build/checktool-${$CI_COMMIT_TAG}-mac.zip'
+      --assets-links-name 'Windows'
+      --assets-links-url 'https://gitlab.com/lionheart-group/tools/checking-tool/-/jobs/${PREPARE_JOB_ID}/artifacts/raw/build/checktool%20${$CI_COMMIT_TAG}.exe'
 #   release:
 #       name: 'Release $CI_COMMIT_TAG'
 #       description: 'Created using the release-cli'
