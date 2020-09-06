@@ -1,16 +1,17 @@
-image: node:12.18.3
+default:
+  image: node:12.18.3
 
 variables:
   PACKAGE_VERSION: $(cat package.json | grep version | head -1 | awk -F= "{ print $2 }" | sed 's/[version:,\",]//g' | tr -d '[[:space:]]')
 
 cache:
   paths:
-  - node_modules/
+    - node_modules/
 
 stages:
   - deploy
 
-deploy_job:
+job:
   stage: deploy
   script:
     - npm install
