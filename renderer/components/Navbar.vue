@@ -34,6 +34,24 @@
                     @click="isOpen = false"
                     >Title/Meta</router-link
                 >
+                <router-link
+                    class="navbar-item"
+                    :to="{ name: 'alt' }"
+                    @click="isOpen = false"
+                    >Alt</router-link
+                >
+                <router-link
+                    class="navbar-item"
+                    :to="{ name: 'headline' }"
+                    @click="isOpen = false"
+                    >Headline</router-link
+                >
+                <router-link
+                    class="navbar-item"
+                    :to="{ name: 'link' }"
+                    @click="isOpen = false"
+                    >Link</router-link
+                >
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">
@@ -55,8 +73,11 @@
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
+    name: "Navbar",
+
     setup() {
         const isOpen = ref<boolean>(false);
+
         const screenShotHandler = () => {
             (window as any).screen_shot();
         };

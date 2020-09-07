@@ -74,7 +74,6 @@
                                             ]
                                         "
                                         @click="modal_image = $event"
-                                        @test="openModalHandler"
                                         :max-width="600"
                                         :max-height="400"
                                     ></common-image
@@ -132,6 +131,7 @@ const useSubmitHandler = (
         loading.value = false;
 
         if (!result) {
+            window.alert("Failed to get specified URL");
             return;
         }
 
@@ -141,6 +141,8 @@ const useSubmitHandler = (
 };
 
 export default defineComponent({
+    name: "PageTitle",
+
     setup() {
         const formStore = inject(FormKey);
         if (!formStore) {
@@ -155,16 +157,12 @@ export default defineComponent({
         const loading = ref<boolean>(false);
         const modal_image = ref<string>("");
         const submitHandler = useSubmitHandler(formStore, titleStore, loading);
-        const openModalHandler = (src) => {
-            modal_image.value = src;
-        };
 
         return {
             titleStore,
             loading,
             modal_image,
             submitHandler,
-            openModalHandler,
         };
     },
 });

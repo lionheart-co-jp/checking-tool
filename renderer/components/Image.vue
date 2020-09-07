@@ -26,6 +26,8 @@ type Props = {
 };
 
 export default defineComponent({
+    name: "CommonImage",
+
     props: {
         src: { type: String, required: true },
         maxWidth: { type: Number, required: true },
@@ -52,6 +54,7 @@ export default defineComponent({
         onMounted(() => {
             getImage(propSrc.value);
         });
+
         watch(propSrc, (newVal) => {
             getImage(newVal);
         });

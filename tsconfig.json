@@ -29,8 +29,7 @@
     ]
   },
   "include": [
-    "./src/**/*.ts",
-    "./src/**/*.vue",
+    "./electron/**/*.ts"
   ],
   "exclude": [
     "./node_modules"
