@@ -1,15 +1,23 @@
 {
     "name": "checktool-electron-vite",
-    "version": "2.0.12",
+    "version": "2.1.0",
     "main": "./dist/main.js",
     "scripts": {
         "dev": "vite",
-        "build": "vite build && tsc",
+        "build": "npm run build:vite && npm run build:tsc",
+        "build:vite": "vite build",
+        "build:tsc": "tsc",
         "pack": "electron-builder",
         "pack:mac": "electron-builder --mac --x64",
-        "pack:win": "electron-builder --win --x64"
+        "pack:win": "electron-builder --win --x64",
+        "electron": "electron ./dist/main.js"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^1.2.30",
+        "@fortawesome/free-brands-svg-icons": "^5.14.0",
+        "@fortawesome/free-regular-svg-icons": "^5.14.0",
+        "@fortawesome/free-solid-svg-icons": "^5.14.0",
+        "@fortawesome/vue-fontawesome": "^3.0.0-1",
         "encoding": "^0.1.13",
         "jsdom": "^16.4.0",
         "node-fetch": "^2.6.1",

@@ -1,3 +1,7 @@
 module.exports = {
-  base: "./",
+    base: "./",
+
+    optimizeDeps: {
+        exclude: ["jsdom", "node-fetch", "encoding", "tslib"],
+    },
 };

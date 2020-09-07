@@ -60,9 +60,12 @@ import { defineComponent, inject } from "vue";
 import { Key as FormKey } from "../use/form";
 
 export default defineComponent({
+    name: "CommonForm",
+
     props: {
         loading: { type: Boolean, default: false },
     },
+
     setup() {
         const formStore = inject(FormKey);
         if (!formStore) {
