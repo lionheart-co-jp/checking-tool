@@ -93,5 +93,9 @@ ipcMain.on("start:screen_shot", async (_event, _arg) => {
     });
 });
 
+ipcMain.on("get:locale", (event) => {
+    event.returnValue = app.getLocale();
+});
+
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.

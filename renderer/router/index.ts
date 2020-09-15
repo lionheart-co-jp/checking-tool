@@ -8,4 +8,9 @@ import LinkRoute from "./Link";
 const history = createWebHashHistory();
 const routes = [DashboardRoute, TitleRoute, AltRoute, HeadlineRoute, LinkRoute];
 
-export default createRouter({ history, routes });
+export default createRouter({
+    history,
+    routes,
+    linkActiveClass: "is-active",
+    linkExactActiveClass: "is-active",
+});

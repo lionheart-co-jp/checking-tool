@@ -1,7 +1,7 @@
 <template>
     <common-hero
-        title="Check Headline"
-        subtitle="Checking Headline structure"
+        :title="t('headline.title')"
+        :subtitle="t('headline.subtitle')"
     ></common-hero>
 
     <section class="section">
@@ -11,13 +11,10 @@
                 @submit="submitHandler"
             ></common-form>
 
-            <div class="notification is-info">
+            <div class="notification">
                 <ul>
-                    <li>
-                        Don't skip headline level (e.g. &lt;h1&gt; -> &lt;h3&gt;
-                        is No Good)
-                    </li>
-                    <li>&lt;h1&gt; tag must be only one in the page</li>
+                    <li>{{ t("dont_skip") }}</li>
+                    <li>{{ t("h1_only_one") }}</li>
                 </ul>
             </div>
             <template v-if="headlineStore.result.length"
@@ -31,7 +28,7 @@
                     >
                         <template v-if="!head.flag"
                             ><span class="tag is-danger">{{
-                                head.message
+                                t(head.message)
                             }}</span></template
                         >
                         <div>
@@ -58,6 +55,7 @@
 
 <script lang="ts">
 import { defineComponent, inject, ref, Ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 // Store
 import { Key as FormKey, Store as FormStore } from "../use/form";
@@ -111,6 +109,25 @@ export default defineComponent({
             headlineStore,
             loading,
             submitHandler,
+            ...useI18n({
+                messages: {
+                    en: {
+                        dont_skip:
+                            "Don't skip headline level (e.g. <h1> -> <h3> is Not Good)",
+                        h1_only_one: "<h1> tag must be only one in the page",
+                        skipped: "Headline level was skipped",
+                        duplicated: "<h1> tag wes duplicated",
+                    },
+                    ja: {
+                        dont_skip:
+                            "見出しレベルはスキップしないようにしてください。（例 : <h1>の次が<h3>にならないようにする）",
+                        h1_only_one:
+                            "<h1>タグはページ内に一つだけ存在するようにしてください。",
+                        skipped: "見出しレベルが飛んでいます",
+                        duplicated: "<h1>タグが重複しています",
+                    },
+                },
+            }),
         };
     },
 });

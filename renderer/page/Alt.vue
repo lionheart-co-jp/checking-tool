@@ -1,7 +1,7 @@
 <template>
     <common-hero
-        title="Check Alt"
-        subtitle="Check Alt attribute function"
+        :title="t('alt.title')"
+        :subtitle="t('alt.subtitle')"
     ></common-hero>
 
     <section class="section">
@@ -15,30 +15,31 @@
                 <ul>
                     <li>
                         <span class="icon has-text-danger"
-                            ><font-awesome-icon
-                                icon="ban"
-                            ></font-awesome-icon></span
-                        >Alt attribute is missing.
-                        <span class="has-text-danger"
-                            >you must add alt attribute</span
-                        >
-                        even if it's empty
+                            ><font-awesome-icon icon="ban"></font-awesome-icon
+                        ></span>
+                        <i18n-t keypath="missing.base">
+                            <template #danger>
+                                <span class="has-text-danger">{{
+                                    t("missing.danger")
+                                }}</span>
+                            </template>
+                        </i18n-t>
                     </li>
                     <li>
                         <span class="icon has-text-warning"
                             ><font-awesome-icon
                                 icon="exclamation-triangle"
-                            ></font-awesome-icon></span
-                        >Alt attribute is empty. If this image is included text,
-                        please insert to alt attribute.
+                            ></font-awesome-icon
+                        ></span>
+                        <i18n-t keypath="empty.base"></i18n-t>
                     </li>
                     <li>
                         <span class="icon has-text-success"
                             ><font-awesome-icon
                                 icon="check-square"
-                            ></font-awesome-icon></span
-                        >Alt attribute is filled. But, please check the alt
-                        attribute value is correct or not.
+                            ></font-awesome-icon
+                        ></span>
+                        <i18n-t keypath="filled.base"></i18n-t>
                     </li>
                 </ul>
             </div>
@@ -51,7 +52,7 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th>view</th>
+                            <th>{{ t("table.preview") }}</th>
                             <th>src</th>
                             <td>alt</td>
                         </tr>
@@ -110,6 +111,7 @@
 
 <script lang="ts">
 import { defineComponent, inject, ref, Ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 // Store
 import { Key as FormKey, Store as FormStore } from "../use/form";
@@ -161,6 +163,46 @@ export default defineComponent({
             loading,
             modal_image,
             submitHandler,
+            ...useI18n({
+                messages: {
+                    en: {
+                        missing: {
+                            base:
+                                "Alt attribute is missing. {danger} even if it's empty",
+                            danger: "you must add alt attribute",
+                        },
+                        empty: {
+                            base:
+                                "Alt attribute is empty. If this image is included text, please insert to alt attribute.",
+                        },
+                        filled: {
+                            base:
+                                "Alt attribute is filled. But, please check the alt attribute value is correct or not.",
+                        },
+                        table: {
+                            preview: "Preview",
+                        },
+                    },
+                    ja: {
+                        missing: {
+                            base:
+                                "Alt属性が存在しません。指定するテキストが存在しなくても、{danger}",
+                            danger: "必ずAlt属性を追加してください。",
+                        },
+                        empty: {
+                            base:
+                                "Alt属性が空欄です。もし画像にテキストが含まれている場合はAlt属性に挿入してください。",
+                        },
+                        filled: {
+                            base:
+                                "Alt属性が指定されています。挿入されているテキストが画像と一致しているか確認してください。",
+                        },
+                        table: {
+                            preview: "プレビュー",
+                        },
+                    },
+                },
+            }),
         };
     },
 });

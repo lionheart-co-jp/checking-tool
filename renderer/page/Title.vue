@@ -1,7 +1,7 @@
 <template>
     <common-hero
-        title="Check Title/Meta"
-        subtitle="Check Title and Meta information function"
+        :title="t('title.title')"
+        :subtitle="t('title.subtitle')"
     ></common-hero>
 
     <section class="section">
@@ -14,7 +14,7 @@
             <template v-if="titleStore.result">
                 <div class="notification is-primary">{{ titleStore.url }}</div>
 
-                <h3 class="title is-4">Basic</h3>
+                <h3 class="title is-4">{{ t("basic") }}</h3>
 
                 <table class="table is-bordered is-fullwidth">
                     <tbody>
@@ -112,6 +112,7 @@
 
 <script lang="ts">
 import { defineComponent, inject, Ref, ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 // Store
 import { Key as FormKey, Store as FormStore } from "../use/form";
@@ -163,6 +164,16 @@ export default defineComponent({
             loading,
             modal_image,
             submitHandler,
+            ...useI18n({
+                messages: {
+                    en: {
+                        basic: "Basic",
+                    },
+                    ja: {
+                        basic: "基本情報",
+                    },
+                },
+            }),
         };
     },
 });

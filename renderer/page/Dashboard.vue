@@ -1,7 +1,7 @@
 <template>
     <common-hero
-        title="Dashboard"
-        subtitle="Checking support tools"
+        :title="t('dashboard.title')"
+        :subtitle="t('dashboard.subtitle')"
     ></common-hero>
 
     <section class="section">
@@ -12,12 +12,12 @@
                         <div class="card">
                             <header class="card-header">
                                 <p class="card-header-title">
-                                    Check Title/Meta
+                                    {{ t("title.title") }}
                                 </p>
                             </header>
                             <div class="card-content">
                                 <div class="content">
-                                    Checking Title and Meta informations
+                                    {{ t("title.subtitle") }}
                                 </div>
                             </div>
                         </div>
@@ -28,11 +28,13 @@
                     <router-link :to="{ name: 'alt' }">
                         <div class="card">
                             <header class="card-header">
-                                <p class="card-header-title">Check Alt</p>
+                                <p class="card-header-title">
+                                    {{ t("alt.title") }}
+                                </p>
                             </header>
                             <div class="card-content">
                                 <div class="content">
-                                    Checking Alt attribute is empty or not
+                                    {{ t("alt.subtitle") }}
                                 </div>
                             </div>
                         </div>
@@ -43,31 +45,35 @@
                     <router-link :to="{ name: 'headline' }">
                         <div class="card">
                             <header class="card-header">
-                                <p class="card-header-title">Check Headline</p>
+                                <p class="card-header-title">
+                                    {{ t("headline.title") }}
+                                </p>
                             </header>
                             <div class="card-content">
                                 <div class="content">
-                                    Checking Headline structure
+                                    {{ t("headline.subtitle") }}
                                 </div>
                             </div>
                         </div>
                     </router-link>
                 </div>
 
-                <div class="column">
+                <!-- <div class="column">
                     <router-link :to="{ name: 'link' }">
                         <div class="card">
                             <header class="card-header">
-                                <p class="card-header-title">Check Link</p>
+                                <p class="card-header-title">
+                                    {{ t("link.title") }}
+                                </p>
                             </header>
                             <div class="card-content">
                                 <div class="content">
-                                    Check Link target function
+                                    {{ t("link.subtitle") }}
                                 </div>
                             </div>
                         </div>
                     </router-link>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
@@ -75,8 +81,12 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
     name: "PageDashboard",
+    setup() {
+        return useI18n();
+    },
 });
 </script>
