@@ -191,10 +191,10 @@ const request = async (
 
         // Check Headline Error
         let flag = level - prev <= 1;
-        let message = flag ? "" : "Headline skipped";
+        let message = flag ? "" : "skipped";
         if (flag && level === 1 && h1Available) {
             flag = false;
-            message = "Duplicated <h1>";
+            message = "duplicated";
         }
 
         if (level === 1) {
@@ -280,4 +280,8 @@ const request = async (
 
 (window as any).screen_shot = async () => {
     ipcRenderer.send("start:screen_shot");
+};
+
+(window as any).get_locale = () => {
+    return ipcRenderer.sendSync("get:locale");
 };

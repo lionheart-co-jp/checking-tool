@@ -11,6 +11,31 @@ import {
 library.add(faBan, faExclamationTriangle, faCheckSquare);
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
+// Vue i18n
+const availableLocale = ["en", "ja"];
+const locale = (() => {
+    const electronLocale = (() => {
+        if (typeof (window as any).get_locale === "function") {
+            return (window as any).get_locale() as string;
+        } else {
+            return "en";
+        }
+    })();
+
+    if (availableLocale.some((l) => l === electronLocale)) {
+        return electronLocale;
+    } else {
+        return "en";
+    }
+})();
+import { createI18n } from "vue-i18n";
+import messages from "./messages";
+const i18n = createI18n({
+    locale,
+    fallbackLocale: "en",
+    messages,
+});
+
 // Base Component
 import App from "./App.vue";
 
@@ -22,7 +47,7 @@ import CommonModal from "./components/Modal.vue";
 
 import "./assets/bulma/bulma.min.css";
 
-const app = createApp(App).use(router);
+const app = createApp(App).use(router).use(i18n);
 app.component("font-awesome-icon", FontAwesomeIcon);
 app.component("common-hero", CommonHero);
 app.component("common-form", CommonForm);

@@ -6,7 +6,7 @@
     >
         <div class="navbar-brand">
             <router-link class="navbar-item" :to="{ name: 'dashboard' }">
-                <strong>Checket Support Tool</strong>
+                <strong>Checker Support Tool</strong>
             </router-link>
             <a
                 class="navbar-burger burger"
@@ -32,29 +32,37 @@
                     class="navbar-item"
                     :to="{ name: 'title' }"
                     @click="isOpen = false"
-                    >Title/Meta</router-link
+                    >{{ t("title.title") }}</router-link
                 >
                 <router-link
                     class="navbar-item"
                     :to="{ name: 'alt' }"
                     @click="isOpen = false"
-                    >Alt</router-link
+                    >{{ t("alt.title") }}</router-link
                 >
                 <router-link
                     class="navbar-item"
                     :to="{ name: 'headline' }"
                     @click="isOpen = false"
-                    >Headline</router-link
+                    >{{ t("headline.title") }}</router-link
                 >
-                <router-link
+                <!-- <router-link
                     class="navbar-item"
                     :to="{ name: 'link' }"
                     @click="isOpen = false"
-                    >Link</router-link
-                >
+                    >{{ t("link.title") }}</router-link
+                > -->
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">
+                    <div class="select is-primary">
+                        <select v-model="locale">
+                            <option value="en">English</option>
+                            <option value="ja">Japanese</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- <div class="navbar-item">
                     <div class="buttons">
                         <button
                             class="button is-info"
@@ -63,7 +71,7 @@
                             Capture
                         </button>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </nav>
@@ -71,6 +79,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
     name: "Navbar",
@@ -82,7 +91,7 @@ export default defineComponent({
             (window as any).screen_shot();
         };
 
-        return { isOpen, screenShotHandler };
+        return { isOpen, screenShotHandler, ...useI18n() };
     },
 });
 </script>

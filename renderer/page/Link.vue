@@ -1,7 +1,7 @@
 <template>
     <common-hero
-        title="Check Link"
-        subtitle="Check Link target function"
+        :title="t('link.title')"
+        :subtitle="t('link.subtitle')"
     ></common-hero>
 
     <section class="section">
@@ -47,6 +47,7 @@
 
 <script lang="ts">
 import { defineComponent, inject, ref, Ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 // Components
 import LinkRow from "../components/Link/Row.vue";
@@ -109,6 +110,7 @@ export default defineComponent({
             loading,
             modal_image,
             submitHandler,
+            ...useI18n(),
         };
     },
 });

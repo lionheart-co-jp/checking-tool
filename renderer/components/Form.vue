@@ -17,22 +17,20 @@
                 :class="{ 'is-loading': loading }"
                 @click="$emit('submit')"
             >
-                Check
+                {{ t("check") }}
             </button>
         </p>
     </div>
 
     <div class="columns">
         <div class="column">
-            <div class="notification is-warning">
-                If you access to Authorised page
-            </div>
+            <div class="notification is-warning">{{ t("notice") }}</div>
         </div>
 
         <div class="column">
             <div class="field has-addons">
                 <p class="control">
-                    <a class="button is-static">USER</a>
+                    <a class="button is-static">{{ t("user") }}</a>
                 </p>
                 <p class="control is-expanded">
                     <input type="text" class="input" v-model="formStore.user" />
@@ -43,7 +41,7 @@
         <div class="column">
             <div class="field has-addons">
                 <p class="control">
-                    <a class="button is-static">PASS</a>
+                    <a class="button is-static">{{ t("pass") }}</a>
                 </p>
                 <p class="control is-expanded">
                     <input type="text" class="input" v-model="formStore.pass" />
@@ -55,6 +53,7 @@
 
 <script lang="ts">
 import { defineComponent, inject } from "vue";
+import { useI18n } from "vue-i18n";
 
 // Store
 import { Key as FormKey } from "../use/form";
@@ -72,7 +71,25 @@ export default defineComponent({
             throw new Error("FormKey is not provided yet");
         }
 
-        return { formStore };
+        return {
+            formStore,
+            ...useI18n({
+                messages: {
+                    en: {
+                        check: "Check",
+                        notice: "If you access to Authorised page",
+                        user: "USER",
+                        pass: "PASS",
+                    },
+                    ja: {
+                        check: "確認",
+                        notice: "認証が掛かっているページを確認する場合",
+                        user: "ユーザ名",
+                        pass: "パスワード",
+                    },
+                },
+            }),
+        };
     },
 });
 </script>
