@@ -262,7 +262,7 @@ const request = async (
 (window as any).link_exists = async ({ url, user, pass }: RequestParam) => {
     const response = await request(url, { user, pass });
 
-    return response && !response.ok;
+    return response && response.ok;
 };
 
 (window as any).util_url_to_base64 = async (url: string) => {

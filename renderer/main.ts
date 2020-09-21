@@ -1,6 +1,9 @@
 import { createApp } from "vue";
 import router from "./router";
 
+// Bulma
+import "bulma/css/bulma.css";
+
 // FontAwesome
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -44,8 +47,6 @@ import CommonHero from "./components/Hero.vue";
 import CommonForm from "./components/Form.vue";
 import CommonImage from "./components/Image.vue";
 import CommonModal from "./components/Modal.vue";
-
-import "./assets/bulma/bulma.min.css";
 
 const app = createApp(App).use(router).use(i18n);
 app.component("font-awesome-icon", FontAwesomeIcon);

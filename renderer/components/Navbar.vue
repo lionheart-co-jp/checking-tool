@@ -46,12 +46,12 @@
                     @click="isOpen = false"
                     >{{ t("headline.title") }}</router-link
                 >
-                <!-- <router-link
+                <router-link
                     class="navbar-item"
                     :to="{ name: 'link' }"
                     @click="isOpen = false"
                     >{{ t("link.title") }}</router-link
-                > -->
+                >
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">

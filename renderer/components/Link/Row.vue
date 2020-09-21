@@ -29,7 +29,6 @@
 <script lang="ts">
 import {
     defineComponent,
-    inject,
     Ref,
     PropType,
     onMounted,
@@ -39,7 +38,10 @@ import {
 } from "vue";
 
 // Store
-import { Key as LinkKey, ResultType as LinkResultType } from "../../use/link";
+import {
+    useStore as useLink,
+    ResultType as LinkResultType,
+} from "../../store/link";
 
 const checkUrl = async (
     requestParam: { url: string; user: string; pass: string },
@@ -63,8 +65,6 @@ const checkUrl = async (
         return;
     }
 
-    console.log(result);
-
     if (!result) {
         isError.value = 1;
         return;
@@ -79,15 +79,11 @@ export default defineComponent({
         anchor: { type: Object as PropType<LinkResultType>, required: true },
     },
     setup(props) {
-        const linkStore = inject(LinkKey);
-        if (!linkStore) {
-            throw new Error("LinkKey is not provided yet");
-        }
+        const linkStore = useLink();
 
         const isError = ref<number>(0);
         const url = computed(() => props.anchor.url);
 
-        console.log(props);
         onMounted(() => {
             const user = linkStore.user;
             const pass = linkStore.pass;
@@ -102,6 +98,8 @@ export default defineComponent({
 
             checkUrl({ url, user, pass }, isError);
         });
+
+        return { isError };
     },
 });
 </script>
