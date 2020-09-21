@@ -5,17 +5,17 @@
 </template>
 
 <script>
-import { defineComponent, provide } from "vue";
+import { defineComponent } from "vue";
 
 // Components
 import Navbar from "./components/Navbar.vue";
 
 // Store
-import useForm, { Key as FormKey } from "./use/form";
-import useTitle, { Key as TitleKey } from "./use/title";
-import useAlt, { Key as AltKey } from "./use/alt";
-import useHeadline, { Key as HeadlineKey } from "./use/headline";
-import useLink, { Key as LinkKey } from "./use/link";
+import { provideStore as provideForm } from "./store/form";
+import { provideStore as provideTitle } from "./store/title";
+import { provideStore as provideAlt } from "./store/alt";
+import { provideStore as provideHeadline } from "./store/headline";
+import { provideStore as provideLink } from "./store/link";
 
 export default defineComponent({
     name: "App",
@@ -23,11 +23,11 @@ export default defineComponent({
     components: { Navbar },
 
     setup() {
-        provide(FormKey, useForm());
-        provide(TitleKey, useTitle());
-        provide(AltKey, useAlt());
-        provide(HeadlineKey, useHeadline());
-        provide(LinkKey, useLink());
+        provideForm();
+        provideTitle();
+        provideAlt();
+        provideHeadline();
+        provideLink();
 
         return {};
     },

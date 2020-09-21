@@ -52,11 +52,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject } from "vue";
+import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
 
 // Store
-import { Key as FormKey } from "../use/form";
+import { useStore as useForm } from "../store/form";
 
 export default defineComponent({
     name: "CommonForm",
@@ -65,11 +65,10 @@ export default defineComponent({
         loading: { type: Boolean, default: false },
     },
 
+    emits: ["submit"],
+
     setup() {
-        const formStore = inject(FormKey);
-        if (!formStore) {
-            throw new Error("FormKey is not provided yet");
-        }
+        const formStore = useForm();
 
         return {
             formStore,

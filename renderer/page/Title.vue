@@ -5,103 +5,102 @@
     ></common-hero>
 
     <section class="section">
-        <div class="container">
-            <common-form
-                :loading="loading"
-                @submit="submitHandler"
-            ></common-form>
+        <common-form :loading="loading" @submit="submitHandler"></common-form>
 
-            <template v-if="titleStore.result">
-                <div class="notification is-primary">{{ titleStore.url }}</div>
-
-                <h3 class="title is-4">{{ t("basic") }}</h3>
-
-                <table class="table is-bordered is-fullwidth">
-                    <tbody>
-                        <tr>
-                            <th>Title</th>
-                            <td>{{ titleStore.result.title }}</td>
-                        </tr>
-                        <tr>
-                            <th>Description</th>
-                            <td>{{ titleStore.result.description }}</td>
-                        </tr>
-                        <tr>
-                            <th>Keyword</th>
-                            <td>{{ titleStore.result.keywords }}</td>
-                        </tr>
-                        <tr>
-                            <th>Vieport</th>
-                            <td>{{ titleStore.result.viewport }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h3 class="title is-4">OGP</h3>
-                <table class="table is-bordered is-fullwidth">
-                    <tbody>
-                        <tr>
-                            <th>og:title</th>
-                            <td>{{ titleStore.result["og:title"] }}</td>
-                        </tr>
-                        <tr>
-                            <th>og:type</th>
-                            <td>{{ titleStore.result["og:type"] }}</td>
-                        </tr>
-                        <tr>
-                            <th>og:url</th>
-                            <td>{{ titleStore.result["og:url"] }}</td>
-                        </tr>
-                        <tr>
-                            <th>og:description</th>
-                            <td>{{ titleStore.result["og:description"] }}</td>
-                        </tr>
-                        <tr>
-                            <th>og:site_name</th>
-                            <td>{{ titleStore.result["og:site_name"] }}</td>
-                        </tr>
-                        <tr>
-                            <th>og:image</th>
-                            <td>
-                                {{ titleStore.result["og:image"] }}
-
-                                <template
-                                    v-if="titleStore.result['og:image_preview']"
-                                    ><common-image
-                                        :src="
-                                            titleStore.result[
-                                                'og:image_preview'
-                                            ]
-                                        "
-                                        @click="modal_image = $event"
-                                        :max-width="600"
-                                        :max-height="400"
-                                    ></common-image
-                                ></template>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h3 class="title is-4">SNS</h3>
-                <table class="table is-bordered is-fullwidth">
-                    <tbody>
-                        <tr>
-                            <th>fb:app_id</th>
-                            <td>{{ titleStore.result["fb:app_id"] }}</td>
-                        </tr>
-                        <tr>
-                            <th>twitter:card</th>
-                            <td>{{ titleStore.result["twitter:card"] }}</td>
-                        </tr>
-                        <tr>
-                            <th>twitter:site</th>
-                            <td>{{ titleStore.result["twitter:site"] }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </template>
+        <div class="notification">
+            <strong>{{ t("label") }}</strong>
+            <ul>
+                <li>{{ t("title_structure") }}</li>
+                <li>{{ t("ogp_structure") }}</li>
+            </ul>
         </div>
+
+        <template v-if="titleStore.result">
+            <div class="notification is-primary">{{ titleStore.url }}</div>
+
+            <h3 class="title is-4">{{ t("basic") }}</h3>
+
+            <table class="table is-bordered is-fullwidth">
+                <tbody>
+                    <tr>
+                        <th>Title</th>
+                        <td>{{ titleStore.result.title }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ titleStore.result.description }}</td>
+                    </tr>
+                    <tr>
+                        <th>Keyword</th>
+                        <td>{{ titleStore.result.keywords }}</td>
+                    </tr>
+                    <tr>
+                        <th>Vieport</th>
+                        <td>{{ titleStore.result.viewport }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 class="title is-4">OGP</h3>
+            <table class="table is-bordered is-fullwidth">
+                <tbody>
+                    <tr>
+                        <th>og:title</th>
+                        <td>{{ titleStore.result["og:title"] }}</td>
+                    </tr>
+                    <tr>
+                        <th>og:type</th>
+                        <td>{{ titleStore.result["og:type"] }}</td>
+                    </tr>
+                    <tr>
+                        <th>og:url</th>
+                        <td>{{ titleStore.result["og:url"] }}</td>
+                    </tr>
+                    <tr>
+                        <th>og:description</th>
+                        <td>{{ titleStore.result["og:description"] }}</td>
+                    </tr>
+                    <tr>
+                        <th>og:site_name</th>
+                        <td>{{ titleStore.result["og:site_name"] }}</td>
+                    </tr>
+                    <tr>
+                        <th>og:image</th>
+                        <td>
+                            {{ titleStore.result["og:image"] }}
+
+                            <template
+                                v-if="titleStore.result['og:image_preview']"
+                                ><common-image
+                                    :src="titleStore.result['og:image_preview']"
+                                    @click="modal_image = $event"
+                                    :max-width="600"
+                                    :max-height="400"
+                                ></common-image
+                            ></template>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 class="title is-4">SNS</h3>
+            <table class="table is-bordered is-fullwidth">
+                <tbody>
+                    <tr>
+                        <th>fb:app_id</th>
+                        <td>{{ titleStore.result["fb:app_id"] }}</td>
+                    </tr>
+                    <tr>
+                        <th>twitter:card</th>
+                        <td>{{ titleStore.result["twitter:card"] }}</td>
+                    </tr>
+                    <tr>
+                        <th>twitter:site</th>
+                        <td>{{ titleStore.result["twitter:site"] }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </template>
     </section>
 
     <common-modal
@@ -111,12 +110,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, Ref, ref } from "vue";
+import { defineComponent, Ref, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 // Store
-import { Key as FormKey, Store as FormStore } from "../use/form";
-import { Key as TitleKey, Store as TitleStore } from "../use/title";
+import { useStore as useForm, Store as FormStore } from "../store/form";
+import { useStore as useTitle, Store as TitleStore } from "../store/title";
 
 const useSubmitHandler = (
     formStore: FormStore,
@@ -145,15 +144,8 @@ export default defineComponent({
     name: "PageTitle",
 
     setup() {
-        const formStore = inject(FormKey);
-        if (!formStore) {
-            throw new Error("FormKey is not provided yet");
-        }
-
-        const titleStore = inject(TitleKey);
-        if (!titleStore) {
-            throw new Error("TitleKey is not provided yet");
-        }
+        const formStore = useForm();
+        const titleStore = useTitle();
 
         const loading = ref<boolean>(false);
         const modal_image = ref<string>("");
@@ -167,9 +159,20 @@ export default defineComponent({
             ...useI18n({
                 messages: {
                     en: {
+                        label:
+                            "Remarks when you prepare the title/meta informations",
+                        title_structure:
+                            'For the title, You should follow the director\'s instruction. If there is no instruction, please input as "{Page name} | {Site name}"',
+                        ogp_structure:
+                            "Unless otherwise specified, You should input og:title same with title and og:description same with description.",
                         basic: "Basic",
                     },
                     ja: {
+                        label: "タイトル/メタタグ設定時の注意点",
+                        title_structure:
+                            "タイトルは原則ディレクター時指示に従ってください。指示がない場合は「ページ名 | サイト名」と指定してください",
+                        ogp_structure:
+                            "特に指定がない限り、og:titleはtitleと、og:descriptionにはdescriptionと同じ値を指定してください",
                         basic: "基本情報",
                     },
                 },

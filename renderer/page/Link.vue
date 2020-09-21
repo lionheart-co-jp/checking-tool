@@ -5,56 +5,56 @@
     ></common-hero>
 
     <section class="section">
-        <div class="container">
-            <common-form
-                :loading="loading"
-                @submit="submitHandler"
-            ></common-form>
+        <common-form :loading="loading" @submit="submitHandler"></common-form>
 
-            <template v-if="linkStore.result.length">
-                <div class="notification is-primary">
-                    {{ linkStore.url }}
-                </div>
-                <table class="table is-bordered is-fullwidth is-narrow">
-                    <colgroup>
-                        <col width="auto" />
-                        <col width="25%" />
-                        <col width="25%" />
-                        <col width="25%" />
-                        <col width="25%" />
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Content</th>
-                            <th>Href</th>
-                            <th>Target</th>
-                            <th>URL</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <link-row
-                            v-for="anchor in linkStore.result"
-                            :key="anchor.key"
-                            :anchor="anchor"
-                        ></link-row>
-                    </tbody>
-                </table>
-            </template>
+        <div class="notification is-danger">
+            <strong>{{ t("notification.label") }}</strong>
+            <p>{{ t("notification.body") }}</p>
         </div>
+
+        <template v-if="linkStore.result.length">
+            <div class="notification is-primary">
+                {{ linkStore.url }}
+            </div>
+            <table class="table is-bordered is-fullwidth is-narrow">
+                <colgroup>
+                    <col width="auto" />
+                    <col width="25%" />
+                    <col width="25%" />
+                    <col width="25%" />
+                    <col width="25%" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Content</th>
+                        <th>Href</th>
+                        <th>Target</th>
+                        <th>URL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <link-row
+                        v-for="anchor in linkStore.result"
+                        :key="anchor.key"
+                        :anchor="anchor"
+                    ></link-row>
+                </tbody>
+            </table>
+        </template>
     </section>
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, ref, Ref } from "vue";
+import { defineComponent, ref, Ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 // Components
 import LinkRow from "../components/Link/Row.vue";
 
 // Store
-import { Key as FormKey, Store as FormStore } from "../use/form";
-import { Key as LinkKey, Store as LinkStore } from "../use/link";
+import { useStore as useForm, Store as FormStore } from "../store/form";
+import { useStore as useLink, Store as LinkStore } from "../store/link";
 
 const useSubmitHandler = (
     formStore: FormStore,
@@ -91,15 +91,8 @@ export default defineComponent({
     },
 
     setup() {
-        const formStore = inject(FormKey);
-        if (!formStore) {
-            throw new Error("FormKey is not provided yet");
-        }
-
-        const linkStore = inject(LinkKey);
-        if (!linkStore) {
-            throw new Error("LinkKey is not provided yet");
-        }
+        const formStore = useForm();
+        const linkStore = useLink();
 
         const loading = ref<boolean>(false);
         const modal_image = ref<string>("");
@@ -110,7 +103,24 @@ export default defineComponent({
             loading,
             modal_image,
             submitHandler,
-            ...useI18n(),
+            ...useI18n({
+                messages: {
+                    en: {
+                        notification: {
+                            label: "Warning",
+                            body:
+                                "This function will access to the all the links in the target URL. so, you must NOT run this function multiple times in a short time.",
+                        },
+                    },
+                    ja: {
+                        notification: {
+                            label: "注意",
+                            body:
+                                "この機能は指定されたURLのページ内のリンク全てにアクセスを試みます。そのため、短時間に複数回実行しないようにしてください。",
+                        },
+                    },
+                },
+            }),
         };
     },
 });

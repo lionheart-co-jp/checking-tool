@@ -1,6 +1,8 @@
-import { reactive, InjectionKey } from "vue";
+import { reactive, InjectionKey, provide, inject } from "vue";
 
-const useTitle = () => {
+export const StoreName = "Title";
+
+const prepareStore = () => {
     const state = reactive<{
         url: string;
         result: { [key: string]: string | null } | null;
@@ -29,6 +31,17 @@ const useTitle = () => {
     };
 };
 
-export type Store = ReturnType<typeof useTitle>;
-export const Key: InjectionKey<Store> = Symbol("TitleStore");
-export default useTitle;
+export type Store = ReturnType<typeof prepareStore>;
+export const StoreKey: InjectionKey<Store> = Symbol(`${StoreName}Store`);
+
+export const useStore = () => {
+    const store = inject(StoreKey);
+    if (!store) {
+        throw new Error(`${StoreName} is not provided yet`);
+    }
+    return store;
+};
+
+export const provideStore = () => {
+    provide(StoreKey, prepareStore());
+};
