@@ -162,7 +162,7 @@ export default defineComponent({
                         label:
                             "Remarks when you prepare the title/meta informations",
                         title_structure:
-                            'For the title, You should follow the director\'s instruction. If there is no instruction, please input as "{Page name} | {Site name}"',
+                            'For the title, You should follow the director\'s instruction. If there is no instruction, please input as "[Page name]｜[Site name]"',
                         ogp_structure:
                             "Unless otherwise specified, You should input og:title same with title and og:description same with description.",
                         basic: "Basic",
@@ -170,7 +170,7 @@ export default defineComponent({
                     ja: {
                         label: "タイトル/メタタグ設定時の注意点",
                         title_structure:
-                            "タイトルは原則ディレクター時指示に従ってください。指示がない場合は「ページ名 | サイト名」と指定してください",
+                            "タイトルは原則ディレクター時指示に従ってください。指示がない場合は「ページ名｜サイト名」と指定してください",
                         ogp_structure:
                             "特に指定がない限り、og:titleはtitleと、og:descriptionにはdescriptionと同じ値を指定してください",
                         basic: "基本情報",
