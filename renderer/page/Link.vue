@@ -5,8 +5,6 @@
     ></common-hero>
 
     <section class="section">
-        <common-form :loading="loading" @submit="submitHandler"></common-form>
-
         <div class="notification is-danger">
             <strong>{{ t("notification.label") }}</strong>
             <p>{{ t("notification.body") }}</p>
@@ -14,7 +12,7 @@
 
         <template v-if="linkStore.result.length">
             <div class="notification is-primary">
-                {{ linkStore.url }}
+                {{ formStore.url }}
             </div>
             <table class="table is-bordered is-fullwidth is-narrow">
                 <colgroup>
@@ -46,42 +44,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from "vue";
+import { defineComponent, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 // Components
 import LinkRow from "../components/Link/Row.vue";
 
 // Store
-import { useStore as useForm, Store as FormStore } from "../store/form";
-import { useStore as useLink, Store as LinkStore } from "../store/link";
-
-const useSubmitHandler = (
-    formStore: FormStore,
-    linkStore: LinkStore,
-    loading: Ref<boolean>
-) => {
-    return async () => {
-        linkStore.url = "";
-        linkStore.user = "";
-        linkStore.pass = "";
-        linkStore.result = [];
-
-        loading.value = true;
-        const result = await (window as any).link_request(formStore);
-        loading.value = false;
-
-        if (!result) {
-            window.alert("Failed to get specified URL");
-            return;
-        }
-
-        linkStore.url = formStore.url;
-        linkStore.user = formStore.user;
-        linkStore.pass = formStore.pass;
-        linkStore.result = result;
-    };
-};
+import { useStore as useForm } from "../store/form";
+import { useStore as useLink } from "../store/link";
 
 export default defineComponent({
     name: "PageAlt",
@@ -96,13 +67,12 @@ export default defineComponent({
 
         const loading = ref<boolean>(false);
         const modal_image = ref<string>("");
-        const submitHandler = useSubmitHandler(formStore, linkStore, loading);
 
         return {
+            formStore,
             linkStore,
             loading,
             modal_image,
-            submitHandler,
             ...useI18n({
                 messages: {
                     en: {

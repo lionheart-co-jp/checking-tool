@@ -1,80 +1,30 @@
 <template>
-    <nav
-        class="navbar is-primary is-fixed-top"
-        role="navigation"
-        aria-label="main navigation"
-    >
-        <div class="navbar-brand">
-            <router-link class="navbar-item" :to="{ name: 'dashboard' }">
-                <strong>Checker Support Tool</strong>
-            </router-link>
-            <a
-                class="navbar-burger burger"
-                role="button"
-                aria-label="menu"
-                aria-expanded="false"
-                data-target="mainNavBar"
-                :class="{ 'is-active': isOpen }"
-                @click="isOpen = !isOpen"
-            >
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
-        </div>
-        <div
-            id="mainNavBar"
-            class="navbar-menu"
-            :class="{ 'is-active': isOpen }"
-        >
-            <div class="navbar-start">
+    <aside class="menu">
+        <ul class="menu-list">
+            <li>
+                <router-link :to="{ name: 'title' }" @click="isOpen = false">{{
+                    t("title.title")
+                }}</router-link>
+            </li>
+            <li>
+                <router-link :to="{ name: 'alt' }" @click="isOpen = false">{{
+                    t("alt.title")
+                }}</router-link>
+            </li>
+            <li>
                 <router-link
-                    class="navbar-item"
-                    :to="{ name: 'title' }"
-                    @click="isOpen = false"
-                    >{{ t("title.title") }}</router-link
-                >
-                <router-link
-                    class="navbar-item"
-                    :to="{ name: 'alt' }"
-                    @click="isOpen = false"
-                    >{{ t("alt.title") }}</router-link
-                >
-                <router-link
-                    class="navbar-item"
                     :to="{ name: 'headline' }"
                     @click="isOpen = false"
                     >{{ t("headline.title") }}</router-link
                 >
-                <router-link
-                    class="navbar-item"
-                    :to="{ name: 'link' }"
-                    @click="isOpen = false"
-                    >{{ t("link.title") }}</router-link
-                >
-            </div>
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="select is-primary">
-                        <select v-model="locale">
-                            <option value="en">English</option>
-                            <option value="ja">Japanese</option>
-                        </select>
-                    </div>
-                </div>
-                <!-- <div class="navbar-item">
-                    <div class="buttons">
-                        <button
-                            class="button is-info"
-                            @click="screenShotHandler"
-                        >
-                            Capture
-                        </button>
-                    </div>
-                </div> -->
-            </div>
-        </div>
-    </nav>
+            </li>
+            <li>
+                <router-link :to="{ name: 'link' }" @click="isOpen = false">{{
+                    t("link.title")
+                }}</router-link>
+            </li>
+        </ul>
+    </aside>
 </template>
 
 <script lang="ts">
@@ -95,3 +45,27 @@ export default defineComponent({
     },
 });
 </script>
+
+<style scoped>
+.menu {
+    position: fixed;
+    left: 0;
+    top: var(--nh);
+    bottom: 0;
+    width: 200px;
+    background: rgb(0, 209, 178);
+}
+.menu a {
+    color: #fff;
+    padding: 0.75em 0.75em;
+    border-radius: 0;
+}
+.menu a:hover {
+    color: #fff;
+    background: rgb(0, 184, 156);
+}
+.menu a.is-active {
+    color: #fff;
+    background: rgb(0, 184, 156);
+}
+</style>

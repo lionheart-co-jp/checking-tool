@@ -1,5 +1,5 @@
 <template>
-    <div class="hero is-primary">
+    <div class="hero is-primary is-small">
         <div class="hero-body">
             <h1 class="title">{{ title }}</h1>
             <h2 class="subtitle">{{ subtitle }}</h2>

@@ -10,8 +10,16 @@ import {
     faBan,
     faExclamationTriangle,
     faCheckSquare,
+    faAngleDown,
+    faAngleUp,
 } from "@fortawesome/free-solid-svg-icons";
-library.add(faBan, faExclamationTriangle, faCheckSquare);
+library.add(
+    faBan,
+    faExclamationTriangle,
+    faCheckSquare,
+    faAngleDown,
+    faAngleUp
+);
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 // Vue i18n

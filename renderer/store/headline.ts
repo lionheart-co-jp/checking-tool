@@ -4,7 +4,6 @@ export const StoreName = "Headline";
 
 const prepareStore = () => {
     const state = reactive<{
-        url: string;
         result: {
             key: number;
             flag: boolean;
@@ -13,17 +12,10 @@ const prepareStore = () => {
             label: string;
         }[];
     }>({
-        url: "",
         result: [],
     });
 
     return {
-        get url() {
-            return state.url;
-        },
-        set url(url) {
-            state.url = url;
-        },
         get result() {
             return state.result;
         },

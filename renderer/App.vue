@@ -1,14 +1,19 @@
 <template>
-    <navbar></navbar>
+    <component-header></component-header>
 
-    <router-view></router-view>
+    <component-navbar></component-navbar>
+
+    <div class="main">
+        <router-view></router-view>
+    </div>
 </template>
 
 <script>
 import { defineComponent } from "vue";
 
 // Components
-import Navbar from "./components/Navbar.vue";
+import ComponentHeader from "./components/Header.vue";
+import ComponentNavbar from "./components/Navbar.vue";
 
 // Store
 import { provideStore as provideForm } from "./store/form";
@@ -20,7 +25,7 @@ import { provideStore as provideLink } from "./store/link";
 export default defineComponent({
     name: "App",
 
-    components: { Navbar },
+    components: { ComponentHeader, ComponentNavbar },
 
     setup() {
         provideForm();
@@ -33,3 +38,15 @@ export default defineComponent({
     },
 });
 </script>
+
+<style>
+body {
+    padding-top: var(--nh);
+}
+</style>
+
+<style scoped>
+.main {
+    margin-left: 200px;
+}
+</style>

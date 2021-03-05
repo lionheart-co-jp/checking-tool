@@ -4,20 +4,12 @@ export const StoreName = "Title";
 
 const prepareStore = () => {
     const state = reactive<{
-        url: string;
         result: { [key: string]: string | null } | null;
     }>({
-        url: "",
         result: null,
     });
 
     return {
-        get url() {
-            return state.url;
-        },
-        set url(url) {
-            state.url = url;
-        },
         get result() {
             return state.result;
         },

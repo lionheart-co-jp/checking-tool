@@ -5,8 +5,6 @@
     ></common-hero>
 
     <section class="section">
-        <common-form :loading="loading" @submit="submitHandler"></common-form>
-
         <div class="notification">
             <strong>{{ t("label") }}</strong>
             <ul>
@@ -43,7 +41,7 @@
 
         <template v-if="altStore.result.length">
             <div class="notification is-primary">
-                {{ altStore.url }}
+                {{ formStore.url }}
             </div>
             <table class="table is-bordered is-fullwidth is-narrow">
                 <thead>
@@ -106,35 +104,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from "vue";
+import { defineComponent, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 // Store
-import { useStore as useForm, Store as FormStore } from "../store/form";
-import { useStore as useAlt, Store as AltStore } from "../store/alt";
-
-const useSubmitHandler = (
-    formStore: FormStore,
-    altStore: AltStore,
-    loading: Ref<boolean>
-) => {
-    return async () => {
-        altStore.url = "";
-        altStore.result = [];
-
-        loading.value = true;
-        const result = await (window as any).alt_request(formStore);
-        loading.value = false;
-
-        if (!result) {
-            window.alert("Failed to get specified URL");
-            return;
-        }
-
-        altStore.url = formStore.url;
-        altStore.result = result;
-    };
-};
+import { useStore as useForm } from "../store/form";
+import { useStore as useAlt } from "../store/alt";
 
 export default defineComponent({
     name: "PageAlt",
@@ -143,15 +118,12 @@ export default defineComponent({
         const formStore = useForm();
         const altStore = useAlt();
 
-        const loading = ref<boolean>(false);
         const modal_image = ref<string>("");
-        const submitHandler = useSubmitHandler(formStore, altStore, loading);
 
         return {
+            formStore,
             altStore,
-            loading,
             modal_image,
-            submitHandler,
             ...useI18n({
                 messages: {
                     en: {

@@ -5,8 +5,6 @@
     ></common-hero>
 
     <section class="section">
-        <common-form :loading="loading" @submit="submitHandler"></common-form>
-
         <div class="notification">
             <strong>{{ t("label") }}</strong>
             <ul>
@@ -17,7 +15,7 @@
 
         <template v-if="headlineStore.result.length"
             ><div class="notification is-primary">
-                {{ headlineStore.url }}
+                {{ formStore.url }}
             </div>
             <ul class="headline-list">
                 <li
@@ -59,29 +57,6 @@ import {
     Store as HeadlineStore,
 } from "../store/headline";
 
-const useSubmitHandler = (
-    formStore: FormStore,
-    headlineStore: HeadlineStore,
-    loading: Ref<boolean>
-) => {
-    return async () => {
-        headlineStore.url = "";
-        headlineStore.result = [];
-
-        loading.value = true;
-        const result = await (window as any).headline_request(formStore);
-        loading.value = false;
-
-        if (!result) {
-            window.alert("Failed to get specified URL");
-            return;
-        }
-
-        headlineStore.url = formStore.url;
-        headlineStore.result = result;
-    };
-};
-
 export default defineComponent({
     name: "PageHeadline",
 
@@ -89,17 +64,9 @@ export default defineComponent({
         const formStore = useForm();
         const headlineStore = useHeadline();
 
-        const loading = ref<boolean>(false);
-        const submitHandler = useSubmitHandler(
+        return {
             formStore,
             headlineStore,
-            loading
-        );
-
-        return {
-            headlineStore,
-            loading,
-            submitHandler,
             ...useI18n({
                 messages: {
                     en: {

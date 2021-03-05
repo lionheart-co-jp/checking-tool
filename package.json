@@ -5,7 +5,7 @@
     "scripts": {
         "dev": "vite",
         "build": "npm run build:vite && npm run build:tsc",
-        "build:vite": "vite build",
+        "build:vite": "vite build && ncp ./.vite ./dist",
         "build:tsc": "tsc",
         "pack": "electron-builder",
         "pack:mac": "electron-builder --mac --x64",
@@ -44,6 +44,7 @@
         "eslint-config-prettier": "^6.11.0",
         "eslint-plugin-prettier": "^3.1.4",
         "eslint-plugin-vue": "^6.2.2",
+        "ncp": "^2.0.0",
         "prettier": "^2.1.2",
         "ts-node": "^9.0.0",
         "tsconfig-paths": "^3.9.0",

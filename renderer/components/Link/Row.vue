@@ -38,15 +38,26 @@ import {
 } from "vue";
 
 // Store
-import {
-    useStore as useLink,
-    ResultType as LinkResultType,
-} from "../../store/link";
+import { useStore as useForm } from "../../store/form";
+import { ResultType as LinkResultType } from "../../store/link";
+
+import { RequestParam } from "../../type";
+
+declare global {
+    interface Window {
+        link_exists?: (param: RequestParam) => Promise<boolean>;
+    }
+}
 
 const checkUrl = async (
     requestParam: { url: string; user: string; pass: string },
     isError: Ref<number>
 ) => {
+    if (typeof window.link_exists !== "function") {
+        isError.value = -1;
+        return;
+    }
+
     let result;
 
     if (
@@ -58,7 +69,7 @@ const checkUrl = async (
     }
 
     try {
-        result = await (window as any).link_exists(requestParam);
+        result = await window.link_exists(requestParam);
     } catch (e) {
         console.error(e);
         isError.value = 1;
@@ -79,22 +90,22 @@ export default defineComponent({
         anchor: { type: Object as PropType<LinkResultType>, required: true },
     },
     setup(props) {
-        const linkStore = useLink();
+        const formStore = useForm();
 
         const isError = ref<number>(0);
         const url = computed(() => props.anchor.url);
 
         onMounted(() => {
-            const user = linkStore.user;
-            const pass = linkStore.pass;
+            const user = formStore.user;
+            const pass = formStore.pass;
 
             checkUrl({ url: url.value, user, pass }, isError);
         });
 
         watch(url, (newVal) => {
             const url = newVal;
-            const user = linkStore.user;
-            const pass = linkStore.pass;
+            const user = formStore.user;
+            const pass = formStore.pass;
 
             checkUrl({ url, user, pass }, isError);
         });
