@@ -1,21 +1,21 @@
 import React, { useMemo } from "react";
 
 // Atoms
-import {useValue as useUrlValue} from '../Atoms/UrlResult'
-import {useValue as useUserValue} from '../Atoms/UserResult'
-import {useValue as usePassValue} from '../Atoms/PassResult'
+import { useValue as useUrlValue } from "../Atoms/UrlResult";
+import { useValue as useUserValue } from "../Atoms/UserResult";
+import { useValue as usePassValue } from "../Atoms/PassResult";
 
-type Props = React.ComponentProps<'img'> & {
+type Props = React.ComponentProps<"img"> & {
     image: string;
-}
-const Image: React.FunctionComponent<Props> = ({image, ...props}) => {
+};
+const Image: React.FunctionComponent<Props> = ({ image, ...props }) => {
     const url = useUrlValue();
     const user = useUserValue();
     const pass = usePassValue();
 
     const imagePath = useMemo(() => {
         if (!image) {
-            return '';
+            return "";
         }
 
         const src = new URL(image, url);
@@ -26,9 +26,9 @@ const Image: React.FunctionComponent<Props> = ({image, ...props}) => {
         }
 
         return src.toString();
-    }, [image, user, pass])
+    }, [image, url, pass, user]);
 
     return imagePath ? <img src={imagePath} {...props} /> : null;
-}
+};
 
 export default Image;
