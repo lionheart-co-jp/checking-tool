@@ -1,37 +1,21 @@
 {
   "compilerOptions": {
-    "target": "es2015",
-    "module": "commonjs",
-    "strict": true,
-    "jsx": "preserve",
-    "importHelpers": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
-    "outDir": "dist",
-    "baseUrl": ".",
-    "allowJs": true,
-    "noImplicitAny": false,
-    "types": [
-      "node"
-    ],
-    "paths": {
-      "@/*": [
-        "renderer/*"
-      ]
-    },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
   },
-  "include": [
-    "./electron/**/*.ts"
-  ],
-  "exclude": [
-    "./node_modules"
-  ]
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
