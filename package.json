@@ -1,7 +1,7 @@
 {
   "name": "checking-tool-tauri",
   "private": true,
-  "version": "3.0.0",
+  "version": "3.0.1",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
