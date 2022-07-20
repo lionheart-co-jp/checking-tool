@@ -1,33 +1,29 @@
 module.exports = {
     env: {
-        browser: false,
-        node: true,
-        es6: false,
+        browser: true,
+        es2021: true,
     },
-    parserOptions: {
-        parser: "@typescript-eslint/parser",
-        sourceType: "module",
+    settings: {
+        react: {
+            version: "detect",
+        },
     },
     extends: [
-        "plugin:vue/essential",
-        "@vue/prettier",
-        "@vue/typescript",
         "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended",
         "plugin:prettier/recommended",
     ],
-    plugins: ["@typescript-eslint"],
-    globals: {
-        window: true,
-        document: true,
+    parser: "@typescript-eslint/parser",
+    parserOptions: {
+        ecmaFeatures: {
+            jsx: true,
+        },
+        ecmaVersion: "latest",
+        sourceType: "module",
     },
+    plugins: ["react", "@typescript-eslint", "unused-imports", "prettier"],
     rules: {
-        "no-unused-variable": 0,
-        "no-unused-vars": 0,
-        "no-prototype-builtins": 0,
-        "require-atomic-updates": 0,
-        "@typescript-eslint/no-unused-vars": [
-            2,
-            { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
-        ],
+        "react/prop-types": "off",
     },
 };

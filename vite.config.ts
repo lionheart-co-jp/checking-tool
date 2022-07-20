@@ -1,14 +1,7 @@
-import path from "path";
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
-export default {
-    base: "./",
-    outDir: ".vite",
-
-    alias: {
-        "@/": path.join(__dirname, "renderer"),
-    },
-
-    optimizeDeps: {
-        exclude: ["jsdom", "node-fetch", "encoding", "tslib", "ncp"],
-    },
-};
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()]
+})
