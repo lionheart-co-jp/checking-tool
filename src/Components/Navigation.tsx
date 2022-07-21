@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useMatch } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -15,9 +15,13 @@ import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
+import LanguageSwitch from "./LanguageSwitch";
 
 // Icons
 import MenuIcon from "@mui/icons-material/Menu";
+
+// Atoms
+import { useState as useLanguageState } from "../Atoms/Language";
 
 type Props = React.ComponentProps<typeof ListItemButton> & {
     to: string;
@@ -41,10 +45,15 @@ const NavigationItem: React.FC<Props> = ({ to, children, ...props }) => {
 };
 
 const Navigation: React.FC = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [mobileOpen, setMobileOpen] = useState(false);
     const container =
         window !== undefined ? () => window.document.body : undefined;
+    const [_, setLanguage] = useLanguageState();
+
+    useEffect(() => {
+        setLanguage(i18n.language);
+    }, []);
 
     const handleDrawerToggle = () => {
         setMobileOpen((prev) => !prev);
@@ -112,6 +121,9 @@ const Navigation: React.FC = () => {
                         },
                     }}>
                     <DrawerInner />
+                    <Box sx={{ marginTop: "auto" }}>
+                        <LanguageSwitch />
+                    </Box>
                 </Drawer>
 
                 <Drawer
@@ -125,6 +137,9 @@ const Navigation: React.FC = () => {
                         },
                     }}>
                     <DrawerInner />
+                    <Box sx={{ marginTop: "auto" }}>
+                        <LanguageSwitch />
+                    </Box>
                 </Drawer>
             </Box>
         </>
