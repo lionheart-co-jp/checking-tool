@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
+import { useTranslation } from "react-i18next";
 
 // Components
 import Typography from "@mui/material/Typography";
@@ -11,7 +12,8 @@ import CommonForm from "../Components/CommonForm";
 import PageHeader from "../Components/PageHeader";
 import Image from "../Components/Image";
 
-const Dashboard: React.FunctionComponent = () => {
+const Dashboard: React.FC = () => {
+    const { t } = useTranslation();
     const [result, setResult] = useState<Record<string, string> | null>(null);
 
     const handleSubmit = async (url: string, user: string, pass: string) => {
@@ -33,26 +35,18 @@ const Dashboard: React.FunctionComponent = () => {
         <>
             <Stack gap={5}>
                 <Stack gap={2}>
-                    <Box>
-                        <PageHeader>Check Title/Meta</PageHeader>
-                        <Typography>
-                            Checking Title and Meta informations
-                        </Typography>
-                    </Box>
+                    <PageHeader
+                        primary={t("title.title")}
+                        secondary={t("title.description")}
+                    />
 
                     <CommonForm onSubmit={handleSubmit} />
 
                     <Alert severity="info">
-                        <AlertTitle>
-                            Remarks when you prepare the title/meta informations
-                        </AlertTitle>
-                        {
-                            "For the title, You should follow the director's instruction. If there is no instruction, please input as [Page name]｜[Site name]"
-                        }
+                        <AlertTitle>{t("title.remarks.title")}</AlertTitle>
+                        {t("title.remarks.body1")}
                         <br />
-                        {
-                            "Unless otherwise specified, You should input og:title same with title and og:description same with description."
-                        }
+                        {t("title.remarks.body2")}
                     </Alert>
                 </Stack>
 
@@ -60,7 +54,7 @@ const Dashboard: React.FunctionComponent = () => {
                     <>
                         <Stack gap={2}>
                             <Typography component="h3" variant="h6">
-                                Basic
+                                {t("common.basic")}
                             </Typography>
 
                             <Box>
@@ -71,7 +65,7 @@ const Dashboard: React.FunctionComponent = () => {
                                     severity={
                                         result.title ? "success" : "error"
                                     }>
-                                    {result.title ?? "Not found"}
+                                    {result.title ?? t("common.not_found")}
                                 </Alert>
                             </Box>
 
@@ -83,7 +77,8 @@ const Dashboard: React.FunctionComponent = () => {
                                     severity={
                                         result.description ? "success" : "error"
                                     }>
-                                    {result.description ?? "Not found"}
+                                    {result.description ??
+                                        t("common.not_found")}
                                 </Alert>
                             </Box>
 
@@ -95,7 +90,7 @@ const Dashboard: React.FunctionComponent = () => {
                                     severity={
                                         result.keywords ? "success" : "error"
                                     }>
-                                    {result.keywords ?? "Not found"}
+                                    {result.keywords ?? t("common.not_found")}
                                 </Alert>
                             </Box>
 
@@ -107,7 +102,7 @@ const Dashboard: React.FunctionComponent = () => {
                                     severity={
                                         result.viewport ? "success" : "error"
                                     }>
-                                    {result.viewport ?? "Not found"}
+                                    {result.viewport ?? t("common.not_found")}
                                 </Alert>
                             </Box>
                         </Stack>
@@ -125,7 +120,8 @@ const Dashboard: React.FunctionComponent = () => {
                                     severity={
                                         result["og:title"] ? "success" : "error"
                                     }>
-                                    {result["og:title"] ?? "Not found"}
+                                    {result["og:title"] ??
+                                        t("common.not_found")}
                                 </Alert>
                             </Box>
 
@@ -137,7 +133,7 @@ const Dashboard: React.FunctionComponent = () => {
                                     severity={
                                         result["og:type"] ? "success" : "error"
                                     }>
-                                    {result["og:type"] ?? "Not found"}
+                                    {result["og:type"] ?? t("common.not_found")}
                                 </Alert>
                             </Box>
 
@@ -149,7 +145,7 @@ const Dashboard: React.FunctionComponent = () => {
                                     severity={
                                         result["og:url"] ? "success" : "error"
                                     }>
-                                    {result["og:url"] ?? "Not found"}
+                                    {result["og:url"] ?? t("common.not_found")}
                                 </Alert>
                             </Box>
 
@@ -163,7 +159,8 @@ const Dashboard: React.FunctionComponent = () => {
                                             ? "success"
                                             : "error"
                                     }>
-                                    {result["og:description"] ?? "Not found"}
+                                    {result["og:description"] ??
+                                        t("common.not_found")}
                                 </Alert>
                             </Box>
 
@@ -177,7 +174,8 @@ const Dashboard: React.FunctionComponent = () => {
                                             ? "success"
                                             : "error"
                                     }>
-                                    {result["og:site_name"] ?? "Not found"}
+                                    {result["og:site_name"] ??
+                                        t("common.not_found")}
                                 </Alert>
                             </Box>
 
@@ -189,7 +187,8 @@ const Dashboard: React.FunctionComponent = () => {
                                     severity={
                                         result["og:image"] ? "success" : "error"
                                     }>
-                                    {result["og:image"] ?? "Not found"}
+                                    {result["og:image"] ??
+                                        t("common.not_found")}
 
                                     {result["og:image"] && (
                                         <Box sx={{ mt: 1 }}>
@@ -218,7 +217,8 @@ const Dashboard: React.FunctionComponent = () => {
                                             ? "success"
                                             : "error"
                                     }>
-                                    {result["fb:app_id"] ?? "Not found"}
+                                    {result["fb:app_id"] ??
+                                        t("common.not_found")}
                                 </Alert>
                             </Box>
 
@@ -232,7 +232,8 @@ const Dashboard: React.FunctionComponent = () => {
                                             ? "success"
                                             : "error"
                                     }>
-                                    {result["twitter:card"] ?? "Not found"}
+                                    {result["twitter:card"] ??
+                                        t("common.not_found")}
                                 </Alert>
                             </Box>
 
@@ -246,7 +247,8 @@ const Dashboard: React.FunctionComponent = () => {
                                             ? "success"
                                             : "error"
                                     }>
-                                    {result["twitter:site"] ?? "Not found"}
+                                    {result["twitter:site"] ??
+                                        t("common.not_found")}
                                 </Alert>
                             </Box>
                         </Stack>

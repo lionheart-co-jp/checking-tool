@@ -1,7 +1,7 @@
 {
   "package": {
-    "productName": "checking-tool-tauri",
-    "version": "3.0.1"
+    "productName": "Checktool",
+    "version": "3.1.0"
   },
   "build": {
     "distDir": "../dist",
@@ -51,7 +51,7 @@
     },
     "windows": [
       {
-        "title": "Checking Support Tool",
+        "title": "Checker support tools",
         "width": 800,
         "height": 600,
         "resizable": true,

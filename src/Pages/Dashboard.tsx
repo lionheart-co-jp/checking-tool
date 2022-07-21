@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 // Components
 import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -11,8 +11,9 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import PageHeader from "../Components/PageHeader";
 
-const Dashboard: React.FunctionComponent = () => {
+const Dashboard: React.FC = () => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const handleClick = (path: string) => () => {
         navigate(path);
@@ -20,10 +21,7 @@ const Dashboard: React.FunctionComponent = () => {
 
     return (
         <Stack gap={4}>
-            <Box>
-                <PageHeader>Dashboard</PageHeader>
-                <Typography>Checker support tools</Typography>
-            </Box>
+            <PageHeader primary={t("apply.title")} />
 
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
@@ -32,15 +30,15 @@ const Dashboard: React.FunctionComponent = () => {
                             <CardContent>
                                 <Typography
                                     gutterBottom
-                                    variant="h6"
+                                    variant="body1"
                                     component="div"
                                     fontWeight="bold">
-                                    Check Title/Meta
+                                    {t("title.title")}
                                 </Typography>
                                 <Typography
                                     variant="body2"
                                     color="text.secondary">
-                                    Checking Title and Meta informations
+                                    {t("title.description")}
                                 </Typography>
                             </CardContent>
                         </CardActionArea>
@@ -52,15 +50,15 @@ const Dashboard: React.FunctionComponent = () => {
                             <CardContent>
                                 <Typography
                                     gutterBottom
-                                    variant="h6"
+                                    variant="body1"
                                     component="div"
                                     fontWeight="bold">
-                                    Check Alt
+                                    {t("alt.title")}
                                 </Typography>
                                 <Typography
                                     variant="body2"
                                     color="text.secondary">
-                                    Check Alt attribute function
+                                    {t("alt.description")}
                                 </Typography>
                             </CardContent>
                         </CardActionArea>
@@ -72,15 +70,15 @@ const Dashboard: React.FunctionComponent = () => {
                             <CardContent>
                                 <Typography
                                     gutterBottom
-                                    variant="h6"
+                                    variant="body1"
                                     component="div"
                                     fontWeight="bold">
-                                    Check Headline
+                                    {t("headline.title")}
                                 </Typography>
                                 <Typography
                                     variant="body2"
                                     color="text.secondary">
-                                    Checking Headline structure
+                                    {t("headline.description")}
                                 </Typography>
                             </CardContent>
                         </CardActionArea>
@@ -92,15 +90,15 @@ const Dashboard: React.FunctionComponent = () => {
                             <CardContent>
                                 <Typography
                                     gutterBottom
-                                    variant="h6"
+                                    variant="body1"
                                     component="div"
                                     fontWeight="bold">
-                                    Check Link
+                                    {t("link.title")}
                                 </Typography>
                                 <Typography
                                     variant="body2"
                                     color="text.secondary">
-                                    Check Link target available
+                                    {t("link.description")}
                                 </Typography>
                             </CardContent>
                         </CardActionArea>

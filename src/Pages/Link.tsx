@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
+import { useTranslation } from "react-i18next";
 
 // Components
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import CommonForm from "../Components/CommonForm";
 import PageHeader from "../Components/PageHeader";
 import LinkRow from "../Components/LinkRow";
 
-const Dashboard: React.FunctionComponent = () => {
+const Dashboard: React.FC = () => {
+    const { t } = useTranslation();
     const [result, setResult] = useState<
         { href: string; target: string; content: string }[] | null
     >(null);
@@ -36,25 +37,23 @@ const Dashboard: React.FunctionComponent = () => {
     return (
         <Stack gap={5}>
             <Stack gap={2}>
-                <Box>
-                    <PageHeader>Check Link</PageHeader>
-                    <Typography>Check Link target available</Typography>
-                </Box>
+                <PageHeader
+                    primary={t("link.title")}
+                    secondary={t("link.description")}
+                />
 
                 <CommonForm onSubmit={handleSubmit} />
 
                 <Alert severity="error">
-                    <AlertTitle>Warning</AlertTitle>
-                    This function will access to the all the links in the target
-                    URL. so, you must NOT run this function multiple times in a
-                    short time.
+                    <AlertTitle>{t("common.warning")}</AlertTitle>
+                    {t("link.warning")}
                 </Alert>
             </Stack>
 
             {result && (
                 <Stack gap={2}>
                     <Typography component="h3" variant="h6">
-                        Result
+                        {t("common.result")}
                     </Typography>
 
                     {result.map((link, i) => (
