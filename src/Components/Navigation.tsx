@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useMatch } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 // Consts
 import { DRAWER_WIDTH } from "../Const/App";
@@ -21,11 +22,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 type Props = React.ComponentProps<typeof ListItemButton> & {
     to: string;
 };
-const NavigationItem: React.FunctionComponent<Props> = ({
-    to,
-    children,
-    ...props
-}) => {
+const NavigationItem: React.FC<Props> = ({ to, children, ...props }) => {
     const match = useMatch(`${to}/*`);
     const navigate = useNavigate();
 
@@ -43,7 +40,8 @@ const NavigationItem: React.FunctionComponent<Props> = ({
     );
 };
 
-const Navigation: React.FunctionComponent = () => {
+const Navigation: React.FC = () => {
+    const { t } = useTranslation();
     const [mobileOpen, setMobileOpen] = useState(false);
     const container =
         window !== undefined ? () => window.document.body : undefined;
@@ -56,19 +54,19 @@ const Navigation: React.FunctionComponent = () => {
         return (
             <List>
                 <NavigationItem to="/">
-                    <ListItemText primary="Dashboard"></ListItemText>
+                    <ListItemText primary={t("dashboard.title")}></ListItemText>
                 </NavigationItem>
                 <NavigationItem to="/title/">
-                    <ListItemText primary="Check Title/Meta"></ListItemText>
+                    <ListItemText primary={t("title.title")}></ListItemText>
                 </NavigationItem>
                 <NavigationItem to="/alt/">
-                    <ListItemText primary="Check Alt"></ListItemText>
+                    <ListItemText primary={t("alt.title")}></ListItemText>
                 </NavigationItem>
                 <NavigationItem to="/headline/">
-                    <ListItemText primary="Check Headline"></ListItemText>
+                    <ListItemText primary={t("headline.title")}></ListItemText>
                 </NavigationItem>
                 <NavigationItem to="/link/">
-                    <ListItemText primary="Check Link"></ListItemText>
+                    <ListItemText primary={t("link.title")}></ListItemText>
                 </NavigationItem>
             </List>
         );

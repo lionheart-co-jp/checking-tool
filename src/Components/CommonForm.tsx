@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 
 // Atoms
 import { useState as useUrlState } from "../Atoms/Url";
@@ -18,7 +19,8 @@ import LoadingButton from "@mui/lab/LoadingButton";
 type Props = {
     onSubmit: (url: string, user: string, pass: string) => Promise<boolean>;
 };
-const CommonForm: React.FunctionComponent<Props> = ({ onSubmit }) => {
+const CommonForm: React.FC<Props> = ({ onSubmit }) => {
+    const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
 
     const [url, setUrl] = useUrlState();
@@ -66,21 +68,18 @@ const CommonForm: React.FunctionComponent<Props> = ({ onSubmit }) => {
                     onChange={handleUrlChange}
                 />
 
-                <Alert severity="warning">
-                    If you access to Authorised page, please input USER and PASS
-                    fields.
-                </Alert>
+                <Alert severity="warning">{t("form.warning")}</Alert>
 
                 <Stack direction="row" alignItems="center" gap={1}>
                     <TextField
-                        label="USER"
+                        label={t("common.user")}
                         variant="outlined"
                         size="small"
                         value={user}
                         onChange={handleUserChange}
                     />
                     <TextField
-                        label="PASS"
+                        label={t("common.pass")}
                         variant="outlined"
                         size="small"
                         value={pass}

@@ -8,7 +8,7 @@ import { useValue as usePassValue } from "../Atoms/PassResult";
 type Props = React.ComponentProps<"img"> & {
     image: string;
 };
-const Image: React.FunctionComponent<Props> = ({ image, ...props }) => {
+const Image: React.FC<Props> = ({ image, ...props }) => {
     const url = useUrlValue();
     const user = useUserValue();
     const pass = usePassValue();

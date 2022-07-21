@@ -17,7 +17,7 @@ import Box from "@mui/material/Box";
 import Navigation from "./Components/Navigation";
 import Toolbar from "@mui/material/Toolbar";
 
-const App: React.FunctionComponent = () => {
+const App: React.FC = () => {
     return (
         <RecoilRoot>
             <Box sx={{ display: "flex" }}>

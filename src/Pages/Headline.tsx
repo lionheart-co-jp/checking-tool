@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
+import { useTranslation } from "react-i18next";
 
 // Components
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import CommonForm from "../Components/CommonForm";
 import PageHeader from "../Components/PageHeader";
 
-const Headline: React.FunctionComponent = () => {
+const Headline: React.FC = () => {
+    const { t } = useTranslation();
     const [result, setResult] = useState<
         | {
               name: string;
@@ -43,15 +44,14 @@ const Headline: React.FunctionComponent = () => {
                 if (level === 1) {
                     if (hasH1) {
                         flag = false;
-                        error = "<h1> tag must be only one in the page";
+                        error = t("headline.remarks.body2");
                     }
                     hasH1 = true;
                 }
 
                 if (flag && prev + 1 < level) {
                     flag = false;
-                    error =
-                        "Don't skip headline level (e.g. <h1> -> <h3> is Not Good)";
+                    error = t("headline.remarks.body1");
                 }
                 prev = level;
 
@@ -71,22 +71,18 @@ const Headline: React.FunctionComponent = () => {
         <>
             <Stack gap={5}>
                 <Stack gap={2}>
-                    <Box>
-                        <PageHeader>Check Headline</PageHeader>
-                        <Typography>Checking Headline structure</Typography>
-                    </Box>
+                    <PageHeader
+                        primary={t("headline.title")}
+                        secondary={t("headline.description")}
+                    />
 
                     <CommonForm onSubmit={handleSubmit} />
 
                     <Alert severity="info">
-                        <AlertTitle>
-                            Remarks when you prepare the headlines
-                        </AlertTitle>
-                        {
-                            "Don't skip headline level (e.g. <h1> -> <h3> is Not Good)"
-                        }
+                        <AlertTitle>{t("headline.remarks.title")}</AlertTitle>
+                        {t("headline.remarks.body1")}
                         <br />
-                        {"<h1> tag must be only one in the page"}
+                        {t("headline.remarks.body2")}
                     </Alert>
                 </Stack>
 
@@ -94,7 +90,7 @@ const Headline: React.FunctionComponent = () => {
                     <>
                         <Stack gap={2}>
                             <Typography component="h3" variant="h6">
-                                Result
+                                {t("common.result")}
                             </Typography>
 
                             {result.map((headline, i) => (
