@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
+import { Trans, useTranslation } from "react-i18next";
 
 // Components
 import Typography from "@mui/material/Typography";
@@ -16,7 +17,8 @@ import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
 
-const Dashboard: React.FunctionComponent = () => {
+const AltPage: React.FC = () => {
+    const { t } = useTranslation();
     const [result, setResult] = useState<{ src: string; alt: string }[] | null>(
         null
     );
@@ -40,47 +42,47 @@ const Dashboard: React.FunctionComponent = () => {
         <>
             <Stack gap={5}>
                 <Stack gap={2}>
-                    <Box>
-                        <PageHeader>Check Alt</PageHeader>
-                        <Typography>Check Alt attribute function</Typography>
-                    </Box>
+                    <PageHeader
+                        primary={t("alt.title")}
+                        secondary={t("alt.description")}
+                    />
 
                     <CommonForm onSubmit={handleSubmit} />
 
                     <Alert severity="info">
-                        <AlertTitle>
-                            Meaning of the mark of checking result
-                        </AlertTitle>
+                        <AlertTitle>{t("alt.remarks.title")}</AlertTitle>
 
                         <Typography>
                             <ErrorOutlineOutlinedIcon
                                 color="error"
                                 sx={{ verticalAlign: "middle" }}
                             />{" "}
-                            Alt attribute is missing.{" "}
-                            <Typography
-                                component="span"
-                                color="error"
-                                fontWeight="bold">
-                                you must add alt attribute
-                            </Typography>{" "}
-                            even if it&apos;s empty
+                            <Trans
+                                i18nKey="alt.remarks.body1"
+                                components={{
+                                    strong: (
+                                        <Typography
+                                            component="span"
+                                            color="error"
+                                            fontWeight="bold"
+                                        />
+                                    ),
+                                }}
+                            />
                         </Typography>
                         <Typography>
                             <WarningAmberOutlinedIcon
                                 color="warning"
                                 sx={{ verticalAlign: "middle" }}
                             />{" "}
-                            Alt attribute is empty. If this image is included
-                            text, please insert to alt attribute.
+                            {t("alt.remarks.body2")}
                         </Typography>
                         <Typography>
                             <CheckCircleOutlinedIcon
                                 color="success"
                                 sx={{ verticalAlign: "middle" }}
                             />{" "}
-                            Alt attribute is filled. But, please check the alt
-                            attribute value is correct or not.
+                            {t("alt.remarks.body3")}
                         </Typography>
                     </Alert>
                 </Stack>
@@ -89,7 +91,7 @@ const Dashboard: React.FunctionComponent = () => {
                     <>
                         <Stack gap={2}>
                             <Typography component="h3" variant="h6">
-                                Result
+                                {t("common.result")}
                             </Typography>
 
                             {result.map((img, i) => (
@@ -124,4 +126,4 @@ const Dashboard: React.FunctionComponent = () => {
     );
 };
 
-export default Dashboard;
+export default AltPage;
