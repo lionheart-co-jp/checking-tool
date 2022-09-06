@@ -10,17 +10,14 @@ import { useState as usePassState } from "../Atoms/Pass";
 import { useState as usePassResultState } from "../Atoms/PassResult";
 
 // Components
-import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
-import Alert from "@mui/material/Alert";
-import Box from "@mui/material/Box";
-import LoadingButton from "@mui/lab/LoadingButton";
+import { Space, Form, Input, Button, Alert } from "antd";
 
 type Props = {
     onSubmit: (url: string, user: string, pass: string) => Promise<boolean>;
 };
-const CommonForm: React.FC<Props> = ({ onSubmit }) => {
+export const CommonForm: React.FC<Props> = ({ onSubmit }) => {
     const { t } = useTranslation();
+    const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
 
     const [url, setUrl] = useUrlState();
@@ -30,14 +27,24 @@ const CommonForm: React.FC<Props> = ({ onSubmit }) => {
     const [pass, setPass] = usePassState();
     const [, setResultPass] = usePassResultState();
 
-    const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUrl(e.target.value);
-    };
-    const handleUserChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUser(e.target.value);
-    };
-    const handlePassChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPass(e.target.value);
+    const handleValueChange = ({
+        url,
+        user,
+        pass,
+    }: {
+        url: string;
+        user: string;
+        pass: string;
+    }) => {
+        if (url !== undefined) {
+            setUrl(url);
+        }
+        if (user !== undefined) {
+            setUser(user);
+        }
+        if (pass !== undefined) {
+            setPass(pass);
+        }
     };
 
     const handleSubmit = useCallback(async () => {
@@ -57,46 +64,38 @@ const CommonForm: React.FC<Props> = ({ onSubmit }) => {
     }, [onSubmit, url, user, pass, setResultUrl, setResultUser, setResultPass]);
 
     return (
-        <>
-            <Stack gap={2}>
-                <TextField
-                    label="URL"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    value={url}
-                    onChange={handleUrlChange}
-                />
+        <Form
+            layout="vertical"
+            form={form}
+            initialValues={{ url, user, pass }}
+            onValuesChange={handleValueChange}
+            size="large"
+            className="commonForm">
+            <Form.Item label="URL" name="url" style={{ marginBottom: 15 }}>
+                <Input />
+            </Form.Item>
 
-                <Alert severity="warning">{t("form.warning")}</Alert>
+            <Form.Item style={{ marginBottom: 15 }}>
+                <Alert type="warning" description={t("form.warning")} />
+            </Form.Item>
 
-                <Stack direction="row" alignItems="center" gap={1}>
-                    <TextField
-                        label={t("common.user")}
-                        variant="outlined"
-                        size="small"
-                        value={user}
-                        onChange={handleUserChange}
-                    />
-                    <TextField
-                        label={t("common.pass")}
-                        variant="outlined"
-                        size="small"
-                        value={pass}
-                        onChange={handlePassChange}
-                    />
-                    <Box sx={{ ml: "auto" }}>
-                        <LoadingButton
-                            loading={loading}
-                            variant="contained"
-                            onClick={handleSubmit}>
-                            Check
-                        </LoadingButton>
-                    </Box>
-                </Stack>
-            </Stack>
-        </>
+            <Space>
+                <Form.Item name="user">
+                    <Input placeholder={t("common.user")} />
+                </Form.Item>
+                <Form.Item name="pass">
+                    <Input placeholder={t("common.pass")} />
+                </Form.Item>
+                <Form.Item>
+                    <Button
+                        type="primary"
+                        size="large"
+                        loading={loading}
+                        onClick={handleSubmit}>
+                        Check
+                    </Button>
+                </Form.Item>
+            </Space>
+        </Form>
     );
 };
-
-export default CommonForm;

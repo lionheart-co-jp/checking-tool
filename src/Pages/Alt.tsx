@@ -3,19 +3,15 @@ import { invoke } from "@tauri-apps/api/tauri";
 import { Trans, useTranslation } from "react-i18next";
 
 // Components
-import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
-import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
-import CommonForm from "../Components/CommonForm";
-import PageHeader from "../Components/PageHeader";
-import Image from "../Components/Image";
+import { AltRow, CommonForm, PageHeader, VerticalSpace } from "../Components";
+import { Alert, Typography } from "antd";
 
 // Icons
-import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";
-import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
-import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
+import {
+    InfoCircleOutlined,
+    CloseCircleOutlined,
+    CheckCircleOutlined,
+} from "@ant-design/icons";
 
 const AltPage: React.FC = () => {
     const { t } = useTranslation();
@@ -39,65 +35,71 @@ const AltPage: React.FC = () => {
     };
 
     return (
-        <>
-            <Stack gap={5}>
-                <Stack gap={2}>
-                    <PageHeader
-                        primary={t("alt.title")}
-                        secondary={t("alt.description")}
-                    />
+        <PageHeader primary={t("alt.title")} secondary={t("alt.description")}>
+            <CommonForm onSubmit={handleSubmit} />
 
-                    <CommonForm onSubmit={handleSubmit} />
-
-                    <Alert severity="info">
-                        <AlertTitle>{t("alt.remarks.title")}</AlertTitle>
-
-                        <Typography>
-                            <ErrorOutlineOutlinedIcon
-                                color="error"
-                                sx={{ verticalAlign: "middle" }}
-                            />{" "}
-                            <Trans
-                                i18nKey="alt.remarks.body1"
-                                components={{
-                                    strong: (
-                                        <Typography
-                                            component="span"
-                                            color="error"
-                                            fontWeight="bold"
-                                        />
-                                    ),
-                                }}
-                            />
-                        </Typography>
-                        <Typography>
-                            <WarningAmberOutlinedIcon
-                                color="warning"
-                                sx={{ verticalAlign: "middle" }}
-                            />{" "}
-                            {t("alt.remarks.body2")}
-                        </Typography>
-                        <Typography>
-                            <CheckCircleOutlinedIcon
-                                color="success"
-                                sx={{ verticalAlign: "middle" }}
-                            />{" "}
-                            {t("alt.remarks.body3")}
-                        </Typography>
-                    </Alert>
-                </Stack>
+            <VerticalSpace size="large">
+                <Alert
+                    type="info"
+                    message={t("alt.remarks.title")}
+                    description={
+                        <div>
+                            <div>
+                                <CloseCircleOutlined
+                                    style={{
+                                        fontSize: "1.4em",
+                                        verticalAlign: "middle",
+                                        color: "#d32f2f",
+                                    }}
+                                />{" "}
+                                <Trans
+                                    i18nKey="alt.remarks.body1"
+                                    components={{
+                                        strong: (
+                                            <Typography.Text
+                                                strong
+                                                type="danger"
+                                            />
+                                        ),
+                                    }}
+                                />
+                            </div>
+                            <div>
+                                <InfoCircleOutlined
+                                    style={{
+                                        fontSize: "1.4em",
+                                        verticalAlign: "middle",
+                                        color: "#ed6c02",
+                                    }}
+                                />{" "}
+                                {t("alt.remarks.body2")}
+                            </div>
+                            <div>
+                                <CheckCircleOutlined
+                                    style={{
+                                        fontSize: "1.4em",
+                                        verticalAlign: "middle",
+                                        color: "#2e7d32",
+                                    }}
+                                />{" "}
+                                {t("alt.remarks.body3")}
+                            </div>
+                        </div>
+                    }
+                />
 
                 {result && (
-                    <>
-                        <Stack gap={2}>
-                            <Typography component="h3" variant="h6">
-                                {t("common.result")}
-                            </Typography>
-
+                    <div>
+                        <Typography.Title level={3}>
+                            {t("common.result")}
+                        </Typography.Title>
+                        <VerticalSpace size="middle">
                             {result.map((img, i) => (
-                                <Alert
+                                <AltRow
                                     key={i}
-                                    severity={
+                                    alt={img.alt}
+                                    src={img.src}
+                                    status={
                                         img.alt
                                             ? "success"
                                             : Object.prototype.hasOwnProperty.call(
@@ -106,23 +108,14 @@ const AltPage: React.FC = () => {
                                               )
                                             ? "warning"
                                             : "error"
-                                    }>
-                                    <AlertTitle>{img.alt}</AlertTitle>
-                                    {img.src}
-
-                                    <Box sx={{ mt: 2 }}>
-                                        <Image
-                                            image={img.src}
-                                            style={{ maxWidth: 300 }}
-                                        />
-                                    </Box>
-                                </Alert>
+                                    }
+                                />
                             ))}
-                        </Stack>
-                    </>
+                        </VerticalSpace>
+                    </div>
                 )}
-            </Stack>
-        </>
+            </VerticalSpace>
+        </PageHeader>
     );
 };
 

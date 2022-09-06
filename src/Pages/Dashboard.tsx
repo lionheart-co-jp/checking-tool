@@ -3,13 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 // Components
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import CardActionArea from "@mui/material/CardActionArea";
-import CardContent from "@mui/material/CardContent";
-import PageHeader from "../Components/PageHeader";
+import { PageHeader } from "../Components";
+import { Row, Col, Card, Button } from "antd";
 
 const Dashboard: React.FC = () => {
     const navigate = useNavigate();
@@ -20,92 +15,54 @@ const Dashboard: React.FC = () => {
     };
 
     return (
-        <Stack gap={4}>
-            <PageHeader primary={t("apply.title")} />
-
-            <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
-                    <Card>
-                        <CardActionArea onClick={handleClick("/title/")}>
-                            <CardContent>
-                                <Typography
-                                    gutterBottom
-                                    variant="body1"
-                                    component="div"
-                                    fontWeight="bold">
-                                    {t("title.title")}
-                                </Typography>
-                                <Typography
-                                    variant="body2"
-                                    color="text.secondary">
-                                    {t("title.description")}
-                                </Typography>
-                            </CardContent>
-                        </CardActionArea>
+        <PageHeader primary={t("apply.title")}>
+            <Row gutter={[16, 16]} wrap>
+                <Col xs={24} md={12}>
+                    <Card
+                        title={t("title.title")}
+                        extra={
+                            <Button onClick={handleClick("/title/")}>
+                                {t("common.more")}
+                            </Button>
+                        }>
+                        {t("title.description")}
                     </Card>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <Card>
-                        <CardActionArea onClick={handleClick("/alt/")}>
-                            <CardContent>
-                                <Typography
-                                    gutterBottom
-                                    variant="body1"
-                                    component="div"
-                                    fontWeight="bold">
-                                    {t("alt.title")}
-                                </Typography>
-                                <Typography
-                                    variant="body2"
-                                    color="text.secondary">
-                                    {t("alt.description")}
-                                </Typography>
-                            </CardContent>
-                        </CardActionArea>
+                </Col>
+                <Col xs={24} md={12}>
+                    <Card
+                        title={t("alt.title")}
+                        extra={
+                            <Button onClick={handleClick("/alt/")}>
+                                {t("common.more")}
+                            </Button>
+                        }>
+                        {t("alt.description")}
                     </Card>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <Card>
-                        <CardActionArea onClick={handleClick("/headline/")}>
-                            <CardContent>
-                                <Typography
-                                    gutterBottom
-                                    variant="body1"
-                                    component="div"
-                                    fontWeight="bold">
-                                    {t("headline.title")}
-                                </Typography>
-                                <Typography
-                                    variant="body2"
-                                    color="text.secondary">
-                                    {t("headline.description")}
-                                </Typography>
-                            </CardContent>
-                        </CardActionArea>
+                </Col>
+                <Col xs={24} md={12}>
+                    <Card
+                        title={t("headline.title")}
+                        extra={
+                            <Button onClick={handleClick("/headline/")}>
+                                {t("common.more")}
+                            </Button>
+                        }>
+                        {t("headline.description")}
                     </Card>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <Card>
-                        <CardActionArea onClick={handleClick("/link/")}>
-                            <CardContent>
-                                <Typography
-                                    gutterBottom
-                                    variant="body1"
-                                    component="div"
-                                    fontWeight="bold">
-                                    {t("link.title")}
-                                </Typography>
-                                <Typography
-                                    variant="body2"
-                                    color="text.secondary">
-                                    {t("link.description")}
-                                </Typography>
-                            </CardContent>
-                        </CardActionArea>
+                </Col>
+                <Col xs={24} md={12}>
+                    <Card
+                        title={t("link.title")}
+                        extra={
+                            <Button onClick={handleClick("/link/")}>
+                                {t("common.more")}
+                            </Button>
+                        }>
+                        {t("link.description")}
                     </Card>
-                </Grid>
-            </Grid>
-        </Stack>
+                </Col>
+            </Row>
+        </PageHeader>
     );
 };
 

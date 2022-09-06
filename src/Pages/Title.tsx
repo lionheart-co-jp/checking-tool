@@ -3,14 +3,8 @@ import { invoke } from "@tauri-apps/api/tauri";
 import { useTranslation } from "react-i18next";
 
 // Components
-import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
-import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
-import CommonForm from "../Components/CommonForm";
-import PageHeader from "../Components/PageHeader";
-import Image from "../Components/Image";
+import { CommonForm, Image, PageHeader, VerticalSpace } from "../Components";
+import { Alert, Typography } from "antd";
 
 const Dashboard: React.FC = () => {
     const { t } = useTranslation();
@@ -32,230 +26,260 @@ const Dashboard: React.FC = () => {
     };
 
     return (
-        <>
-            <Stack gap={5}>
-                <Stack gap={2}>
-                    <PageHeader
-                        primary={t("title.title")}
-                        secondary={t("title.description")}
-                    />
+        <PageHeader
+            primary={t("title.title")}
+            secondary={t("title.description")}>
+            <CommonForm onSubmit={handleSubmit} />
 
-                    <CommonForm onSubmit={handleSubmit} />
-
-                    <Alert severity="info">
-                        <AlertTitle>{t("title.remarks.title")}</AlertTitle>
+            <Alert
+                type="warning"
+                message={t("title.remarks.title")}
+                description={
+                    <>
                         {t("title.remarks.body1")}
                         <br />
                         {t("title.remarks.body2")}
-                    </Alert>
-                </Stack>
+                    </>
+                }
+                style={{ marginBottom: 24 }}></Alert>
 
-                {result && (
-                    <>
-                        <Stack gap={2}>
-                            <Typography component="h3" variant="h6">
-                                {t("common.basic")}
-                            </Typography>
-
-                            <Box>
-                                <Typography fontWeight="bold" sx={{ mb: 1 }}>
+            {result && (
+                <VerticalSpace size="large">
+                    <section>
+                        <Typography.Title level={3}>
+                            {t("common.basic")}
+                        </Typography.Title>
+                        <VerticalSpace size="middle">
+                            <div>
+                                <Typography.Title level={5}>
                                     Title
-                                </Typography>
+                                </Typography.Title>
                                 <Alert
-                                    severity={
-                                        result.title ? "success" : "error"
-                                    }>
-                                    {result.title ?? t("common.not_found")}
-                                </Alert>
-                            </Box>
-
-                            <Box>
-                                <Typography fontWeight="bold" sx={{ mb: 1 }}>
+                                    showIcon
+                                    type={result.title ? "success" : "error"}
+                                    description={
+                                        result.title ?? t("common.not_found")
+                                    }
+                                />
+                            </div>
+                            <div>
+                                <Typography.Title level={5}>
                                     Description
-                                </Typography>
+                                </Typography.Title>
                                 <Alert
-                                    severity={
+                                    showIcon
+                                    type={
                                         result.description ? "success" : "error"
-                                    }>
-                                    {result.description ??
-                                        t("common.not_found")}
-                                </Alert>
-                            </Box>
-
-                            <Box>
-                                <Typography fontWeight="bold" sx={{ mb: 1 }}>
+                                    }
+                                    description={
+                                        result.description ??
+                                        t("common.not_found")
+                                    }
+                                />
+                            </div>
+                            <div>
+                                <Typography.Title level={5}>
                                     Keyword
-                                </Typography>
+                                </Typography.Title>
                                 <Alert
-                                    severity={
-                                        result.keywords ? "success" : "error"
-                                    }>
-                                    {result.keywords ?? t("common.not_found")}
-                                </Alert>
-                            </Box>
-
-                            <Box>
-                                <Typography fontWeight="bold" sx={{ mb: 1 }}>
+                                    showIcon
+                                    type={result.keywords ? "success" : "error"}
+                                    description={
+                                        result.keywords ?? t("common.not_found")
+                                    }
+                                />
+                            </div>
+                            <div>
+                                <Typography.Title level={5}>
                                     Vieport
-                                </Typography>
+                                </Typography.Title>
                                 <Alert
-                                    severity={
-                                        result.viewport ? "success" : "error"
-                                    }>
-                                    {result.viewport ?? t("common.not_found")}
-                                </Alert>
-                            </Box>
-                        </Stack>
+                                    showIcon
+                                    type={result.viewport ? "success" : "error"}
+                                    description={
+                                        result.viewport ?? t("common.not_found")
+                                    }
+                                />
+                            </div>
+                        </VerticalSpace>
+                    </section>
 
-                        <Stack gap={2}>
-                            <Typography component="h3" variant="h6">
-                                OGP
-                            </Typography>
-
-                            <Box>
-                                <Typography fontWeight="bold" sx={{ mb: 1 }}>
+                    <section>
+                        <Typography.Title level={3}>OGP</Typography.Title>
+                        <VerticalSpace size="middle">
+                            <div>
+                                <Typography.Title level={5}>
                                     og:title
-                                </Typography>
+                                </Typography.Title>
                                 <Alert
-                                    severity={
+                                    showIcon
+                                    type={
                                         result["og:title"] ? "success" : "error"
-                                    }>
-                                    {result["og:title"] ??
-                                        t("common.not_found")}
-                                </Alert>
-                            </Box>
-
-                            <Box>
-                                <Typography fontWeight="bold" sx={{ mb: 1 }}>
+                                    }
+                                    description={
+                                        result["og:title"] ??
+                                        t("common.not_found")
+                                    }
+                                />
+                            </div>
+                            <div>
+                                <Typography.Title level={5}>
                                     og:type
-                                </Typography>
+                                </Typography.Title>
                                 <Alert
-                                    severity={
+                                    showIcon
+                                    type={
                                         result["og:type"] ? "success" : "error"
-                                    }>
-                                    {result["og:type"] ?? t("common.not_found")}
-                                </Alert>
-                            </Box>
-
-                            <Box>
-                                <Typography fontWeight="bold" sx={{ mb: 1 }}>
+                                    }
+                                    description={
+                                        result["og:type"] ??
+                                        t("common.not_found")
+                                    }
+                                />
+                            </div>
+                            <div>
+                                <Typography.Title level={5}>
                                     og:url
-                                </Typography>
+                                </Typography.Title>
                                 <Alert
-                                    severity={
+                                    showIcon
+                                    type={
                                         result["og:url"] ? "success" : "error"
-                                    }>
-                                    {result["og:url"] ?? t("common.not_found")}
-                                </Alert>
-                            </Box>
-
-                            <Box>
-                                <Typography fontWeight="bold" sx={{ mb: 1 }}>
+                                    }
+                                    description={
+                                        result["og:url"] ??
+                                        t("common.not_found")
+                                    }
+                                />
+                            </div>
+                            <div>
+                                <Typography.Title level={5}>
                                     og:description
-                                </Typography>
+                                </Typography.Title>
                                 <Alert
-                                    severity={
+                                    showIcon
+                                    type={
                                         result["og:description"]
                                             ? "success"
                                             : "error"
-                                    }>
-                                    {result["og:description"] ??
-                                        t("common.not_found")}
-                                </Alert>
-                            </Box>
-
-                            <Box>
-                                <Typography fontWeight="bold" sx={{ mb: 1 }}>
+                                    }
+                                    description={
+                                        result["og:description"] ??
+                                        t("common.not_found")
+                                    }
+                                />
+                            </div>
+                            <div>
+                                <Typography.Title level={5}>
                                     og:site_name
-                                </Typography>
+                                </Typography.Title>
                                 <Alert
-                                    severity={
+                                    showIcon
+                                    type={
                                         result["og:site_name"]
                                             ? "success"
                                             : "error"
-                                    }>
-                                    {result["og:site_name"] ??
-                                        t("common.not_found")}
-                                </Alert>
-                            </Box>
-
-                            <Box>
-                                <Typography fontWeight="bold" sx={{ mb: 1 }}>
+                                    }
+                                    description={
+                                        result["og:site_name"] ??
+                                        t("common.not_found")
+                                    }
+                                />
+                            </div>
+                            <div>
+                                <Typography.Title level={5}>
                                     og:image
-                                </Typography>
+                                </Typography.Title>
                                 <Alert
-                                    severity={
+                                    showIcon
+                                    type={
                                         result["og:image"] ? "success" : "error"
-                                    }>
-                                    {result["og:image"] ??
-                                        t("common.not_found")}
+                                    }
+                                    description={
+                                        <>
+                                            {result["og:image"] ??
+                                                t("common.not_found")}
+                                            {result["og:image"] && (
+                                                <div
+                                                    style={{
+                                                        marginTop: 10,
+                                                    }}>
+                                                    <Image
+                                                        image={
+                                                            result["og:image"]
+                                                        }
+                                                        style={{
+                                                            maxWidth: 300,
+                                                        }}
+                                                    />
+                                                </div>
+                                            )}
+                                        </>
+                                    }
+                                />
+                            </div>
+                        </VerticalSpace>
+                    </section>
 
-                                    {result["og:image"] && (
-                                        <Box sx={{ mt: 1 }}>
-                                            <Image
-                                                image={result["og:image"]}
-                                                style={{ maxWidth: 300 }}
-                                            />
-                                        </Box>
-                                    )}
-                                </Alert>
-                            </Box>
-                        </Stack>
-
-                        <Stack gap={2}>
-                            <Typography component="h3" variant="h6">
-                                SNS
-                            </Typography>
-
-                            <Box>
-                                <Typography fontWeight="bold" sx={{ mb: 1 }}>
+                    <section>
+                        <Typography.Title level={3}>SNS</Typography.Title>
+                        <VerticalSpace size="middle">
+                            <div>
+                                <Typography.Title level={5}>
                                     fb:app_id
-                                </Typography>
+                                </Typography.Title>
                                 <Alert
-                                    severity={
+                                    showIcon
+                                    type={
                                         result["fb:app_id"]
                                             ? "success"
                                             : "error"
-                                    }>
-                                    {result["fb:app_id"] ??
-                                        t("common.not_found")}
-                                </Alert>
-                            </Box>
-
-                            <Box>
-                                <Typography fontWeight="bold" sx={{ mb: 1 }}>
+                                    }
+                                    description={
+                                        result["fb:app_id"] ??
+                                        t("common.not_found")
+                                    }
+                                />
+                            </div>
+                            <div>
+                                <Typography.Title level={5}>
                                     twitter:card
-                                </Typography>
+                                </Typography.Title>
                                 <Alert
-                                    severity={
+                                    showIcon
+                                    type={
                                         result["twitter:card"]
                                             ? "success"
                                             : "error"
-                                    }>
-                                    {result["twitter:card"] ??
-                                        t("common.not_found")}
-                                </Alert>
-                            </Box>
-
-                            <Box>
-                                <Typography fontWeight="bold" sx={{ mb: 1 }}>
+                                    }
+                                    description={
+                                        result["twitter:card"] ??
+                                        t("common.not_found")
+                                    }
+                                />
+                            </div>
+                            <div>
+                                <Typography.Title level={5}>
                                     twitter:site
-                                </Typography>
+                                </Typography.Title>
                                 <Alert
-                                    severity={
+                                    showIcon
+                                    type={
                                         result["twitter:site"]
                                             ? "success"
                                             : "error"
-                                    }>
-                                    {result["twitter:site"] ??
-                                        t("common.not_found")}
-                                </Alert>
-                            </Box>
-                        </Stack>
-                    </>
-                )}
-            </Stack>
-        </>
+                                    }
+                                    description={
+                                        result["twitter:site"] ??
+                                        t("common.not_found")
+                                    }
+                                />
+                            </div>
+                        </VerticalSpace>
+                    </section>
+                </VerticalSpace>
+            )}
+        </PageHeader>
     );
 };
 

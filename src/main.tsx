@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import CssBaseline from "@mui/material/CssBaseline";
+import "antd/dist/antd.css";
+import "./style.css";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
@@ -47,8 +48,6 @@ const root = document.getElementById("root");
 if (root) {
     ReactDOM.createRoot(root).render(
         <React.StrictMode>
-            <CssBaseline />
-
             <BrowserRouter>
                 <App />
             </BrowserRouter>

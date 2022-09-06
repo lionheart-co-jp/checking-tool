@@ -8,6 +8,7 @@ export default {
             result: "チェック結果",
             not_found: "見つかりませんでした",
             warning: "注意",
+            more: "詳細",
         },
 
         // Application
@@ -66,6 +67,13 @@ export default {
             description: "リンク先の存在をチェックします",
             warning:
                 "この機能はページ内に設定されているリンク全てにアクセスを試みますので、短時間に何度も実行を繰り返さないようにしてください。",
+        },
+
+        // Language
+        language: {
+            title: "Language",
+            english: "English",
+            japanese: "日本語",
         },
     },
 };

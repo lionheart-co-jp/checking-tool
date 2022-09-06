@@ -3,13 +3,8 @@ import { invoke } from "@tauri-apps/api/tauri";
 import { useTranslation } from "react-i18next";
 
 // Components
-import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
-import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
-import CommonForm from "../Components/CommonForm";
-import PageHeader from "../Components/PageHeader";
-import LinkRow from "../Components/LinkRow";
+import { Typography, Alert } from "antd";
+import { CommonForm, PageHeader, LinkRow, VerticalSpace } from "../Components";
 
 const Dashboard: React.FC = () => {
     const { t } = useTranslation();
@@ -35,33 +30,29 @@ const Dashboard: React.FC = () => {
     };
 
     return (
-        <Stack gap={5}>
-            <Stack gap={2}>
-                <PageHeader
-                    primary={t("link.title")}
-                    secondary={t("link.description")}
+        <PageHeader primary={t("link.title")} secondary={t("link.description")}>
+            <CommonForm onSubmit={handleSubmit} />
+
+            <VerticalSpace size="large">
+                <Alert
+                    type="error"
+                    message={t("common.warning")}
+                    description={t("link.warning")}
                 />
 
-                <CommonForm onSubmit={handleSubmit} />
+                {result && (
+                    <VerticalSpace size="middle">
+                        <Typography.Title level={3}>
+                            {t("common.result")}
+                        </Typography.Title>
 
-                <Alert severity="error">
-                    <AlertTitle>{t("common.warning")}</AlertTitle>
-                    {t("link.warning")}
-                </Alert>
-            </Stack>
-
-            {result && (
-                <Stack gap={2}>
-                    <Typography component="h3" variant="h6">
-                        {t("common.result")}
-                    </Typography>
-
-                    {result.map((link, i) => (
-                        <LinkRow key={i} link={link} />
-                    ))}
-                </Stack>
-            )}
-        </Stack>
+                        {result.map((link, i) => (
+                            <LinkRow key={i} link={link} />
+                        ))}
+                    </VerticalSpace>
+                )}
+            </VerticalSpace>
+        </PageHeader>
     );
 };
 

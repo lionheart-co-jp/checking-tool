@@ -1,149 +1,138 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useMatch } from "react-router-dom";
+import React, { useEffect, useMemo } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-// Consts
-import { DRAWER_WIDTH } from "../Const/App";
-
 // Components
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import LanguageSwitch from "./LanguageSwitch";
+import { Layout, Menu, MenuProps } from "antd";
 
 // Icons
-import MenuIcon from "@mui/icons-material/Menu";
+import {
+    DashboardOutlined,
+    FontSizeOutlined,
+    FileImageOutlined,
+    OrderedListOutlined,
+    LinkOutlined,
+    GlobalOutlined,
+} from "@ant-design/icons";
 
 // Atoms
 import { useState as useLanguageState } from "../Atoms/Language";
 
-type Props = React.ComponentProps<typeof ListItemButton> & {
-    to: string;
-};
-const NavigationItem: React.FC<Props> = ({ to, children, ...props }) => {
-    const match = useMatch(`${to}/*`);
-    const navigate = useNavigate();
-
-    const handleClick = (path: string) => () => {
-        navigate(path);
-    };
-
-    return (
-        <ListItemButton
-            onClick={handleClick(to)}
-            selected={match !== null}
-            {...props}>
-            {children}
-        </ListItemButton>
-    );
-};
-
-const Navigation: React.FC = () => {
+export const Navigation: React.FC = () => {
     const { t, i18n } = useTranslation();
-    const [mobileOpen, setMobileOpen] = useState(false);
-    const container =
-        window !== undefined ? () => window.document.body : undefined;
-    const [_, setLanguage] = useLanguageState();
+    const [language, setLanguage] = useLanguageState();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         setLanguage(i18n.language);
     }, []);
 
-    const handleDrawerToggle = () => {
-        setMobileOpen((prev) => !prev);
+    const selectLanguage = (lng: string) => {
+        return () => {
+            i18n.changeLanguage(lng);
+            setLanguage(lng);
+            localStorage.setItem("lng", lng);
+        };
     };
 
-    const DrawerInner = () => {
-        return (
-            <List>
-                <NavigationItem to="/">
-                    <ListItemText primary={t("dashboard.title")}></ListItemText>
-                </NavigationItem>
-                <NavigationItem to="/title/">
-                    <ListItemText primary={t("title.title")}></ListItemText>
-                </NavigationItem>
-                <NavigationItem to="/alt/">
-                    <ListItemText primary={t("alt.title")}></ListItemText>
-                </NavigationItem>
-                <NavigationItem to="/headline/">
-                    <ListItemText primary={t("headline.title")}></ListItemText>
-                </NavigationItem>
-                <NavigationItem to="/link/">
-                    <ListItemText primary={t("link.title")}></ListItemText>
-                </NavigationItem>
-            </List>
-        );
-    };
+    const selectedKeis = useMemo(() => {
+        const keis: MenuProps["selectedKeys"] = [];
+
+        if (location.pathname === "/") {
+            keis.push("dashboard");
+        }
+        if (location.pathname === "/title/") {
+            keis.push("title");
+        }
+        if (location.pathname === "/alt/") {
+            keis.push("alt");
+        }
+        if (location.pathname === "/headline/") {
+            keis.push("headline");
+        }
+        if (location.pathname === "/link/") {
+            keis.push("link");
+        }
+
+        switch (language) {
+            case "en":
+                keis.push("language.english");
+                break;
+            case "ja":
+                keis.push("language.japanese");
+                break;
+        }
+
+        return keis;
+    }, [location, language]);
+
+    const handleClick =
+        (to: string): MenuProps["onClick"] =>
+        () => {
+            navigate(to);
+        };
+
+    const items: MenuProps["items"] = [
+        {
+            label: t("dashboard.title"),
+            key: "dashboard",
+            icon: <DashboardOutlined />,
+            onClick: handleClick("/"),
+        },
+        {
+            label: t("title.title"),
+            key: "title",
+            icon: <FontSizeOutlined />,
+            onClick: handleClick("/title/"),
+        },
+        {
+            label: t("alt.title"),
+            key: "alt",
+            icon: <FileImageOutlined />,
+            onClick: handleClick("/alt/"),
+        },
+        {
+            label: t("headline.title"),
+            key: "headline",
+            icon: <OrderedListOutlined />,
+            onClick: handleClick("/headline/"),
+        },
+        {
+            label: t("link.title"),
+            key: "link",
+            icon: <LinkOutlined />,
+            onClick: handleClick("/link/"),
+        },
+        {
+            label: t("language.title"),
+            key: "language",
+            icon: <GlobalOutlined />,
+            children: [
+                {
+                    label: t("language.english"),
+                    key: "language.english",
+                    onClick: selectLanguage("en"),
+                },
+                {
+                    label: t("language.japanese"),
+                    key: "language.japanese",
+                    onClick: selectLanguage("ja"),
+                },
+            ],
+        },
+    ];
 
     return (
         <>
-            <AppBar
-                position="fixed"
-                color="inherit"
-                sx={{ display: { sm: "none" } }}>
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={handleDrawerToggle}
-                        sx={{ mr: 2 }}>
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        Checking Support Tool
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-
-            <Box
-                component="nav"
-                sx={{ width: { sm: DRAWER_WIDTH }, flexShrink: { sm: 0 } }}
-                aria-label="mailbox folders">
-                <Drawer
-                    container={container}
-                    variant="temporary"
-                    open={mobileOpen}
-                    onClose={handleDrawerToggle}
-                    anchor="left"
-                    ModalProps={{ keepMounted: true }}
-                    sx={{
-                        display: { xs: "block", sm: "none" },
-                        "& .MuiDrawer-paper": {
-                            boxSizing: "border-box",
-                            width: DRAWER_WIDTH,
-                        },
-                    }}>
-                    <DrawerInner />
-                    <Box sx={{ marginTop: "auto" }}>
-                        <LanguageSwitch />
-                    </Box>
-                </Drawer>
-
-                <Drawer
-                    variant="permanent"
-                    open
-                    sx={{
-                        display: { xs: "none", sm: "block" },
-                        "& .MuiDrawer-paper": {
-                            boxSizing: "border-box",
-                            width: DRAWER_WIDTH,
-                        },
-                    }}>
-                    <DrawerInner />
-                    <Box sx={{ marginTop: "auto" }}>
-                        <LanguageSwitch />
-                    </Box>
-                </Drawer>
-            </Box>
+            <Layout.Sider breakpoint="sm" collapsedWidth={46}>
+                <Menu
+                    theme="dark"
+                    items={items}
+                    defaultSelectedKeys={["dashboard"]}
+                    selectedKeys={selectedKeis}
+                />
+            </Layout.Sider>
         </>
     );
 };
-
-export default Navigation;

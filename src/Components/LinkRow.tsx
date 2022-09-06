@@ -7,14 +7,13 @@ import { useValue as useUserValue } from "../Atoms/UserResult";
 import { useValue as usePassValue } from "../Atoms/PassResult";
 
 // Components
-import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
-import CircularProgress from "@mui/material/CircularProgress";
+import { Alert } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 
 type Props = {
     link: { href: string; target: string; content: string };
 };
-const LinkRow: React.FC<Props> = ({ link }) => {
+export const LinkRow: React.FC<Props> = ({ link }) => {
     const [available, setAvailable] = useState<boolean | null>(null);
     const url = useUrlValue();
     const user = useUserValue();
@@ -46,17 +45,11 @@ const LinkRow: React.FC<Props> = ({ link }) => {
 
     return (
         <Alert
-            iconMapping={{
-                info: <CircularProgress size={20} />,
-            }}
-            severity={
-                available === null ? "info" : available ? "success" : "error"
-            }
-            sx={{ wordBreak: "break-all" }}>
-            <AlertTitle>{link.href}</AlertTitle>
-            {link.content}
-        </Alert>
+            icon={available === null ? <LoadingOutlined /> : null}
+            showIcon
+            type={available === null ? "info" : available ? "success" : "error"}
+            message={link.href}
+            description={link.content}
+        />
     );
 };
-
-export default LinkRow;
