@@ -3,12 +3,8 @@ import { invoke } from "@tauri-apps/api/tauri";
 import { useTranslation } from "react-i18next";
 
 // Components
-import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
-import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
-import CommonForm from "../Components/CommonForm";
-import PageHeader from "../Components/PageHeader";
+import { Alert, Typography } from "antd";
+import { CommonForm, PageHeader, VerticalSpace } from "../Components";
 
 const Headline: React.FC = () => {
     const { t } = useTranslation();
@@ -68,57 +64,58 @@ const Headline: React.FC = () => {
     };
 
     return (
-        <>
-            <Stack gap={5}>
-                <Stack gap={2}>
-                    <PageHeader
-                        primary={t("headline.title")}
-                        secondary={t("headline.description")}
-                    />
+        <PageHeader
+            primary={t("headline.title")}
+            secondary={t("headline.description")}>
+            <CommonForm onSubmit={handleSubmit} />
 
-                    <CommonForm onSubmit={handleSubmit} />
-
-                    <Alert severity="info">
-                        <AlertTitle>{t("headline.remarks.title")}</AlertTitle>
-                        {t("headline.remarks.body1")}
-                        <br />
-                        {t("headline.remarks.body2")}
-                    </Alert>
-                </Stack>
+            <VerticalSpace size="large">
+                <Alert
+                    type="info"
+                    message={t("headline.remarks.title")}
+                    description={
+                        <>
+                            {t("headline.remarks.body1")}
+                            <br />
+                            {t("headline.remarks.body2")}
+                        </>
+                    }
+                />
 
                 {result && (
-                    <>
-                        <Stack gap={2}>
-                            <Typography component="h3" variant="h6">
-                                {t("common.result")}
-                            </Typography>
-
+                    <section>
+                        <Typography.Title level={3}>
+                            {t("common.result")}
+                        </Typography.Title>
+                        <VerticalSpace size="middle">
                             {result.map((headline, i) => (
                                 <Alert
                                     key={i}
-                                    severity={
-                                        headline.flag ? "success" : "error"
+                                    type={headline.flag ? "success" : "error"}
+                                    showIcon
+                                    style={{
+                                        marginLeft: (headline.level - 1) * 15,
+                                    }}
+                                    message={
+                                        <>
+                                            {headline.name}
+                                            {headline.error && (
+                                                <Typography.Text
+                                                    type="danger"
+                                                    style={{ marginLeft: 10 }}>
+                                                    {headline.error}
+                                                </Typography.Text>
+                                            )}
+                                        </>
                                     }
-                                    sx={{ ml: (headline.level - 1) * 3 }}>
-                                    <AlertTitle>
-                                        {headline.name}
-                                        {headline.error && (
-                                            <Typography
-                                                component="span"
-                                                color="error"
-                                                sx={{ ml: 2 }}>
-                                                {headline.error}
-                                            </Typography>
-                                        )}
-                                    </AlertTitle>
-                                    {headline.content}
-                                </Alert>
+                                    description={headline.content}
+                                />
                             ))}
-                        </Stack>
-                    </>
+                        </VerticalSpace>
+                    </section>
                 )}
-            </Stack>
-        </>
+            </VerticalSpace>
+        </PageHeader>
     );
 };
 

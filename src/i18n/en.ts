@@ -8,6 +8,7 @@ export default {
             result: "Result",
             not_found: "Not Found",
             warning: "Warning",
+            more: "More",
         },
 
         // Application
@@ -66,6 +67,13 @@ export default {
             description: "Check Link target available",
             warning:
                 "This function will access to the all the links in the target URL. so, you must NOT run this function multiple times in a short time.",
+        },
+
+        // Language
+        language: {
+            title: "Language",
+            english: "English",
+            japanese: "日本語",
         },
     },
 };

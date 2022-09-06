@@ -2,9 +2,6 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 
-// Consts
-import { DRAWER_WIDTH } from "./Const/App";
-
 // Pages
 import Dashboard from "./Pages/Dashboard";
 import Title from "./Pages/Title";
@@ -13,24 +10,15 @@ import Headline from "./Pages/Headline";
 import Link from "./Pages/Link";
 
 // Components
-import Box from "@mui/material/Box";
-import Navigation from "./Components/Navigation";
-import Toolbar from "@mui/material/Toolbar";
+import { Navigation } from "./Components";
+import { Layout } from "antd";
 
 const App: React.FC = () => {
     return (
         <RecoilRoot>
-            <Box sx={{ display: "flex" }}>
+            <Layout style={{ minHeight: "100vh" }}>
                 <Navigation />
-                <Box
-                    component="main"
-                    sx={{
-                        flexGrow: 1,
-                        p: 3,
-                        width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
-                    }}>
-                    <Toolbar sx={{ display: { xs: "block", sm: "none" } }} />
-
+                <Layout.Content>
                     <Routes>
                         <Route index element={<Dashboard />} />
                         <Route path="/title" element={<Title />} />
@@ -38,8 +26,8 @@ const App: React.FC = () => {
                         <Route path="/headline" element={<Headline />} />
                         <Route path="/link" element={<Link />} />
                     </Routes>
-                </Box>
-            </Box>
+                </Layout.Content>
+            </Layout>
         </RecoilRoot>
     );
 };

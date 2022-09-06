@@ -1,24 +1,27 @@
 import React from "react";
+import styled from "@emotion/styled";
 
 // Components
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
+import { PageHeader as AntdPageHeader } from "antd";
+const Description = styled.p({
+    marginTop: -14,
+    color: `rgba(0, 0, 0, 0.45)`,
+});
 
 type Props = {
-    primary?: string;
-    secondary?: string;
+    primary?: React.ReactNode;
+    secondary?: React.ReactNode;
+    children?: React.ReactNode;
 };
-const PageHeader: React.FC<Props> = ({ primary, secondary }) => {
+export const PageHeader: React.FC<Props> = ({
+    primary,
+    secondary,
+    children,
+}) => {
     return (
-        <Stack gap={1}>
-            {primary && (
-                <Typography component="h2" variant="h5" fontWeight="bold">
-                    {primary}
-                </Typography>
-            )}
-            {secondary && <Typography>{secondary}</Typography>}
-        </Stack>
+        <AntdPageHeader title={primary}>
+            {secondary && <Description>{secondary}</Description>}
+            {children}
+        </AntdPageHeader>
     );
 };
-
-export default PageHeader;

@@ -1,0 +1,8 @@
+.commonForm.ant-form-large .ant-form-item-label > label {
+    height: auto;
+}
+
+.ant-modal.imageModal .ant-modal-body {
+    background: #ccc;
+    text-align: center;
+}
