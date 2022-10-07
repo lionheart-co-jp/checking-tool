@@ -125,7 +125,10 @@ export const Navigation: React.FC = () => {
 
     return (
         <>
-            <Layout.Sider breakpoint="sm" collapsedWidth={46}>
+            <Layout.Sider
+                breakpoint="sm"
+                collapsedWidth={46}
+                style={{ maxHeight: "100vh", overflow: "auto" }}>
                 <Menu
                     theme="dark"
                     items={items}

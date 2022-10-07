@@ -9,10 +9,11 @@ import { useValue as useUserValue } from "../Atoms/UserResult";
 import { useValue as usePassValue } from "../Atoms/PassResult";
 
 type Props = React.ComponentProps<"img"> & {
+    url?: string;
     image: string;
 };
-export const Image: React.FC<Props> = ({ image, style, ...props }) => {
-    const url = useUrlValue();
+export const Image: React.FC<Props> = ({ url, image, style, ...props }) => {
+    const savedUrl = useUrlValue();
     const user = useUserValue();
     const pass = usePassValue();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,7 +23,7 @@ export const Image: React.FC<Props> = ({ image, style, ...props }) => {
             return "";
         }
 
-        const src = new URL(image, url);
+        const src = new URL(image, url ?? savedUrl);
 
         if (src && pass) {
             src.username = user;
@@ -30,7 +31,7 @@ export const Image: React.FC<Props> = ({ image, style, ...props }) => {
         }
 
         return src.toString();
-    }, [image, url, pass, user]);
+    }, [image, url, savedUrl, pass, user]);
 
     const handleOpenModal = () => {
         setIsModalOpen(true);

@@ -9,6 +9,7 @@ export default {
             not_found: "Not Found",
             warning: "Warning",
             more: "More",
+            bulk: "Bulk",
         },
 
         // Application
@@ -20,6 +21,7 @@ export default {
         form: {
             warning:
                 "If you access to Authorised page, please input USER and PASS fields.",
+            bulk_help: "You can input multiple URLs per line",
         },
 
         // Dashboard
