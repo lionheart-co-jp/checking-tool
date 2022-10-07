@@ -9,6 +9,7 @@ export default {
             not_found: "見つかりませんでした",
             warning: "注意",
             more: "詳細",
+            bulk: "一括指定",
         },
 
         // Application
@@ -20,6 +21,7 @@ export default {
         form: {
             warning:
                 "認証が必要なページをチェックする場合は、ユーザー名とパスワードを入力してください。",
+            bulk_help: "一行ずつ複数のURLの入力が可能です",
         },
 
         // Dashboard

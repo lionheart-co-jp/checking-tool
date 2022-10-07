@@ -5,11 +5,12 @@ import { Alert, Badge } from "antd";
 import { Image } from "./Image";
 
 type Props = {
+    url: string;
     alt?: string;
     src: string;
     status: "success" | "warning" | "error";
 };
-export const AltRow: React.FC<Props> = ({ alt, src, status }) => {
+export const AltRow: React.FC<Props> = ({ url, alt, src, status }) => {
     const { t } = useTranslation();
 
     return (
@@ -34,7 +35,11 @@ export const AltRow: React.FC<Props> = ({ alt, src, status }) => {
                     style={{
                         marginTop: 10,
                     }}>
-                    <Image image={src} style={{ maxWidth: 300 }} />
+                    <Image
+                        url={url}
+                        image={src}
+                        style={{ width: `100%`, maxWidth: 300 }}
+                    />
                 </div>
             }></Alert>
     );

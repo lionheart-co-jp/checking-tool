@@ -1,5 +1,5 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { useEffect, useRef } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 
 // Pages
@@ -14,11 +14,24 @@ import { Navigation } from "./Components";
 import { Layout } from "antd";
 
 const App: React.FC = () => {
+    const location = useLocation();
+    const content = useRef<HTMLElement>(null);
+
+    useEffect(() => {
+        if (!content.current) {
+            return;
+        }
+
+        content.current.scrollTo({ left: 0, top: 0 });
+    }, [location]);
+
     return (
         <RecoilRoot>
             <Layout style={{ minHeight: "100vh" }}>
                 <Navigation />
-                <Layout.Content>
+                <Layout.Content
+                    ref={content}
+                    style={{ maxHeight: "100vh", overflow: "auto" }}>
                     <Routes>
                         <Route index element={<Dashboard />} />
                         <Route path="/title" element={<Title />} />

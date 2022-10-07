@@ -3,8 +3,13 @@ import { invoke } from "@tauri-apps/api/tauri";
 import { Trans, useTranslation } from "react-i18next";
 
 // Components
-import { AltRow, CommonForm, PageHeader, VerticalSpace } from "../Components";
-import { Alert, Typography } from "antd";
+import {
+    AltRow,
+    CommonFormBulk,
+    PageHeader,
+    VerticalSpace,
+} from "../Components";
+import { Alert, Typography, Collapse } from "antd";
 
 // Icons
 import {
@@ -15,28 +20,40 @@ import {
 
 const AltPage: React.FC = () => {
     const { t } = useTranslation();
-    const [result, setResult] = useState<{ src: string; alt: string }[] | null>(
-        null
-    );
+    const [results, setResults] = useState<
+        { url: string; result: { src: string; alt: string }[] }[] | null
+    >(null);
 
-    const handleSubmit = async (url: string, user: string, pass: string) => {
-        const result = await invoke<{ src: string; alt: string }[]>("get_alt", {
-            url,
-            user,
-            pass,
-        }).catch((e) => alert(e));
+    const handleSubmit = async (urls: string, user: string, pass: string) => {
+        const urlArray = urls.split(/\n/).map((url) => url.trim());
+        const results: {
+            url: string;
+            result: { src: string; alt: string }[];
+        }[] = [];
 
-        if (!result) {
-            return false;
+        for (const url of urlArray) {
+            const result = await invoke<{ src: string; alt: string }[]>(
+                "get_alt",
+                {
+                    url,
+                    user,
+                    pass,
+                }
+            ).catch((e) => alert(e));
+
+            if (!result) {
+                continue;
+            }
+            results.push({ url, result });
         }
 
-        setResult(result);
+        setResults(results);
         return true;
     };
 
     return (
         <PageHeader primary={t("alt.title")} secondary={t("alt.description")}>
-            <CommonForm onSubmit={handleSubmit} />
+            <CommonFormBulk onSubmit={handleSubmit} />
 
             <VerticalSpace size="large">
                 <Alert
@@ -88,31 +105,38 @@ const AltPage: React.FC = () => {
                     }
                 />
 
-                {result && (
-                    <div>
+                {results !== null && (
+                    <section>
                         <Typography.Title level={3}>
                             {t("common.result")}
                         </Typography.Title>
-                        <VerticalSpace size="middle">
-                            {result.map((img, i) => (
-                                <AltRow
-                                    key={i}
-                                    alt={img.alt}
-                                    src={img.src}
-                                    status={
-                                        img.alt
-                                            ? "success"
-                                            : Object.prototype.hasOwnProperty.call(
-                                                  img,
-                                                  "alt"
-                                              )
-                                            ? "warning"
-                                            : "error"
-                                    }
-                                />
+                        <Collapse>
+                            {results.map(({ url, result }, i) => (
+                                <Collapse.Panel header={url} key={i}>
+                                    <VerticalSpace size="middle">
+                                        {result.map((img, i) => (
+                                            <AltRow
+                                                key={i}
+                                                url={url}
+                                                alt={img.alt}
+                                                src={img.src}
+                                                status={
+                                                    img.alt
+                                                        ? "success"
+                                                        : Object.prototype.hasOwnProperty.call(
+                                                              img,
+                                                              "alt"
+                                                          )
+                                                        ? "warning"
+                                                        : "error"
+                                                }
+                                            />
+                                        ))}
+                                    </VerticalSpace>
+                                </Collapse.Panel>
                             ))}
-                        </VerticalSpace>
-                    </div>
+                        </Collapse>
+                    </section>
                 )}
             </VerticalSpace>
         </PageHeader>
