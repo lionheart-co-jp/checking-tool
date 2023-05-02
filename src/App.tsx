@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { RecoilRoot } from "recoil";
 
 // Pages
 import Dashboard from "./Pages/Dashboard";
@@ -11,11 +10,14 @@ import Link from "./Pages/Link";
 
 // Components
 import { Navigation } from "./Components";
-import { Layout } from "antd";
+import { ConfigProvider, Layout, theme } from "antd";
+import { useValue as useDarkModeValue } from "./Atoms/DarkMode";
+const { defaultAlgorithm, darkAlgorithm } = theme;
 
 const App: React.FC = () => {
     const location = useLocation();
     const content = useRef<HTMLElement>(null);
+    const isDarkMode = useDarkModeValue();
 
     useEffect(() => {
         if (!content.current) {
@@ -26,7 +28,10 @@ const App: React.FC = () => {
     }, [location]);
 
     return (
-        <RecoilRoot>
+        <ConfigProvider
+            theme={{
+                algorithm: isDarkMode ? darkAlgorithm : defaultAlgorithm,
+            }}>
             <Layout style={{ minHeight: "100vh" }}>
                 <Navigation />
                 <Layout.Content
@@ -41,7 +46,7 @@ const App: React.FC = () => {
                     </Routes>
                 </Layout.Content>
             </Layout>
-        </RecoilRoot>
+        </ConfigProvider>
     );
 };
 

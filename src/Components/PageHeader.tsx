@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 
 // Components
-import { PageHeader as AntdPageHeader } from "antd";
+import { PageHeader as AntdPageHeader } from "@ant-design/pro-layout";
 const Description = styled.p({
     marginTop: -14,
     color: `rgba(0, 0, 0, 0.45)`,

@@ -10,6 +10,10 @@ export default {
             warning: "Warning",
             more: "More",
             bulk: "Bulk",
+            theme: {
+                light: "Light theme",
+                dark: "Dark theme",
+            },
         },
 
         // Application
