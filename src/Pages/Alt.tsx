@@ -18,8 +18,12 @@ import {
     CheckCircleOutlined,
 } from "@ant-design/icons";
 
+// Atoms
+import { useValue as useDarkModeValue } from "../Atoms/DarkMode";
+
 const AltPage: React.FC = () => {
     const { t } = useTranslation();
+    const isDarkMode = useDarkModeValue();
     const [results, setResults] = useState<
         { url: string; result: { src: string; alt: string }[] }[] | null
     >(null);
@@ -48,6 +52,12 @@ const AltPage: React.FC = () => {
         }
 
         setResults(results);
+
+        setTimeout(() => {
+            document
+                .getElementById("result")
+                ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100);
         return true;
     };
 
@@ -106,11 +116,17 @@ const AltPage: React.FC = () => {
                 />
 
                 {results !== null && (
-                    <section>
+                    <section id="result">
                         <Typography.Title level={3}>
                             {t("common.result")}
                         </Typography.Title>
-                        <Collapse>
+                        <Collapse
+                            defaultActiveKey={
+                                results.length > 1 ? undefined : 0
+                            }
+                            className={`stickyCollapse ${
+                                isDarkMode ? "is-dark" : ""
+                            }`}>
                             {results.map(({ url, result }, i) => (
                                 <Collapse.Panel header={url} key={i}>
                                     <VerticalSpace size="middle">

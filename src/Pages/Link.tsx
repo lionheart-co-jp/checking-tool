@@ -26,6 +26,12 @@ const Dashboard: React.FC = () => {
         }
 
         setResult(result);
+
+        setTimeout(() => {
+            document
+                .getElementById("result")
+                ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100);
         return true;
     };
 
@@ -41,7 +47,7 @@ const Dashboard: React.FC = () => {
                 />
 
                 {result && (
-                    <VerticalSpace size="middle">
+                    <VerticalSpace size="middle" id="result">
                         <Typography.Title level={3}>
                             {t("common.result")}
                         </Typography.Title>
