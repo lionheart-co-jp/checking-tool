@@ -6,8 +6,12 @@ import { useTranslation } from "react-i18next";
 import { Alert, Typography, Collapse } from "antd";
 import { CommonFormBulk, PageHeader, VerticalSpace } from "../Components";
 
+// Atoms
+import { useValue as useDarkModeValue } from "../Atoms/DarkMode";
+
 const Headline: React.FC = () => {
     const { t } = useTranslation();
+    const isDarkMode = useDarkModeValue();
     const [results, setResults] = useState<
         | {
               url: string;
@@ -80,6 +84,12 @@ const Headline: React.FC = () => {
         }
 
         setResults(results);
+
+        setTimeout(() => {
+            document
+                .getElementById("result")
+                ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100);
         return true;
     };
 
@@ -103,11 +113,17 @@ const Headline: React.FC = () => {
                 />
 
                 {results !== null && (
-                    <section>
+                    <section id="result">
                         <Typography.Title level={3}>
                             {t("common.result")}
                         </Typography.Title>
-                        <Collapse>
+                        <Collapse
+                            defaultActiveKey={
+                                results.length > 1 ? undefined : 0
+                            }
+                            className={`stickyCollapse ${
+                                isDarkMode ? "is-dark" : ""
+                            }`}>
                             {results.map(({ url, result }, i) => (
                                 <Collapse.Panel header={url} key={i}>
                                     <VerticalSpace size="middle">
@@ -139,7 +155,22 @@ const Headline: React.FC = () => {
                                                         )}
                                                     </>
                                                 }
-                                                description={headline.content}
+                                                description={
+                                                    <div
+                                                        style={{
+                                                            display:
+                                                                "-webkit-box",
+                                                            WebkitLineClamp: 2,
+                                                            lineClamp: 2,
+                                                            WebkitBoxOrient:
+                                                                "vertical",
+                                                            boxOrient:
+                                                                "vertical",
+                                                            overflow: "hidden",
+                                                        }}>
+                                                        {headline.content}
+                                                    </div>
+                                                }
                                             />
                                         ))}
                                     </VerticalSpace>

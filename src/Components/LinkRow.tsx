@@ -15,6 +15,7 @@ type Props = {
 };
 export const LinkRow: React.FC<Props> = ({ link }) => {
     const [available, setAvailable] = useState<boolean | null>(null);
+    const [code, setCode] = useState<string | undefined>(undefined);
     const url = useUrlValue();
     const user = useUserValue();
     const pass = usePassValue();
@@ -29,17 +30,22 @@ export const LinkRow: React.FC<Props> = ({ link }) => {
                 checkUrl.password = pass;
             }
 
-            const result = await invoke<boolean>("get_link_available", {
+            const result = await invoke<{
+                error: boolean;
+                code?: string;
+                message?: string;
+            }>("get_link_available", {
                 url: checkUrl.toString(),
                 user,
                 pass,
             }).catch((e) => alert(e));
 
-            if (typeof result !== "boolean") {
+            if (!result) {
                 return;
             }
 
-            setAvailable(result);
+            setAvailable(!result.error);
+            setCode(result.code);
         })();
     }, [link]);
 
@@ -48,8 +54,34 @@ export const LinkRow: React.FC<Props> = ({ link }) => {
             icon={available === null ? <LoadingOutlined /> : null}
             showIcon
             type={available === null ? "info" : available ? "success" : "error"}
-            message={link.href}
-            description={link.content}
+            message={
+                <div
+                    style={{
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                    }}>
+                    <a href={link.href} target="_blank" rel="noreferrer">
+                        {link.href}
+                    </a>
+                </div>
+            }
+            description={
+                <>
+                    {code ? <div>{code}</div> : null}
+                    <div
+                        style={{
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            lineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            boxOrient: "vertical",
+                            overflow: "hidden",
+                        }}>
+                        {link.content}
+                    </div>
+                </>
+            }
         />
     );
 };

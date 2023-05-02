@@ -5,17 +5,27 @@
 .ant-modal.imageModal .ant-modal-body {
     background: #ccc;
     text-align: center;
+    padding: 20px;
 }
 
-.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+.ant-collapse.stickyCollapse {
+    border-radius: 0;
+}
+
+.ant-collapse.stickyCollapse > .ant-collapse-item > .ant-collapse-header {
     z-index: 1;
     position: sticky;
     left: 0;
     top: 0;
-    background: #FAFAFA;
-    border-bottom: 1px solid #d9d9d9;
+    background: #f1f1f1;
+}
+.ant-collapse.stickyCollapse.is-dark
+    > .ant-collapse-item
+    > .ant-collapse-header {
+    background: #0a0a0a;
 }
 
-.ant-collapse-content {
-    border-top: none;
+.ant-page-header {
+    padding-top: 20px;
+    padding-bottom: 32px;
 }

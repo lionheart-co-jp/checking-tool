@@ -38,7 +38,7 @@ export const AltRow: React.FC<Props> = ({ url, alt, src, status }) => {
                     <Image
                         url={url}
                         image={src}
-                        style={{ width: `100%`, maxWidth: 300 }}
+                        style={{ width: `auto`, maxWidth: 300, maxHeight: 300 }}
                     />
                 </div>
             }></Alert>
