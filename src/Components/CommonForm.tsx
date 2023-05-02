@@ -81,10 +81,10 @@ export const CommonForm: React.FC<Props> = ({ onSubmit }) => {
 
             <Space>
                 <Form.Item name="user">
-                    <Input placeholder={t("common.user")} />
+                    <Input placeholder={t("common.user") ?? ""} />
                 </Form.Item>
                 <Form.Item name="pass">
-                    <Input placeholder={t("common.pass")} />
+                    <Input placeholder={t("common.pass") ?? ""} />
                 </Form.Item>
                 <Form.Item>
                     <Button
