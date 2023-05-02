@@ -20,44 +20,32 @@ const Dashboard: React.FC = () => {
                 <Col xs={24} md={12}>
                     <Card
                         title={t("title.title")}
-                        extra={
-                            <Button onClick={handleClick("/title/")}>
-                                {t("common.more")}
-                            </Button>
-                        }>
+                        hoverable
+                        onClick={handleClick("/title/")}>
                         {t("title.description")}
                     </Card>
                 </Col>
                 <Col xs={24} md={12}>
                     <Card
                         title={t("alt.title")}
-                        extra={
-                            <Button onClick={handleClick("/alt/")}>
-                                {t("common.more")}
-                            </Button>
-                        }>
+                        hoverable
+                        onClick={handleClick("/alt/")}>
                         {t("alt.description")}
                     </Card>
                 </Col>
                 <Col xs={24} md={12}>
                     <Card
                         title={t("headline.title")}
-                        extra={
-                            <Button onClick={handleClick("/headline/")}>
-                                {t("common.more")}
-                            </Button>
-                        }>
+                        hoverable
+                        onClick={handleClick("/headline/")}>
                         {t("headline.description")}
                     </Card>
                 </Col>
                 <Col xs={24} md={12}>
                     <Card
                         title={t("link.title")}
-                        extra={
-                            <Button onClick={handleClick("/link/")}>
-                                {t("common.more")}
-                            </Button>
-                        }>
+                        hoverable
+                        onClick={handleClick("/link/")}>
                         {t("link.description")}
                     </Card>
                 </Col>

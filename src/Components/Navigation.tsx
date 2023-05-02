@@ -13,16 +13,20 @@ import {
     OrderedListOutlined,
     LinkOutlined,
     GlobalOutlined,
+    BulbFilled,
+    BulbOutlined,
 } from "@ant-design/icons";
 
 // Atoms
 import { useState as useLanguageState } from "../Atoms/Language";
+import { useState as useDarkModeState } from "../Atoms/DarkMode";
 
 export const Navigation: React.FC = () => {
     const { t, i18n } = useTranslation();
     const [language, setLanguage] = useLanguageState();
     const navigate = useNavigate();
     const location = useLocation();
+    const [isDarkMode, setDarkMode] = useDarkModeState();
 
     useEffect(() => {
         setLanguage(i18n.language);
@@ -79,30 +83,55 @@ export const Navigation: React.FC = () => {
             key: "dashboard",
             icon: <DashboardOutlined />,
             onClick: handleClick("/"),
+            style: {
+                marginTop: 0,
+                marginBottom: 0,
+                flexShrink: 0,
+            },
         },
         {
             label: t("title.title"),
             key: "title",
             icon: <FontSizeOutlined />,
             onClick: handleClick("/title/"),
+            style: {
+                marginTop: 0,
+                marginBottom: 0,
+                flexShrink: 0,
+            },
         },
         {
             label: t("alt.title"),
             key: "alt",
             icon: <FileImageOutlined />,
             onClick: handleClick("/alt/"),
+            style: {
+                marginTop: 0,
+                marginBottom: 0,
+                flexShrink: 0,
+            },
         },
         {
             label: t("headline.title"),
             key: "headline",
             icon: <OrderedListOutlined />,
             onClick: handleClick("/headline/"),
+            style: {
+                marginTop: 0,
+                marginBottom: 0,
+                flexShrink: 0,
+            },
         },
         {
             label: t("link.title"),
             key: "link",
             icon: <LinkOutlined />,
             onClick: handleClick("/link/"),
+            style: {
+                marginTop: 0,
+                marginBottom: 0,
+                flexShrink: 0,
+            },
         },
         {
             label: t("language.title"),
@@ -120,6 +149,23 @@ export const Navigation: React.FC = () => {
                     onClick: selectLanguage("ja"),
                 },
             ],
+            style: {
+                marginTop: 0,
+                marginBottom: 0,
+                flexShrink: 0,
+            },
+        },
+        {
+            label: isDarkMode
+                ? t("common.theme.dark")
+                : t("common.theme.light"),
+            key: "theme",
+            onClick: () => setDarkMode((v) => !v),
+            icon: isDarkMode ? <BulbOutlined /> : <BulbFilled />,
+            style: {
+                marginTop: "auto",
+                flexShrink: 0,
+            },
         },
     ];
 
@@ -128,12 +174,20 @@ export const Navigation: React.FC = () => {
             <Layout.Sider
                 breakpoint="sm"
                 collapsedWidth={46}
-                style={{ maxHeight: "100vh", overflow: "auto" }}>
+                style={{
+                    maxHeight: "100vh",
+                    overflow: "auto",
+                }}>
                 <Menu
-                    theme="dark"
                     items={items}
                     defaultSelectedKeys={["dashboard"]}
                     selectedKeys={selectedKeis}
+                    style={{
+                        minHeight: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "4px",
+                    }}
                 />
             </Layout.Sider>
         </>

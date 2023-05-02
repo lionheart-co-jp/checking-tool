@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import "antd/dist/antd.css";
+import "antd/dist/reset.css";
 import "./style.css";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import { RecoilRoot } from "recoil";
 
 import en from "./i18n/en";
 import ja from "./i18n/ja";
@@ -48,7 +49,9 @@ const root = document.getElementById("root");
 if (root) {
     ReactDOM.createRoot(root).render(
         <BrowserRouter>
-            <App />
+            <RecoilRoot>
+                <App />
+            </RecoilRoot>
         </BrowserRouter>
     );
 }
