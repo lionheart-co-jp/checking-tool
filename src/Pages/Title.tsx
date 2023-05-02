@@ -7,8 +7,12 @@ import { CommonFormBulk, PageHeader } from "../Components";
 import { Alert, Collapse, Typography } from "antd";
 import { TitleRow } from "../Components/TitleRow";
 
+// Atoms
+import { useValue as useDarkModeValue } from "../Atoms/DarkMode";
+
 const Dashboard: React.FC = () => {
     const { t } = useTranslation();
+    const isDarkMode = useDarkModeValue();
     const [results, setResults] = useState<
         { url: string; result: Record<string, string> }[] | null
     >(null);
@@ -35,6 +39,12 @@ const Dashboard: React.FC = () => {
         }
 
         setResults(results);
+
+        setTimeout(() => {
+            document
+                .getElementById("result")
+                ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100);
         return true;
     };
 
@@ -57,11 +67,15 @@ const Dashboard: React.FC = () => {
                 style={{ marginBottom: 24 }}></Alert>
 
             {results !== null && (
-                <section>
+                <section id="result">
                     <Typography.Title level={3}>
                         {t("common.result")}
                     </Typography.Title>
-                    <Collapse>
+                    <Collapse
+                        defaultActiveKey={results.length > 1 ? undefined : 0}
+                        className={`stickyCollapse ${
+                            isDarkMode ? "is-dark" : ""
+                        }`}>
                         {results.map(({ url, result }, i) => (
                             <Collapse.Panel header={url} key={i}>
                                 <TitleRow url={url} result={result} />
