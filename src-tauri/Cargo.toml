@@ -7,19 +7,19 @@ license = "MIT"
 repository = ""
 default-run = "app"
 edition = "2021"
-rust-version = "1.57"
+rust-version = "1.68.2"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
-tauri-build = { version = "1.0.4", features = [] }
+tauri-build = { version = "1.2.1", features = [] }
 
 [dependencies]
-serde_json = "1.0"
-serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.0.4", features = ["api-all"] }
-reqwest = { version = "0.11.11", features = ["blocking"] }
-scraper = "0.13.0"
+serde_json = "1.0.96"
+serde = { version = "1.0.160", features = ["derive"] }
+tauri = { version = "1.2.4", features = ["api-all", "devtools"] }
+reqwest = { version = "0.11.17", features = ["blocking"] }
+scraper = "0.16.0"
 
 [features]
 # by default Tauri runs in production mode
