@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { invoke } from "@tauri-apps/api/core";
@@ -77,6 +77,7 @@ const Crawl: React.FC = () => {
     const [isCrawling, setIsCrawling] = useState(false);
     const [progress, setProgress] = useState<CrawlProgress | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const progressRef = useRef<HTMLDivElement>(null);
 
     const { clearAll, insertPages } = useDatabase();
 
@@ -106,6 +107,14 @@ const Crawl: React.FC = () => {
             found_count: 0,
             error_count: 0,
         });
+
+        // 進捗表示セクションまでスクロール
+        setTimeout(() => {
+            progressRef.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        }, 100);
 
         // 認証情報を保存
         setUser(values.user || "");
@@ -280,7 +289,7 @@ const Crawl: React.FC = () => {
 
             {/* 進捗表示 */}
             {progress && (
-                <Card style={{ marginTop: 24 }}>
+                <Card ref={progressRef} style={{ marginTop: 24 }}>
                     <Typography.Title level={5}>
                         {t("crawl.progress.title")}
                     </Typography.Title>

@@ -38,6 +38,13 @@ export default {
                 body1: "タイトルについてはディレクターの指示に沿って設定をしてください。指示がない場合は、「(ページ名) | (サイト名)」と設定してください。",
                 body2: "特に指示がない場合、「og:title」にはtitleタグと同じ内容を、「og:description」にはmeta descriptionと同じ内容を入力してください。",
             },
+            analytics: {
+                title: "アクセス解析",
+                ua_deprecated: "UAは2023年7月にサポート終了しました",
+            },
+            canonical: {
+                mismatch: "現在のページURLと一致しません",
+            },
         },
 
         // Alt

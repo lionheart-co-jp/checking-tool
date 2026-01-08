@@ -42,6 +42,13 @@ export default {
                 body1: "For the title, You should follow the director's instruction. If there is no instruction, please input as [Page name]｜[Site name]",
                 body2: "Unless otherwise specified, You should input og:title same with title and og:description same with description.",
             },
+            analytics: {
+                title: "Analytics",
+                ua_deprecated: "UA was deprecated in July 2023",
+            },
+            canonical: {
+                mismatch: "Does not match current page URL",
+            },
         },
 
         // Alt
