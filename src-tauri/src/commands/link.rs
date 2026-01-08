@@ -46,19 +46,51 @@ pub async fn get_link_available(url: String, user: String, pass: String) -> Map<
   let re = Regex::new(r"^(mailto:|tel:|javascript:|#)").unwrap();
   if re.is_match(url.as_str()) {
     result.insert(String::from("error"), Value::Bool(false));
-    result.insert(String::from("message"), Value::String(String::from("No links")));
+    result.insert(String::from("message"), Value::String(String::from("Skipped")));
     return result
   }
 
-  let client = Client::new();
-  let response = client.get(url).basic_auth(user, Some(pass)).send().await;
+  let client = Client::builder()
+    .timeout(std::time::Duration::from_secs(30))
+    .build()
+    .unwrap_or_else(|_| Client::new());
 
-  let response = match response {
+  // まずHEADリクエストを試みる
+  let head_response = if user.is_empty() {
+    client.head(&url).send().await
+  } else {
+    client.head(&url).basic_auth(&user, Some(&pass)).send().await
+  };
+
+  // HEADが成功した場合
+  if let Ok(resp) = head_response {
+    if resp.status().is_success() {
+      result.insert(String::from("error"), Value::Bool(false));
+      result.insert(String::from("code"), Value::String(resp.status().to_string()));
+      return result;
+    }
+    // HEADが405 Method Not Allowedの場合はGETにフォールバック
+    if resp.status().as_u16() != 405 {
+      result.insert(String::from("error"), Value::Bool(true));
+      result.insert(String::from("code"), Value::String(resp.status().to_string()));
+      return result;
+    }
+  }
+
+  // HEADが失敗または405の場合、GETリクエストを試みる
+  let get_response = if user.is_empty() {
+    client.get(&url).send().await
+  } else {
+    client.get(&url).basic_auth(&user, Some(&pass)).send().await
+  };
+
+  let response = match get_response {
     Ok(r) => r,
     Err(e) => {
       result.insert(String::from("error"), Value::Bool(true));
-      result.insert(String::from("code"), Value::String(e.status().unwrap().to_string()));
-      result.insert(String::from("message"), Value::String(String::from("Unknown error")));
+      let code = e.status().map(|s| s.to_string()).unwrap_or_else(|| "Connection failed".to_string());
+      result.insert(String::from("code"), Value::String(code));
+      result.insert(String::from("message"), Value::String(String::from("Request failed")));
       return result
     },
   };
@@ -66,10 +98,10 @@ pub async fn get_link_available(url: String, user: String, pass: String) -> Map<
   if !response.status().is_success() {
     result.insert(String::from("error"), Value::Bool(true));
     result.insert(String::from("code"), Value::String(response.status().to_string()));
-    result.insert(String::from("message"), Value::String(response.text().await.unwrap().to_string()));
     return result;
   }
 
   result.insert(String::from("error"), Value::Bool(false));
+  result.insert(String::from("code"), Value::String(response.status().to_string()));
   return result
 }

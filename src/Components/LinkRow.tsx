@@ -1,33 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 
-// Atoms
-import { useValue as useUrlValue } from "../Atoms/UrlResult";
-import { useValue as useUserValue } from "../Atoms/UserResult";
-import { useValue as usePassValue } from "../Atoms/PassResult";
-
 // Components
 import { Alert } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
 type Props = {
     link: { href: string; target: string; content: string };
+    baseUrl: string;
+    user?: string;
+    pass?: string;
 };
-export const LinkRow: React.FC<Props> = ({ link }) => {
+export const LinkRow: React.FC<Props> = ({
+    link,
+    baseUrl,
+    user = "",
+    pass = "",
+}) => {
     const [available, setAvailable] = useState<boolean | null>(null);
     const [code, setCode] = useState<string | undefined>(undefined);
-    const url = useUrlValue();
-    const user = useUserValue();
-    const pass = usePassValue();
 
     useEffect(() => {
         setAvailable(null);
 
         (async () => {
-            const checkUrl = new URL(link.href, url);
-            if (checkUrl && pass) {
-                checkUrl.username = user;
-                checkUrl.password = pass;
+            // 相対URLを絶対URLに変換
+            let checkUrlStr: string;
+            try {
+                const checkUrl = new URL(link.href, baseUrl);
+                if (pass) {
+                    checkUrl.username = user;
+                    checkUrl.password = pass;
+                }
+                checkUrlStr = checkUrl.toString();
+            } catch {
+                // URLパース失敗時はスキップ
+                setAvailable(true);
+                setCode("Skipped (invalid URL)");
+                return;
             }
 
             const result = await invoke<{
@@ -35,19 +45,24 @@ export const LinkRow: React.FC<Props> = ({ link }) => {
                 code?: string;
                 message?: string;
             }>("get_link_available", {
-                url: checkUrl.toString(),
+                url: checkUrlStr,
                 user,
                 pass,
-            }).catch((e) => alert(e));
+            }).catch((e) => {
+                console.error(e);
+                return null;
+            });
 
             if (!result) {
+                setAvailable(false);
+                setCode("Request failed");
                 return;
             }
 
             setAvailable(!result.error);
             setCode(result.code);
         })();
-    }, [link]);
+    }, [link, baseUrl, user, pass]);
 
     return (
         <Alert
