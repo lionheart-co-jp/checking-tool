@@ -38,6 +38,13 @@ export default {
                 body1: "タイトルについてはディレクターの指示に沿って設定をしてください。指示がない場合は、「(ページ名) | (サイト名)」と設定してください。",
                 body2: "特に指示がない場合、「og:title」にはtitleタグと同じ内容を、「og:description」にはmeta descriptionと同じ内容を入力してください。",
             },
+            analytics: {
+                title: "アクセス解析",
+                ua_deprecated: "UAは2023年7月にサポート終了しました",
+            },
+            canonical: {
+                mismatch: "現在のページURLと一致しません",
+            },
         },
 
         // Alt
@@ -69,6 +76,36 @@ export default {
             description: "リンク先の存在をチェックします",
             warning:
                 "この機能はページ内に設定されているリンク全てにアクセスを試みますので、短時間に何度も実行を繰り返さないようにしてください。",
+        },
+
+        // Crawl
+        crawl: {
+            title: "サイトクロール",
+            description: "指定したURLからページを再帰的に検出します",
+            url: "開始URL",
+            url_placeholder: "https://example.com/",
+            max_depth: "最大深度",
+            max_concurrent: "同時リクエスト数",
+            start: "クロール開始",
+            stop: "クロール停止",
+            progress: {
+                title: "クロール進捗",
+                current: "チェック中",
+                found: "検出ページ数",
+                errors: "エラー",
+            },
+        },
+
+        // Page List
+        pageList: {
+            title: "ページ一覧",
+            description: "チェック対象のページを選択してください",
+            select_all: "全選択",
+            deselect_all: "全解除",
+            selected: "選択中",
+            export_csv: "CSVエクスポート",
+            no_pages: "ページがありません。まずサイトをクロールしてください。",
+            run_check: "チェック実行",
         },
 
         // Language

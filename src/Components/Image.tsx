@@ -11,12 +11,25 @@ import { useValue as usePassValue } from "../Atoms/PassResult";
 type Props = React.ComponentProps<"img"> & {
     url?: string;
     image: string;
+    user?: string;
+    pass?: string;
 };
-export const Image: React.FC<Props> = ({ url, image, style, ...props }) => {
+export const Image: React.FC<Props> = ({
+    url,
+    image,
+    user: propUser,
+    pass: propPass,
+    style,
+    ...props
+}) => {
     const savedUrl = useUrlValue();
-    const user = useUserValue();
-    const pass = usePassValue();
+    const savedUser = useUserValue();
+    const savedPass = usePassValue();
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // propsが渡されていればそちらを優先、なければAtomから取得
+    const user = propUser ?? savedUser;
+    const pass = propPass ?? savedPass;
 
     const imagePath = useMemo(() => {
         if (!image) {

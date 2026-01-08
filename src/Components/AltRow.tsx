@@ -9,8 +9,17 @@ type Props = {
     alt?: string;
     src: string;
     status: "success" | "warning" | "error";
+    user?: string;
+    pass?: string;
 };
-export const AltRow: React.FC<Props> = ({ url, alt, src, status }) => {
+export const AltRow: React.FC<Props> = ({
+    url,
+    alt,
+    src,
+    status,
+    user,
+    pass,
+}) => {
     const { t } = useTranslation();
 
     return (
@@ -38,6 +47,8 @@ export const AltRow: React.FC<Props> = ({ url, alt, src, status }) => {
                     <Image
                         url={url}
                         image={src}
+                        user={user}
+                        pass={pass}
                         style={{ width: `auto`, maxWidth: 300, maxHeight: 300 }}
                     />
                 </div>

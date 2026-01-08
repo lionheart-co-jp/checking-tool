@@ -1,43 +1,122 @@
-import React, { useState } from "react";
-import { invoke } from "@tauri-apps/api/tauri";
+import React, { useState, useEffect } from "react";
+import { invoke } from "@tauri-apps/api/core";
 import { useTranslation } from "react-i18next";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 // Components
-import { Typography, Alert } from "antd";
-import { CommonForm, PageHeader, LinkRow, VerticalSpace } from "../Components";
+import { Typography, Alert, Button, Space, Spin, Collapse } from "antd";
+import { PageHeader, LinkRow, VerticalSpace } from "../Components";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 
-const Dashboard: React.FC = () => {
+// Hooks
+import { useDatabase, PageRecord } from "../hooks/useDatabase";
+
+// Atoms
+import { useValue as useDarkModeValue } from "../Atoms/DarkMode";
+
+const Link: React.FC = () => {
     const { t } = useTranslation();
-    const [result, setResult] = useState<
-        { href: string; target: string; content: string }[] | null
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const isDarkMode = useDarkModeValue();
+
+    const [loading, setLoading] = useState(false);
+    const [pages, setPages] = useState<PageRecord[]>([]);
+    const [results, setResults] = useState<
+        | {
+              url: string;
+              path: string;
+              result: { href: string; target: string; content: string }[];
+          }[]
+        | null
     >(null);
 
-    const handleSubmit = async (url: string, user: string, pass: string) => {
-        const result = await invoke<
-            { href: string; target: string; content: string }[]
-        >("get_link_list", {
-            url,
-            user,
-            pass,
-        }).catch((e) => alert(e));
+    const { getPagesByIds, insertCheckResult, insertCheckIssue } =
+        useDatabase();
 
-        if (!result) {
-            return false;
-        }
+    // クエリパラメータからページIDを取得
+    const pageIds = searchParams.get("ids")?.split(",").map(Number) || [];
+    const user = searchParams.get("user") || "";
+    const pass = searchParams.get("pass") || "";
 
-        setResult(result);
+    // ページ情報を取得してチェック実行
+    useEffect(() => {
+        if (pageIds.length === 0) return;
 
-        setTimeout(() => {
-            document
-                .getElementById("result")
-                ?.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 100);
-        return true;
-    };
+        const fetchAndCheck = async () => {
+            setLoading(true);
+            try {
+                const pagesData = await getPagesByIds(pageIds);
+                setPages(pagesData);
+
+                const checkResults: {
+                    url: string;
+                    path: string;
+                    result: { href: string; target: string; content: string }[];
+                }[] = [];
+
+                for (const page of pagesData) {
+                    if (page.is_error) continue;
+
+                    const result = await invoke<
+                        { href: string; target: string; content: string }[]
+                    >("get_link_list", {
+                        url: page.url,
+                        user,
+                        pass,
+                    }).catch(() => null);
+
+                    if (!result) continue;
+
+                    // DBに結果を保存
+                    await insertCheckResult(page.id, "link");
+
+                    checkResults.push({
+                        url: page.url,
+                        path: page.path,
+                        result,
+                    });
+                }
+
+                setResults(checkResults);
+            } catch (e) {
+                console.error(e);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchAndCheck();
+    }, []);
+
+    // ページ一覧がない場合
+    if (pageIds.length === 0) {
+        return (
+            <PageHeader
+                primary={t("link.title")}
+                secondary={t("link.description")}>
+                <Alert
+                    type="info"
+                    message={t("pageList.no_pages")}
+                    action={
+                        <Button onClick={() => navigate("/pages")}>
+                            {t("pageList.title")}
+                        </Button>
+                    }
+                />
+            </PageHeader>
+        );
+    }
 
     return (
         <PageHeader primary={t("link.title")} secondary={t("link.description")}>
-            <CommonForm onSubmit={handleSubmit} />
+            <Space style={{ marginBottom: 16 }}>
+                <Button
+                    icon={<ArrowLeftOutlined />}
+                    onClick={() => navigate("/pages")}>
+                    {t("pageList.title")}
+                </Button>
+            </Space>
 
             <VerticalSpace size="large">
                 <Alert
@@ -46,20 +125,44 @@ const Dashboard: React.FC = () => {
                     description={t("link.warning")}
                 />
 
-                {result && (
-                    <VerticalSpace size="middle" id="result">
-                        <Typography.Title level={3}>
-                            {t("common.result")}
-                        </Typography.Title>
+                {loading && (
+                    <div style={{ textAlign: "center", padding: 48 }}>
+                        <Spin size="large" />
+                        <Typography.Text
+                            type="secondary"
+                            style={{ display: "block", marginTop: 16 }}>
+                            Checking {pages.length} pages...
+                        </Typography.Text>
+                    </div>
+                )}
 
-                        {result.map((link, i) => (
-                            <LinkRow key={i} link={link} />
-                        ))}
-                    </VerticalSpace>
+                {!loading && results !== null && (
+                    <section id="result">
+                        <Typography.Title level={3}>
+                            {t("common.result")} ({results.length} pages)
+                        </Typography.Title>
+                        <Collapse
+                            defaultActiveKey={
+                                results.length > 1 ? undefined : 0
+                            }
+                            className={`stickyCollapse ${
+                                isDarkMode ? "is-dark" : ""
+                            }`}>
+                            {results.map(({ path, result }, i) => (
+                                <Collapse.Panel header={path} key={i}>
+                                    <VerticalSpace size="middle">
+                                        {result.map((link, j) => (
+                                            <LinkRow key={j} link={link} />
+                                        ))}
+                                    </VerticalSpace>
+                                </Collapse.Panel>
+                            ))}
+                        </Collapse>
+                    </section>
                 )}
             </VerticalSpace>
         </PageHeader>
     );
 };
 
-export default Dashboard;
+export default Link;

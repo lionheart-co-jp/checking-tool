@@ -7,11 +7,8 @@ import { Layout, Menu, MenuProps } from "antd";
 
 // Icons
 import {
-    DashboardOutlined,
-    FontSizeOutlined,
-    FileImageOutlined,
-    OrderedListOutlined,
-    LinkOutlined,
+    SearchOutlined,
+    UnorderedListOutlined,
     GlobalOutlined,
     BulbFilled,
     BulbOutlined,
@@ -40,35 +37,38 @@ export const Navigation: React.FC = () => {
         };
     };
 
-    const selectedKeis = useMemo(() => {
-        const keis: MenuProps["selectedKeys"] = [];
+    const selectedKeys = useMemo(() => {
+        const keys: MenuProps["selectedKeys"] = [];
 
         if (location.pathname === "/") {
-            keis.push("dashboard");
+            keys.push("crawl");
         }
-        if (location.pathname === "/title/") {
-            keis.push("title");
+        if (location.pathname === "/pages" || location.pathname === "/pages/") {
+            keys.push("pages");
         }
-        if (location.pathname === "/alt/") {
-            keis.push("alt");
+        if (location.pathname.startsWith("/title")) {
+            keys.push("pages");
         }
-        if (location.pathname === "/headline/") {
-            keis.push("headline");
+        if (location.pathname.startsWith("/alt")) {
+            keys.push("pages");
         }
-        if (location.pathname === "/link/") {
-            keis.push("link");
+        if (location.pathname.startsWith("/headline")) {
+            keys.push("pages");
+        }
+        if (location.pathname.startsWith("/link")) {
+            keys.push("pages");
         }
 
         switch (language) {
             case "en":
-                keis.push("language.english");
+                keys.push("language.english");
                 break;
             case "ja":
-                keis.push("language.japanese");
+                keys.push("language.japanese");
                 break;
         }
 
-        return keis;
+        return keys;
     }, [location, language]);
 
     const handleClick =
@@ -79,9 +79,9 @@ export const Navigation: React.FC = () => {
 
     const items: MenuProps["items"] = [
         {
-            label: t("dashboard.title"),
-            key: "dashboard",
-            icon: <DashboardOutlined />,
+            label: t("crawl.title"),
+            key: "crawl",
+            icon: <SearchOutlined />,
             onClick: handleClick("/"),
             style: {
                 marginTop: 0,
@@ -90,43 +90,10 @@ export const Navigation: React.FC = () => {
             },
         },
         {
-            label: t("title.title"),
-            key: "title",
-            icon: <FontSizeOutlined />,
-            onClick: handleClick("/title/"),
-            style: {
-                marginTop: 0,
-                marginBottom: 0,
-                flexShrink: 0,
-            },
-        },
-        {
-            label: t("alt.title"),
-            key: "alt",
-            icon: <FileImageOutlined />,
-            onClick: handleClick("/alt/"),
-            style: {
-                marginTop: 0,
-                marginBottom: 0,
-                flexShrink: 0,
-            },
-        },
-        {
-            label: t("headline.title"),
-            key: "headline",
-            icon: <OrderedListOutlined />,
-            onClick: handleClick("/headline/"),
-            style: {
-                marginTop: 0,
-                marginBottom: 0,
-                flexShrink: 0,
-            },
-        },
-        {
-            label: t("link.title"),
-            key: "link",
-            icon: <LinkOutlined />,
-            onClick: handleClick("/link/"),
+            label: t("pageList.title"),
+            key: "pages",
+            icon: <UnorderedListOutlined />,
+            onClick: handleClick("/pages"),
             style: {
                 marginTop: 0,
                 marginBottom: 0,
@@ -180,8 +147,8 @@ export const Navigation: React.FC = () => {
                 }}>
                 <Menu
                     items={items}
-                    defaultSelectedKeys={["dashboard"]}
-                    selectedKeys={selectedKeis}
+                    defaultSelectedKeys={["crawl"]}
+                    selectedKeys={selectedKeys}
                     style={{
                         minHeight: "100%",
                         display: "flex",

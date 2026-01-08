@@ -42,6 +42,13 @@ export default {
                 body1: "For the title, You should follow the director's instruction. If there is no instruction, please input as [Page name]｜[Site name]",
                 body2: "Unless otherwise specified, You should input og:title same with title and og:description same with description.",
             },
+            analytics: {
+                title: "Analytics",
+                ua_deprecated: "UA was deprecated in July 2023",
+            },
+            canonical: {
+                mismatch: "Does not match current page URL",
+            },
         },
 
         // Alt
@@ -73,6 +80,36 @@ export default {
             description: "Check Link target available",
             warning:
                 "This function will access to the all the links in the target URL. so, you must NOT run this function multiple times in a short time.",
+        },
+
+        // Crawl
+        crawl: {
+            title: "Crawl Website",
+            description: "Crawl and discover pages from the specified URL",
+            url: "Start URL",
+            url_placeholder: "https://example.com/",
+            max_depth: "Max Depth",
+            max_concurrent: "Concurrent Requests",
+            start: "Start Crawl",
+            stop: "Stop Crawl",
+            progress: {
+                title: "Crawl Progress",
+                current: "Checking",
+                found: "Pages Found",
+                errors: "Errors",
+            },
+        },
+
+        // Page List
+        pageList: {
+            title: "Page List",
+            description: "Select pages to check",
+            select_all: "Select All",
+            deselect_all: "Deselect All",
+            selected: "Selected",
+            export_csv: "Export CSV",
+            no_pages: "No pages found. Please crawl a website first.",
+            run_check: "Run Check",
         },
 
         // Language
