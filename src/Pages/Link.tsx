@@ -148,11 +148,17 @@ const Link: React.FC = () => {
                             className={`stickyCollapse ${
                                 isDarkMode ? "is-dark" : ""
                             }`}>
-                            {results.map(({ path, result }, i) => (
+                            {results.map(({ url, path, result }, i) => (
                                 <Collapse.Panel header={path} key={i}>
                                     <VerticalSpace size="middle">
                                         {result.map((link, j) => (
-                                            <LinkRow key={j} link={link} />
+                                            <LinkRow
+                                                key={j}
+                                                link={link}
+                                                baseUrl={url}
+                                                user={user}
+                                                pass={pass}
+                                            />
                                         ))}
                                     </VerticalSpace>
                                 </Collapse.Panel>
