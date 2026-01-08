@@ -75,6 +75,36 @@ export default {
                 "This function will access to the all the links in the target URL. so, you must NOT run this function multiple times in a short time.",
         },
 
+        // Crawl
+        crawl: {
+            title: "Crawl Website",
+            description: "Crawl and discover pages from the specified URL",
+            url: "Start URL",
+            url_placeholder: "https://example.com/",
+            max_depth: "Max Depth",
+            max_concurrent: "Concurrent Requests",
+            start: "Start Crawl",
+            stop: "Stop Crawl",
+            progress: {
+                title: "Crawl Progress",
+                current: "Checking",
+                found: "Pages Found",
+                errors: "Errors",
+            },
+        },
+
+        // Page List
+        pageList: {
+            title: "Page List",
+            description: "Select pages to check",
+            select_all: "Select All",
+            deselect_all: "Deselect All",
+            selected: "Selected",
+            export_csv: "Export CSV",
+            no_pages: "No pages found. Please crawl a website first.",
+            run_check: "Run Check",
+        },
+
         // Language
         language: {
             title: "Language",

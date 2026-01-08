@@ -2,7 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 
 // Pages
-import Dashboard from "./Pages/Dashboard";
+import Crawl from "./Pages/Crawl";
+import PageList from "./Pages/PageList";
 import Title from "./Pages/Title";
 import Alt from "./Pages/Alt";
 import Headline from "./Pages/Headline";
@@ -38,7 +39,8 @@ const App: React.FC = () => {
                     ref={content}
                     style={{ maxHeight: "100vh", overflow: "auto" }}>
                     <Routes>
-                        <Route index element={<Dashboard />} />
+                        <Route index element={<Crawl />} />
+                        <Route path="/pages" element={<PageList />} />
                         <Route path="/title" element={<Title />} />
                         <Route path="/alt" element={<Alt />} />
                         <Route path="/headline" element={<Headline />} />

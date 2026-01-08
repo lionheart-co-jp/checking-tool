@@ -7,8 +7,10 @@ import { useTranslation } from "react-i18next";
 type Props = {
     url: string;
     result: Record<string, string>;
+    user?: string;
+    pass?: string;
 };
-export const TitleRow: React.FC<Props> = ({ url, result }) => {
+export const TitleRow: React.FC<Props> = ({ url, result, user, pass }) => {
     const { t } = useTranslation();
 
     return (
@@ -132,6 +134,8 @@ export const TitleRow: React.FC<Props> = ({ url, result }) => {
                                             <Image
                                                 url={url}
                                                 image={result["og:image"]}
+                                                user={user}
+                                                pass={pass}
                                                 style={{
                                                     width: `100%`,
                                                     maxWidth: 300,
