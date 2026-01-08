@@ -85,7 +85,7 @@ export default {
         // Crawl
         crawl: {
             title: "Crawl Website",
-            description: "Crawl and discover pages from the specified URL",
+            description: "Discover pages from the specified URL",
             url: "Start URL",
             url_placeholder: "https://example.com/",
             max_depth: "Max Depth",
@@ -97,6 +97,23 @@ export default {
                 current: "Checking",
                 found: "Pages Found",
                 errors: "Errors",
+            },
+            tab: {
+                crawl: "Crawl",
+                direct: "Direct URL Input",
+            },
+            direct: {
+                urls: "URL List",
+                urls_placeholder:
+                    "https://example.com/page1\nhttps://example.com/page2\nhttps://example.com/page3",
+                urls_help:
+                    "Enter one URL per line. Only URLs from the same domain are allowed.",
+                urls_required: "Please enter URLs",
+                clear_existing: "Clear existing page list",
+                submit: "Add Pages",
+                error_empty: "No URLs entered",
+                error_invalid_url: "Invalid URL: {{url}}",
+                error_different_domain: "All URLs must be from the same domain",
             },
         },
 

@@ -81,7 +81,7 @@ export default {
         // Crawl
         crawl: {
             title: "サイトクロール",
-            description: "指定したURLからページを再帰的に検出します",
+            description: "指定したURLからページを検出します",
             url: "開始URL",
             url_placeholder: "https://example.com/",
             max_depth: "最大深度",
@@ -93,6 +93,24 @@ export default {
                 current: "チェック中",
                 found: "検出ページ数",
                 errors: "エラー",
+            },
+            tab: {
+                crawl: "クロール",
+                direct: "URL直接指定",
+            },
+            direct: {
+                urls: "URL一覧",
+                urls_placeholder:
+                    "https://example.com/page1\nhttps://example.com/page2\nhttps://example.com/page3",
+                urls_help:
+                    "1行に1つのURLを入力してください。同じドメインのURLのみ指定できます。",
+                urls_required: "URLを入力してください",
+                clear_existing: "既存のページ一覧をクリアする",
+                submit: "ページを追加",
+                error_empty: "URLが入力されていません",
+                error_invalid_url: "無効なURLです: {{url}}",
+                error_different_domain:
+                    "すべてのURLは同じドメインである必要があります",
             },
         },
 
